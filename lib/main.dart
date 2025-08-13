@@ -15,11 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final local = InMemoryCounterLocalDataSource();
-    final repo = CounterRepositoryImpl(localDataSource: local);
-    final get = GetCounter(repo);
-    final inc = IncrementCounter(repo);
-    final notifier = CounterNotifier(getCounter: get, incrementCounter: inc);
+    
 
     return MaterialApp(
       title: 'Flutter Demo',
