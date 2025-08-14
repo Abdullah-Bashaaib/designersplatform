@@ -1,4 +1,6 @@
+import 'package:designers_platform/features/login/presentation/state/counter_binding.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'features/login/data/datasources/counter_local_data_source.dart';
 import 'features/login/data/repositories/counter_repository_impl.dart';
 import 'features/login/domain/usecases/get_counter.dart';
@@ -15,15 +17,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'Designer Platform',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: CounterPage(notifier: notifier),
+      initialBinding: CounterBinding(),
+      home: CounterPage(),
     );
   }
 }
