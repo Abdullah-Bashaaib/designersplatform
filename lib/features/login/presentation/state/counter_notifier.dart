@@ -1,37 +1,26 @@
-import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import '../../domain/entities/counter.dart';
 import '../../domain/usecases/get_counter.dart';
 import '../../domain/usecases/increment_counter.dart';
 import '../../../../core/usecase/usecase.dart';
 
-class CounterNotifier extends ChangeNotifier {
-  final GetCounter getCounter;
-  final IncrementCounter incrementCounter;
+class CounterController extends GetxController {
+  // حالة تفاعلية
+  int counter = 0.abs();
+  final RxBool isLoading = false.obs;
 
-  Counter? _counter;
-  bool _loading = false;
-
-  CounterNotifier({
-    required this.getCounter,
-    required this.incrementCounter,
-  });
-
-  Counter? get counter => _counter;
-  bool get isLoading => _loading;
-
-  Future<void> load() async {
-    _loading = true;
-    notifyListeners();
-    _counter = await getCounter(const NoParams());
-    _loading = false;
-    notifyListeners();
+  @override
+  void onInit() {
+    super.onInit();
+    // load(); // تحميل أولي
   }
 
   Future<void> increment() async {
-    _loading = true;
-    notifyListeners();
-    _counter = await incrementCounter(const NoParams());
-    _loading = false;
-    notifyListeners();
+    isLoading.value = true;
+    try {
+      counter++;
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
