@@ -1,8 +1,4 @@
 import 'package:get/get.dart';
-import '../../domain/entities/counter.dart';
-import '../../domain/usecases/get_counter.dart';
-import '../../domain/usecases/increment_counter.dart';
-import '../../../../core/usecase/usecase.dart';
 
 class CounterController extends GetxController {
   // حالة تفاعلية
