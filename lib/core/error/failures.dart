@@ -1,7 +1,7 @@
-abstract class Failure {
-  final String message;
-  const Failure(this.message);
+abstract class Failure {}
 
-  @override
-  String toString() => message;
-}
+class ServerFailure extends Failure {}
+
+class OfLineFailure extends Failure {}
+
+class LocalFailure extends Failure {}
