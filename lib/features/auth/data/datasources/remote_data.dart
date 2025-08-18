@@ -1,13 +1,13 @@
+import '../../domain/entities/user.dart';
+
 abstract class RemoteData {
-  Future<bool> checkAcountInRemote();
- }
+  Future<User> checkAccountInRemote(String email, String password);
+}
 
-
- class RemoteDataSorce implements RemoteData{
+class RemoteDataSource implements RemoteData {
   @override
-  Future<bool> checkAcountInRemote() {
-    // TODO: implement checkAcountInRemote
+  Future<User> checkAccountInRemote(String email, String password) {
+    // TODO: implement checkAccountInRemote
     throw UnimplementedError();
   }
-
- }
+}
