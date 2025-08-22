@@ -7,32 +7,32 @@ class AppColors {
   static const Color primaryColor = Color(0xFF6C5CE7); // بنفسجي أنيق
   static const Color secondaryColor = Color(0xFF74B9FF); // أزرق فاتح
   static const Color accentColor = Color(0xFFFF7675); // وردي مرجاني
-  
+
   // ألوان الخلفية
   static const Color backgroundColor = Color(0xFFF8F9FA);
   static const Color surfaceColor = Color(0xFFFFFFFF);
   static const Color cardColor = Color(0xFFFFFFFF);
-  
+
   // ألوان النصوص
   static const Color textPrimary = Color(0xFF2D3436);
   static const Color textSecondary = Color(0xFF636E72);
   static const Color textHint = Color(0xFFB2BEC3);
   static const Color textOnPrimary = Color(0xFFFFFFFF);
-  
+
   // ألوان الحالة
   static const Color successColor = Color(0xFF00B894);
   static const Color warningColor = Color(0xFFE17055);
   static const Color errorColor = Color(0xFFD63031);
   static const Color infoColor = Color(0xFF0984E3);
-  
+
   // ألوان التقييم والنجوم
   static const Color starColor = Color(0xFFFDCB6E);
   static const Color ratingBackground = Color(0xFFF1F2F6);
-  
+
   // ألوان الحدود والفواصل
   static const Color borderColor = Color(0xFFDDD6FE);
   static const Color dividerColor = Color(0xFFE2E8F0);
-  
+
   // ألوان الوضع المظلم
   static const Color darkBackgroundColor = Color(0xFF1A1A1A);
   static const Color darkSurfaceColor = Color(0xFF2D2D2D);
@@ -40,20 +40,20 @@ class AppColors {
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
   static const Color darkTextSecondary = Color(0xFFB0B0B0);
   static const Color darkBorderColor = Color(0xFF4A4A4A);
-  
+
   // تدرجات لونية للتصميم
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primaryColor, secondaryColor],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
+
   static const LinearGradient cardGradient = LinearGradient(
     colors: [Color(0xFFFFFFFF), Color(0xFFF8F9FA)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
-  
+
   static const LinearGradient darkCardGradient = LinearGradient(
     colors: [Color(0xFF3A3A3A), Color(0xFF2D2D2D)],
     begin: Alignment.topCenter,
@@ -69,7 +69,7 @@ class AppThemes {
     brightness: Brightness.light,
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
-    
+
     // نظام الألوان الجديد في Material 3
     colorScheme: const ColorScheme.light(
       primary: AppColors.primaryColor,
@@ -83,7 +83,7 @@ class AppThemes {
       onBackground: AppColors.textPrimary,
       onError: AppColors.textOnPrimary,
     ),
-    
+
     // تخصيص AppBar
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.surfaceColor,
@@ -96,9 +96,9 @@ class AppThemes {
         fontWeight: FontWeight.w600,
       ),
     ),
-    
+
     // تخصيص البطاقات
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.cardColor,
       elevation: 2,
       shadowColor: AppColors.primaryColor.withOpacity(0.1),
@@ -106,7 +106,7 @@ class AppThemes {
         borderRadius: BorderRadius.circular(16),
       ),
     ),
-    
+
     // تخصيص الأزرار
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -120,7 +120,7 @@ class AppThemes {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
     ),
-    
+
     // تخصيص حقول الإدخال
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -140,14 +140,13 @@ class AppThemes {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     ),
   );
-  
+
   /// الثيم المظلم
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.darkBackgroundColor,
-    
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
@@ -160,7 +159,6 @@ class AppThemes {
       onBackground: AppColors.darkTextPrimary,
       onError: AppColors.textOnPrimary,
     ),
-    
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.darkSurfaceColor,
       foregroundColor: AppColors.darkTextPrimary,
@@ -172,8 +170,7 @@ class AppThemes {
         fontWeight: FontWeight.w600,
       ),
     ),
-    
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.darkCardColor,
       elevation: 2,
       shadowColor: Colors.black.withOpacity(0.3),
@@ -181,7 +178,6 @@ class AppThemes {
         borderRadius: BorderRadius.circular(16),
       ),
     ),
-    
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
@@ -194,7 +190,6 @@ class AppThemes {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
     ),
-    
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.darkSurfaceColor,
@@ -223,21 +218,21 @@ class AppColorHelper {
         ? AppColors.darkTextPrimary
         : AppColors.textPrimary;
   }
-  
+
   /// الحصول على لون الخلفية حسب السطوع
   static Color getBackgroundColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? AppColors.darkBackgroundColor
         : AppColors.backgroundColor;
   }
-  
+
   /// الحصول على لون البطاقة حسب السطوع
   static Color getCardColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? AppColors.darkCardColor
         : AppColors.cardColor;
   }
-  
+
   /// الحصول على لون الحدود حسب السطوع
   static Color getBorderColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
@@ -245,4 +240,3 @@ class AppColorHelper {
         : AppColors.borderColor;
   }
 }
-
