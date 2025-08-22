@@ -11,12 +11,13 @@ import 'features/auth/domain/repositories/auth_repository.dart';
 class Injection {
   static void init() {
     /// Core
-    Get.lazyPut<NetworkInfo>(
-        () => NetworkInfoImp(InternetConnectionChecker.createInstance()));
+    Get.put<NetworkInfo>(
+        NetworkInfoImp(InternetConnectionChecker.createInstance()),
+        permanent: true);
 
     /// Data Source
     // Auth
-    Get.lazyPut<RemoteData>(() => RemoteDataSource());
+    Get.lazyPut<RemoteDataSource>(() => RemoteDataSource());
 
     /// Repository
     // Auth
@@ -31,6 +32,7 @@ class Injection {
 
     /// GetX
     //Auth
-    Get.lazyPut<AuthController>(() => AuthController(Get.find<LoginUsecase>()));
+    Get.put<AuthController>(AuthController(Get.find<LoginUsecase>()),
+        permanent: true);
   }
 }
