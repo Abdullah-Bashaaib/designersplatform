@@ -1,15 +1,12 @@
-import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class WelcomePage extends StatelessWidget {
+  WelcomePage({super.key});
   final emilC = TextEditingController();
   final passwordC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final AuthController c = Get.find<AuthController>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -55,7 +52,6 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   // Navigate to create account screen
                 },
-                child: Text('Create Account'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF5D5FEF),
                   padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -63,6 +59,7 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
+                child: const Text('Create Account'),
               ),
               SizedBox(height: 15.0),
               TextButton(
