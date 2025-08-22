@@ -98,7 +98,7 @@ class AppThemes {
     ),
     
     // تخصيص البطاقات
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.cardColor,
       elevation: 2,
       shadowColor: AppColors.primaryColor.withOpacity(0.1),
@@ -173,7 +173,7 @@ class AppThemes {
       ),
     ),
     
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.darkCardColor,
       elevation: 2,
       shadowColor: Colors.black.withOpacity(0.3),
