@@ -57,7 +57,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   hintText: 'Create your username',
                   prefixIcon: Icons.person_outline,
                   label: 'Username',
-                  obscureText: false,
                 ),
                 const SizedBox(height: 16),
                 BuildTextField(
@@ -66,7 +65,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   prefixIcon: Icons.email_outlined,
                   label: 'Email or Phone Number',
                   keyboardType: TextInputType.emailAddress,
-                  obscureText: false,
                 ),
                 const SizedBox(height: 16),
                 BuildTextField(

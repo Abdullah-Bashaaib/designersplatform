@@ -1,3 +1,4 @@
+import 'package:designers_platform/features/auth/presentation/pages/login_page.dart';
 import 'package:designers_platform/features/auth/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,7 +70,7 @@ class WelcomePage extends StatelessWidget {
               SizedBox(height: 15.0),
               TextButton(
                 onPressed: () {
-                  // Navigate to login screen
+                  Get.to(LoginScreen());
                 },
                 child: Text(
                   'Already Have an Account?',
