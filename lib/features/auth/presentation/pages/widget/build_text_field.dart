@@ -17,7 +17,7 @@ class BuildTextField extends StatefulWidget {
       required this.label,
       this.keyboardType,
       this.suffixIcon,
-      required this.obscureText});
+      this.obscureText = false});
 
   @override
   State<BuildTextField> createState() => _BuildTextFieldState();
@@ -25,8 +25,6 @@ class BuildTextField extends StatefulWidget {
 
 class _BuildTextFieldState extends State<BuildTextField> {
   TextInputType? keyboardType;
-
-  bool obscureText = false;
 
   Widget? suffixIcon;
 
@@ -45,8 +43,8 @@ class _BuildTextFieldState extends State<BuildTextField> {
         const SizedBox(height: 8),
         TextFormField(
           controller: widget.controller,
-          obscureText: obscureText,
-          keyboardType: keyboardType,
+          obscureText: widget.obscureText,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
             hintStyle: TextStyle(
@@ -57,7 +55,28 @@ class _BuildTextFieldState extends State<BuildTextField> {
               widget.prefixIcon,
               color: Colors.grey[400],
             ),
-            suffixIcon: suffixIcon,
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey[300]!),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFF5B3A9F),
+                width: 1.5,
+              ),
+            ),
+            filled: true,
+            fillColor: Colors.grey[50],
+            suffixIcon: widget.suffixIcon,
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
