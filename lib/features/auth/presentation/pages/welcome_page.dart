@@ -1,4 +1,6 @@
+import 'package:designers_platform/features/auth/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class WelcomePage extends StatelessWidget {
   WelcomePage({super.key});
@@ -23,7 +25,7 @@ class WelcomePage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Image.asset(
-                      'assets/images/products_collection.png',
+                      'assets/images/1.png',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -50,7 +52,7 @@ class WelcomePage extends StatelessWidget {
               SizedBox(height: 30.0),
               ElevatedButton(
                 onPressed: () {
-                  // Navigate to create account screen
+                  Get.to(CreateAccountScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF5D5FEF),
@@ -59,7 +61,10 @@ class WelcomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: const Text('Create Account'),
+                child: const Text(
+                  'Create Account',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               SizedBox(height: 15.0),
               TextButton(
