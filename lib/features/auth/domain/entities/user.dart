@@ -4,5 +4,5 @@ class User {
   final String email;
   final String password;
 
-  User(this.id, this.name, this.email, this.password);
+  const User({required this.id, required this.name, required this.email, required this.password});
 }

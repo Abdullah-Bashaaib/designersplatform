@@ -12,4 +12,5 @@ class LoginUsecase {
   Future<Either<Failure, User>> call(String email, String password) async {
     return await authRepository.login(email, password); 
   }
+  
 }
