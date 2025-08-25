@@ -1,6 +1,8 @@
+import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_social_sign_in_button.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -26,6 +28,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<AuthController>();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -89,31 +92,34 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // TODO: implement create account logic
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF5C5CDD),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Create Account',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+                    width: double.infinity,
+                    height: 56,
+                    child: Obx(
+                      () => c.isLoading.value
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  // TODO: implement create account logic
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF5C5CDD),
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: const Text(
+                                'Create Account',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                    )),
                 const SizedBox(height: 16),
                 Center(
                   child: Text(

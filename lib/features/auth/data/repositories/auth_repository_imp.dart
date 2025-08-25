@@ -26,4 +26,18 @@ class AuthRepositoryImp implements AuthRepository {
       return left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, User>> signUp(User user) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.signUp(user);
+        return Right(result);
+      } on ServerException {
+        return left(ServerFailure());
+      }
+    } else {
+      return left(ServerFailure());
+    }
+  }
 }
