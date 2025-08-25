@@ -4,6 +4,8 @@ import 'package:designers_platform/features/auth/presentation/pages/widget/build
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../domain/entities/user.dart';
+
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
@@ -100,7 +102,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           : ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // TODO: implement create account logic
+                                  User user = User(
+                                      name: _usernameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+                                  c.signUp(user);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
