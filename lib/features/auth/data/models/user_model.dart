@@ -2,7 +2,7 @@ import 'package:designers_platform/features/auth/domain/entities/user.dart';
 
 class UserModel extends User {
   const UserModel(
-      {required super.id,
+      {super.id,
       required super.name,
       required super.email,
       required super.password});

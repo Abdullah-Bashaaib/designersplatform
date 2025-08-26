@@ -14,6 +14,7 @@ class AuthRepositoryImp implements AuthRepository {
   final LocalData localData;
 
   AuthRepositoryImp(this.networkInfo, this.remoteDataSource, this.localData);
+
   @override
   Future<Either<Failure, User>> login(String email, String password) async {
     if (await networkInfo.isConnected) {
@@ -34,6 +35,7 @@ class AuthRepositoryImp implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.signUp(user);
+        await localData.saveUser(user);
         return Right(result);
       } on ServerException {
         return left(ServerFailure());
