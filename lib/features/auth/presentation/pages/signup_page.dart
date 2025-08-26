@@ -98,7 +98,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     height: 56,
                     child: Obx(
                       () => c.isLoading.value
-                          ? const CircularProgressIndicator()
+                          ? Center(child: const CircularProgressIndicator())
                           : ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {

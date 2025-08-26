@@ -2,7 +2,6 @@ import 'package:designers_platform/features/auth/presentation/getx/auth_controll
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

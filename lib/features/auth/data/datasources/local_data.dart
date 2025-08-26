@@ -19,8 +19,8 @@ class LocalDataImp implements LocalData {
 
   @override
   Future<void> saveUser(User user) async {
-    final userModel = UserModel(
-      id: user.id,
+    UserModel userModel = UserModel(
+      id: '1',
       name: user.name,
       email: user.email,
       password: user.password,
