@@ -26,6 +26,7 @@ class AuthController extends GetxController {
     final result = await signUpUsecase.call(userData);
     result.fold(
         (failure) => Get.snackbar('خطأ', serverError), (u) => user.value = u);
+        
     isLoading.value = false;
   }
 }
