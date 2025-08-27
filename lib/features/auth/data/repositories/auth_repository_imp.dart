@@ -10,20 +10,19 @@ import '../../../../core/error/failures.dart';
 
 class AuthRepositoryImp implements AuthRepository {
   final NetworkInfo networkInfo;
-  final RemoteDataSource remoteDataSource;
+  final RemoteData remoteData;
   final LocalData localData;
 
-  AuthRepositoryImp(this.networkInfo, this.remoteDataSource, this.localData);
+  AuthRepositoryImp(this.networkInfo, this.remoteData, this.localData);
 
   @override
   Future<Either<Failure, User>> login(String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await remoteDataSource.checkAccountInRemote(email, password);
+        final result = await remoteData.checkAccountInRemote(email, password);
         return Right(result);
       } on ServerException {
-        return left(ServerFailure());
+        return left(NoUserFailure());
       }
     } else {
       return left(ServerFailure());
@@ -34,7 +33,7 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, User>> signUp(User user) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.signUp(user);
+        final result = await remoteData.signUp(user);
         await localData.saveUser(user);
         return Right(result);
       } on ServerException {
@@ -63,5 +62,10 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<User> getUser() async {
     return await localData.getUser();
+  }
+
+  @override
+  Future<bool> deleteAccount() async {
+    return await remoteData.deleteAccount();
   }
 }

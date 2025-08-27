@@ -1,6 +1,8 @@
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
+import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart';
+import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/save_user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
@@ -41,15 +43,20 @@ class Injection {
     Get.lazyPut<SignUpUsecase>(() => SignUpUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<SaveUserUsecase>(
         () => SaveUserUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<ClearUserUsecase>(
+        () => ClearUserUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<DeleteAccountUsecase>(
+        () => DeleteAccountUsecase(Get.find<AuthRepository>()));
 
     /// GetX
     //Auth
     Get.put<AuthController>(
         AuthController(
-          Get.find<LoginUsecase>(),
-          Get.find<SignUpUsecase>(),
-          Get.find<SaveUserUsecase>()
-        ),
+            Get.find<LoginUsecase>(),
+            Get.find<SignUpUsecase>(),
+            Get.find<SaveUserUsecase>(),
+            Get.find<ClearUserUsecase>(),
+            Get.find<DeleteAccountUsecase>()),
         permanent: true);
   }
 }

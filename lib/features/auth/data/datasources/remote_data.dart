@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/exception.dart';
+import 'package:designers_platform/core/error/messages.dart';
 
 import '../../domain/entities/user.dart';
 
 abstract class RemoteData {
-  Future<Either<String, User>> checkAccountInRemote(String email, String password);
+  Future<User> checkAccountInRemote(String email, String password);
   Future<User> signUp(User user);
+  Future<bool> deleteAccount();
 }
 
 class RemoteDataSource implements RemoteData {
@@ -12,14 +15,13 @@ class RemoteDataSource implements RemoteData {
     User(id: '2', name: 'salem', email: 'sas@gmail.com', password: '12345678'),
   ];
   @override
-  Future<Either<String, User>> checkAccountInRemote(
-      String email, String password) async {
+  Future<User> checkAccountInRemote(String email, String password) async {
     try {
       User user =
           users.firstWhere((u) => u.email == email && u.password == password);
-      return right(user); // المستخدم موجود
+      return user;
     } catch (e) {
-      return left('المستخدم غير موجود');
+      throw ServerException();
     }
   }
 
@@ -27,5 +29,10 @@ class RemoteDataSource implements RemoteData {
   Future<User> signUp(User user) async {
     users.add(user);
     return user;
+  }
+
+  @override
+  Future<bool> deleteAccount() {
+    throw UnimplementedError();
   }
 }
