@@ -1,7 +1,22 @@
-abstract class Failure {}
+import 'package:designers_platform/core/error/messages.dart';
 
-class ServerFailure extends Failure {}
+abstract class Failure {
+  final String message;
+  const Failure(this.message);
+}
 
-class OfLineFailure extends Failure {}
+class ServerFailure extends Failure {
+  const ServerFailure([super.message = '']);
+}
 
-class LocalFailure extends Failure {}
+class NoUserFailure extends Failure {
+  const NoUserFailure([super.message = noUser]);
+}
+
+class OfflineFailure extends Failure {
+  const OfflineFailure([super.message = "No Internet Connection"]);
+}
+
+// class LocalFailure extends Failure {
+//   LocalFailure({ super.message});
+// }

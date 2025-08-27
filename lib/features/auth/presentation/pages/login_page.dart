@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 56,
                         child: Obx(
                           () => c.isLoading.value
-                              ? CircularProgressIndicator()
+                              ? const Center(child: CircularProgressIndicator())
                               : ElevatedButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
