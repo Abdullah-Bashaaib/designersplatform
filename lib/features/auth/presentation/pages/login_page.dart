@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const SizedBox(height: 40),
                       const Text(
-                        'Login Account',
+                        'تسجيل الدخول',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Please login with registered account',
+                        'الرجاء تسجيل الدخول باستخدام الحساب المسجل',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -59,17 +59,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 40),
                       BuildTextField(
                         controller: _emailController,
-                        hintText: 'Enter your email or phone number',
+                        hintText: 'أدخل بريدك الإلكتروني أو رقم هاتفك',
                         prefixIcon: Icons.email_outlined,
-                        label: 'Email or Phone Number',
+                        label: 'البريد الإلكتروني أو رقم الهاتف',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 24),
                       BuildTextField(
                         controller: _passwordController,
-                        hintText: 'Create your password',
+                        hintText: 'قم بإنشاء كلمة المرور الخاصة بك',
                         prefixIcon: Icons.lock_outline,
-                        label: 'Password',
+                        label: 'كلمة المرور',
                         obscureText: _obscurePassword,
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             // Handle forgot password
                           },
                           child: const Text(
-                            'Forgot Password?',
+                            'هل نسيت كلمة المرور',
                             style: TextStyle(
                               color: Color(0xFF5B3A9F),
                               fontSize: 14,
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     elevation: 0,
                                   ),
                                   child: const Text(
-                                    'Sign In',
+                                    'تسجيل الدخول',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 32),
                       Center(
                         child: Text(
-                          'Or using other method',
+                          'أو استخدم طريقة اخرى',
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 14,
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               //   height: 20,
                               // ),
                               label: const Text(
-                                'Sign in with Google',
+                                'سجل الدخول باستخدام قوقل',
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 14,
@@ -192,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 size: 20,
                               ),
                               label: const Text(
-                                'Sign in with Facebook',
+                                'سجل الدخول باستخدام فيسبوك',
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 14,

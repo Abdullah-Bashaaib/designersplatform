@@ -1,4 +1,5 @@
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
+import 'package:designers_platform/features/auth/presentation/pages/widget/build_dropdown_button.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_social_sign_in_button.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscureText = true;
+  String? selectedAccountType;
+
+  final List<String> accountTypes = ["عميل", "مصمم"];
 
   @override
   void dispose() {
@@ -42,7 +46,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               children: [
                 const SizedBox(height: 16),
                 const Text(
-                  'Create Account',
+                  'إنشاء حساب',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -50,7 +54,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Start learning with create your account',
+                  'إبدء رحلتك في عالم التصميم عبر انشاء حساب',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -59,24 +63,24 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 32),
                 BuildTextField(
                   controller: _usernameController,
-                  hintText: 'Create your username',
+                  hintText: 'أدخل اسم المستخدم',
                   prefixIcon: Icons.person_outline,
-                  label: 'Username',
+                  label: 'اسم المستخدم',
                 ),
                 const SizedBox(height: 16),
                 BuildTextField(
                   controller: _emailController,
-                  hintText: 'Enter your email or phone number',
+                  hintText: 'أدخل الايميل او رقم الهاتف',
                   prefixIcon: Icons.email_outlined,
-                  label: 'Email or Phone Number',
+                  label: 'الايميل او رقم الهاتف',
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
                 BuildTextField(
                   controller: _passwordController,
-                  hintText: 'Create your password',
+                  hintText: 'أدخل كلمة المرور',
                   prefixIcon: Icons.lock_outline,
-                  label: 'Password',
+                  label: 'كلمة المرور',
                   obscureText: _obscureText,
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -92,6 +96,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     },
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
+                BuildDropdownButton(
+                    selectedAccountType:
+                        selectedAccountType ?? accountTypes.first,
+                    accountTypes: accountTypes,
+                    label: 'نوع الحساب'),
                 const SizedBox(height: 24),
                 SizedBox(
                     width: double.infinity,
@@ -118,7 +130,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 elevation: 0,
                               ),
                               child: const Text(
-                                'Create Account',
+                                'إنشاء الحساب',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -129,7 +141,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 16),
                 Center(
                   child: Text(
-                    'Or using other method',
+                    'أو استخدم طريقة اخرى',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -141,7 +153,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onPressed: () {
                     // TODO: Google Sign-up logic
                   },
-                  text: 'Sign Up with Google',
+                  text: 'التسجيل بواسطة قوقل',
                   icon: Icons.g_mobiledata,
                   backgroundColor: Colors.white,
                   textColor: Colors.black87,
@@ -151,7 +163,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onPressed: () {
                     // TODO: Facebook Sign-up logic
                   },
-                  text: 'Sign Up with Facebook',
+                  text: 'التسجيل بواسطة فيسبوك',
                   icon: Icons.facebook,
                   backgroundColor: const Color(0xFF1877F2),
                   textColor: Colors.white,
