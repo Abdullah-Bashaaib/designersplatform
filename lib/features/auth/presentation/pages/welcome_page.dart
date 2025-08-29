@@ -34,7 +34,7 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               Text(
-                'Various Collections Of The Latest Products',
+                'أهلا وسهلا بك في منصة المصمممين',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus vestibulum.',
+                '',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.grey,
@@ -63,7 +63,7 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Create Account',
+                  'إنشاء حساب',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -73,7 +73,7 @@ class WelcomePage extends StatelessWidget {
                   Get.to(LoginScreen());
                 },
                 child: Text(
-                  'Already Have an Account?',
+                  'هل تمتلك حسابا بالفعل؟',
                   style: TextStyle(color: Colors.black54),
                 ),
               ),
