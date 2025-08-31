@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class BuildSocialSignInButton extends StatelessWidget {
@@ -31,13 +32,7 @@ class BuildSocialSignInButton extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
+        style: AppStyles.primaryButtonStyle,
       ),
     );
   }

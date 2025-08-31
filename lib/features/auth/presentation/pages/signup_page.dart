@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_dropdown_button.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_social_sign_in_button.dart';
@@ -121,14 +122,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                   c.signUp(user);
                                 }
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF5C5CDD),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                elevation: 0,
-                              ),
+                              style: AppStyles.primaryButtonStyle,
                               child: const Text(
                                 'إنشاء الحساب',
                                 style: TextStyle(

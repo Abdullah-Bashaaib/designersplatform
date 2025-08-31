@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -53,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         'الرجاء تسجيل الدخول باستخدام الحساب المسجل',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[600],
                         ),
                       ),
                       const SizedBox(height: 40),
@@ -95,7 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'هل نسيت كلمة المرور',
                             style: TextStyle(
-                              color: Color(0xFF5B3A9F),
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -117,19 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       c.login(email, password);
                                     }
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF5B3A9F),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(28),
-                                    ),
-                                    elevation: 0,
-                                  ),
+                                  style: AppStyles.primaryButtonStyle,
                                   child: const Text(
                                     'تسجيل الدخول',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
@@ -194,7 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               label: const Text(
                                 'سجل الدخول باستخدام فيسبوك',
                                 style: TextStyle(
-                                  color: Colors.black87,
                                   fontSize: 14,
                                 ),
                               ),
