@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class BuildTextField extends StatefulWidget {
@@ -45,39 +46,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
           controller: widget.controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 14,
-            ),
-            prefixIcon: Icon(
-              widget.prefixIcon,
-              color: Colors.grey[400],
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 16,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: Color(0xFF5B3A9F),
-                width: 1.5,
-              ),
-            ),
-            filled: true,
-            fillColor: Colors.grey[50],
-            suffixIcon: widget.suffixIcon,
-          ),
+          decoration: AppStyles.getInputDecoration(hintText: widget.hintText),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'This field is required';
