@@ -62,7 +62,6 @@ class WelcomePage extends StatelessWidget {
                 style: AppStyles.primaryButtonStyle,
                 child: const Text(
                   'إنشاء حساب',
-                  style: TextStyle(color: Colors.black),
                 ),
               ),
               SizedBox(height: 15.0),

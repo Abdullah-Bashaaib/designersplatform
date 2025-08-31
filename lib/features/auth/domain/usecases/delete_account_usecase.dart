@@ -1,4 +1,3 @@
-import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 
 class DeleteAccountUsecase {
