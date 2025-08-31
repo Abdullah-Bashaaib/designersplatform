@@ -118,10 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: AppStyles.primaryButtonStyle,
                                   child: const Text(
                                     'تسجيل الدخول',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: AppStyles.bodyLarge
                                   ),
                                 ),
                         ),
@@ -130,10 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Center(
                         child: Text(
                           'أو استخدم طريقة اخرى',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 14,
-                          ),
+                          style: AppStyles.bodyMedium
                         ),
                       ),
                       const SizedBox(height: 24),
