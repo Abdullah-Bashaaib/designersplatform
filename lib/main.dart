@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
@@ -17,22 +18,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Designer Platform',
-        theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Colors.deepPurple.shade900),
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple
-                .shade900, // يمكنك اختيار لون بذرة مختلف للوضع المظلم
-            brightness:
-                Brightness.dark, // يضمن أن الألوان متوافقة مع الوضع المظلم
-          ),
-          useMaterial3: true,
-        ),
-        themeMode: ThemeMode.light,
+        locale: Get.deviceLocale,
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
+        themeMode: ThemeMode.system,
         home: WelcomePage());
   }
 }
