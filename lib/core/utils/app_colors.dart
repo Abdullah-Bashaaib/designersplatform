@@ -67,6 +67,7 @@ class AppThemes {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
+    fontFamily: "adobe_arabic",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
 
@@ -75,12 +76,10 @@ class AppThemes {
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
       surface: AppColors.surfaceColor,
-      background: AppColors.backgroundColor,
       error: AppColors.errorColor,
       onPrimary: AppColors.textOnPrimary,
       onSecondary: AppColors.textOnPrimary,
       onSurface: AppColors.textPrimary,
-      onBackground: AppColors.textPrimary,
       onError: AppColors.textOnPrimary,
     ),
 
@@ -145,18 +144,17 @@ class AppThemes {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    fontFamily: "adobe_arabic",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
       surface: AppColors.darkSurfaceColor,
-      background: AppColors.darkBackgroundColor,
       error: AppColors.errorColor,
       onPrimary: AppColors.textOnPrimary,
       onSecondary: AppColors.textOnPrimary,
       onSurface: AppColors.darkTextPrimary,
-      onBackground: AppColors.darkTextPrimary,
       onError: AppColors.textOnPrimary,
     ),
     appBarTheme: const AppBarTheme(

@@ -39,6 +39,7 @@ dependencies:
   dartz: 
   flutter_native_splash: ^2.4.6
   shared_preferences: 
+  font_awesome_flutter: ^10.9.1
 
 dev_dependencies:
   flutter_test:
@@ -78,10 +79,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+     - family: adobe_arabic
+       fonts:
+         - asset: assets/font/adobe_arabic.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -1,7 +1,10 @@
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/auth/presentation/pages/login_page.dart';
 import 'package:designers_platform/features/auth/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/utils/app_image.dart';
 
 class WelcomePage extends StatelessWidget {
   WelcomePage({super.key});
@@ -26,7 +29,7 @@ class WelcomePage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Image.asset(
-                      'assets/images/1.png',
+                      AppImage.image1,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -34,9 +37,10 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               Text(
-                'أهلا وسهلا بك في منصة المصمممين',
+                'أهلا وسهلا بك في منصة المصممين',
                 style: TextStyle(
                   fontSize: 20.0,
+                  fontFamily: "adobe_arabic",
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -55,13 +59,7 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Get.to(CreateAccountScreen());
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF5D5FEF),
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
+                style: AppStyles.primaryButtonStyle,
                 child: const Text(
                   'إنشاء حساب',
                   style: TextStyle(color: Colors.black),
