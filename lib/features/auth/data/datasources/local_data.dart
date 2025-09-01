@@ -24,6 +24,7 @@ class LocalDataImp implements LocalData {
       name: user.name,
       email: user.email,
       password: user.password,
+      role: user.role,
     );
     final jsonString = jsonEncode(userModel.toMap());
     await perf.setString(_userKey, jsonString);

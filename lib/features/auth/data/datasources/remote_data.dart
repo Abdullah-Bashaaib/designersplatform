@@ -10,7 +10,7 @@ abstract class RemoteData {
 
 class RemoteDataSource implements RemoteData {
   List<User> users = [
-    User(id: '2', name: 'salem', email: 'sas@gmail.com', password: '12345678'),
+    User(id: '2', name: 'salem', email: 'sas@gmail.com', password: '12345678', role: 'عميل'),
   ];
   @override
   Future<User> checkAccountInRemote(String email, String password) async {

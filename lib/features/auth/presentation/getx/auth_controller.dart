@@ -19,6 +19,8 @@ class AuthController extends GetxController {
 
   var isLoading = false.obs;
   var user = Rxn<User>();
+  var role = Rxn<String>();
+  var obscureText = true.obs;
 
   Future<void> login(String email, String password) async {
     isLoading.value = true;
