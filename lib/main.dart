@@ -22,13 +22,15 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Designer Platform',
-            locale: Get.deviceLocale,
-            theme: AppThemes.lightTheme,
-            darkTheme: AppThemes.darkTheme,
-            themeMode: ThemeMode.system,
-            home: WelcomePage());
+        debugShowCheckedModeBanner: false,
+        title: 'Designer Platform',
+        locale: Get.deviceLocale,
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
+        themeMode: ThemeMode.system,
+        defaultTransition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 400),
+        home: WelcomePage());
       },
     );
   }
