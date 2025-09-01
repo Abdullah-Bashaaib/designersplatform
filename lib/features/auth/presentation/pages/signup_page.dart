@@ -21,7 +21,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscureText = true;
+
   String? selectedAccountType;
 
   final List<String> accountTypes = ["عميل", "مصمم"];
@@ -78,61 +78,64 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
-                BuildTextField(
-                  controller: _passwordController,
-                  hintText: 'أدخل كلمة المرور',
-                  prefixIcon: FontAwesomeIcons.lock,
-                  label: 'كلمة المرور',
-                  obscureText: _obscureText,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: Colors.grey,
+                Obx(
+                  () => BuildTextField(
+                    controller: _passwordController,
+                    hintText: 'أدخل كلمة المرور',
+                    prefixIcon: Icons.lock_outlined,
+                    label: 'كلمة المرور',
+                    obscureText: c.obscureText.value,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        c.obscureText.value
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        c.obscureText.value = !c.obscureText.value;
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                BuildDropdownButton(
-                    selectedAccountType:
-                        selectedAccountType ?? accountTypes.first,
-                    accountTypes: accountTypes,
-                    label: 'نوع الحساب'),
+                Obx(
+                  () => BuildDropdownButton(
+                      selectedAccountType: c.role.value ?? accountTypes.first,
+                      accountTypes: accountTypes,
+                      label: 'نوع الحساب'),
+                ),
                 const SizedBox(height: 24),
-                SizedBox(
+                Obx(
+                  () => SizedBox(
                     width: double.infinity,
                     height: 56,
-                    child: Obx(
-                      () => c.isLoading.value
-                          ? Center(child: const CircularProgressIndicator())
-                          : ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  User user = User(
-                                      name: _usernameController.text,
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
-                                  c.signUp(user);
-                                }
-                              },
-                              style: AppStyles.primaryButtonStyle,
-                              child: const Text(
-                                'إنشاء الحساب',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    child: c.isLoading.value
+                        ? Center(child: const CircularProgressIndicator())
+                        : ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                User user = User(
+                                    name: _usernameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    role: c.role.value!);
+                                c.signUp(user);
+                              }
+                            },
+                            style: AppStyles.primaryButtonStyle,
+                            child: const Text(
+                              'إنشاء الحساب',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                    )),
+                          ),
+                  ),
+                ),
                 const SizedBox(height: 16),
                 Center(
                   child: Text(
@@ -145,9 +148,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 16),
                 BuildSocialSignInButton(
-                  onPressed: () {
-                    // TODO: Google Sign-up logic
-                  },
+                  onPressed: () {},
                   text: 'التسجيل بواسطة قوقل',
                   icon: Icons.g_mobiledata,
                   backgroundColor: Colors.white,
@@ -155,9 +156,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 12),
                 BuildSocialSignInButton(
-                  onPressed: () {
-                    // TODO: Facebook Sign-up logic
-                  },
+                  onPressed: () {},
                   text: 'التسجيل بواسطة فيسبوك',
                   icon: Icons.facebook,
                   backgroundColor: const Color(0xFF1877F2),

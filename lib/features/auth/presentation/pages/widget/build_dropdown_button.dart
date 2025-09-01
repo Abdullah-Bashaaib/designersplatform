@@ -1,4 +1,6 @@
+import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 
 class BuildDropdownButton extends StatefulWidget {
   final String selectedAccountType;
@@ -25,6 +27,7 @@ class _BuildDropdownButtonState extends State<BuildDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<AuthController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -54,9 +57,7 @@ class _BuildDropdownButtonState extends State<BuildDropdownButton> {
             );
           }).toList(),
           onChanged: (value) {
-            setState(() {
-              selectedAccountType = value!;
-            });
+            c.role.value = value;
           },
         ),
       ],

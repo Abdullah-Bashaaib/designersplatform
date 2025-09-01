@@ -52,7 +52,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
               suffixIcon: widget.suffixIcon),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'This field is required';
+              return 'هذا الحقل مطلوب';
             }
             return null;
           },

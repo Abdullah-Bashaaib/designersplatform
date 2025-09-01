@@ -15,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -60,29 +59,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       BuildTextField(
                         controller: _emailController,
                         hintText: 'أدخل بريدك الإلكتروني أو رقم هاتفك',
-                        prefixIcon: FontAwesomeIcons.a,
+                        prefixIcon: FontAwesomeIcons.envelope,
                         label: 'البريد الإلكتروني أو رقم الهاتف',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 24),
-                      BuildTextField(
-                        controller: _passwordController,
-                        hintText: 'قم بإنشاء كلمة المرور الخاصة بك',
-                        prefixIcon: FontAwesomeIcons.lock,
-                        label: 'كلمة المرور',
-                        obscureText: _obscurePassword,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: Colors.grey,
+                      Obx(
+                        () => BuildTextField(
+                          controller: _passwordController,
+                          hintText: 'قم بإنشاء كلمة المرور الخاصة بك',
+                          prefixIcon: Icons.lock_outlined,
+                          label: 'كلمة المرور',
+                          obscureText: c.obscureText.value,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              c.obscureText.value
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              c.obscureText.value = !c.obscureText.value;
+                            },
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -117,19 +116,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                   style: AppStyles.primaryButtonStyle,
-                                  child: const Text(
-                                    'تسجيل الدخول',
-                                    style: AppStyles.bodyLarge
-                                  ),
+                                  child: const Text('تسجيل الدخول',
+                                      style: AppStyles.bodyLarge),
                                 ),
                         ),
                       ),
                       const SizedBox(height: 32),
                       Center(
-                        child: Text(
-                          'أو استخدم طريقة اخرى',
-                          style: AppStyles.bodyMedium
-                        ),
+                        child: Text('أو استخدم طريقة اخرى',
+                            style: AppStyles.bodyMedium),
                       ),
                       const SizedBox(height: 24),
                       Row(
