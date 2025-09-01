@@ -4,6 +4,7 @@ import 'package:designers_platform/features/auth/presentation/pages/widget/build
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_social_sign_in_button.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../domain/entities/user.dart';
@@ -65,14 +66,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 BuildTextField(
                   controller: _usernameController,
                   hintText: 'أدخل اسم المستخدم',
-                  prefixIcon: Icons.person_outline,
+                  prefixIcon: FontAwesomeIcons.user,
                   label: 'اسم المستخدم',
                 ),
                 const SizedBox(height: 16),
                 BuildTextField(
                   controller: _emailController,
                   hintText: 'أدخل الايميل او رقم الهاتف',
-                  prefixIcon: Icons.email_outlined,
+                  prefixIcon: FontAwesomeIcons.envelope,
                   label: 'الايميل او رقم الهاتف',
                   keyboardType: TextInputType.emailAddress,
                 ),
@@ -80,7 +81,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 BuildTextField(
                   controller: _passwordController,
                   hintText: 'أدخل كلمة المرور',
-                  prefixIcon: Icons.lock_outline,
+                  prefixIcon: FontAwesomeIcons.lock,
                   label: 'كلمة المرور',
                   obscureText: _obscureText,
                   suffixIcon: IconButton(

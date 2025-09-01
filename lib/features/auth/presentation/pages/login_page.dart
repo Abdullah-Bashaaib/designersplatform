@@ -2,6 +2,7 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/features/auth/presentation/pages/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       BuildTextField(
                         controller: _emailController,
                         hintText: 'أدخل بريدك الإلكتروني أو رقم هاتفك',
-                        prefixIcon: Icons.email_outlined,
+                        prefixIcon: FontAwesomeIcons.a,
                         label: 'البريد الإلكتروني أو رقم الهاتف',
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       BuildTextField(
                         controller: _passwordController,
                         hintText: 'قم بإنشاء كلمة المرور الخاصة بك',
-                        prefixIcon: Icons.lock_outline,
+                        prefixIcon: FontAwesomeIcons.lock,
                         label: 'كلمة المرور',
                         obscureText: _obscurePassword,
                         suffixIcon: IconButton(

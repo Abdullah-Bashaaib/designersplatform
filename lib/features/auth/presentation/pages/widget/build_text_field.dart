@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BuildTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final String label;
   final TextInputType? keyboardType;
   final bool obscureText;
@@ -14,7 +14,7 @@ class BuildTextField extends StatefulWidget {
       {super.key,
       required this.controller,
       required this.hintText,
-      required this.prefixIcon,
+      this.prefixIcon,
       required this.label,
       this.keyboardType,
       this.suffixIcon,
@@ -46,7 +46,10 @@ class _BuildTextFieldState extends State<BuildTextField> {
           controller: widget.controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
-          decoration: AppStyles.getInputDecoration(hintText: widget.hintText),
+          decoration: AppStyles.getInputDecoration(
+              hintText: widget.hintText,
+              prefixIcon: Icon(widget.prefixIcon),
+              suffixIcon: widget.suffixIcon),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'This field is required';

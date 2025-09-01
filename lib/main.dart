@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
         theme: AppThemes.lightTheme,
         darkTheme: AppThemes.darkTheme,
         themeMode: ThemeMode.system,
+        defaultTransition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 400),
         home: WelcomePage());
   }
 }
