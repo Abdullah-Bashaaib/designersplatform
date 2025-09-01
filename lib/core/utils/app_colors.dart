@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// نظام الألوان الخاص بمنصة المصممين
 /// يحتوي على جميع الألوان المستخدمة في التطبيق مع دعم الوضع المظلم والفاتح
@@ -84,14 +85,14 @@ class AppThemes {
     ),
 
     // تخصيص AppBar
-    appBarTheme: const AppBarTheme(
+    appBarTheme:  AppBarTheme(
       backgroundColor: AppColors.surfaceColor,
       foregroundColor: AppColors.textPrimary,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(
         color: AppColors.textPrimary,
-        fontSize: 20,
+        fontSize: 20.0.r,
         fontWeight: FontWeight.w600,
       ),
     ),
@@ -157,14 +158,14 @@ class AppThemes {
       onSurface: AppColors.darkTextPrimary,
       onError: AppColors.textOnPrimary,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme:  AppBarTheme(
       backgroundColor: AppColors.darkSurfaceColor,
       foregroundColor: AppColors.darkTextPrimary,
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(
         color: AppColors.darkTextPrimary,
-        fontSize: 20,
+        fontSize: 20.r,
         fontWeight: FontWeight.w600,
       ),
     ),

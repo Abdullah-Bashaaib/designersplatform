@@ -101,7 +101,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 style: AppStyles.primaryButtonStyle,
                 child: const Text(
                   'إنشاء حساب',
-                  style: TextStyle(color: Colors.black),
                 ),
               ),
               const SizedBox(height: 15.0),
