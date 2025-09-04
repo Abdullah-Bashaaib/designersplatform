@@ -6,7 +6,7 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure([super.message = '']);
+  const ServerFailure([super.message = error]);
 }
 
 class NoUserFailure extends Failure {
@@ -17,6 +17,6 @@ class OfflineFailure extends Failure {
   const OfflineFailure([super.message = "No Internet Connection"]);
 }
 
-// class LocalFailure extends Failure {
-//   LocalFailure({ super.message});
-// }
+class LocalFailure extends Failure {
+  const LocalFailure([super.message = error]);
+}

@@ -1,10 +1,10 @@
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 
-abstract class LocalDataSource {
+abstract class ClientLocalDataSource {
   Future<void> updateProfile(Client client);
 }
 
-class LocalDataSourceImp implements LocalDataSource {
+class ClientLocalDataSourceImp implements ClientLocalDataSource {
   @override
   Future<void> updateProfile(Client client) {
     throw UnimplementedError();
