@@ -7,6 +7,12 @@ import 'package:designers_platform/features/auth/domain/usecases/login_usecase.d
 import 'package:designers_platform/features/auth/domain/usecases/save_user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
+import 'package:designers_platform/features/customer_profile/data/data_source/local_data_source.dart';
+import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
+import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
+import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
+import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +21,7 @@ import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
 
 class Injection {
-  static void init() async {
+  static Future<void> init() async {
     /// Core
     Get.put<NetworkInfo>(
         NetworkInfoImp(InternetConnectionChecker.createInstance()),
@@ -24,11 +30,21 @@ class Injection {
     /// SharedPreferences
     final sharedPreferences = await SharedPreferences.getInstance();
     Get.put<SharedPreferences>(sharedPreferences, permanent: true);
+    // ==========================================================================
 
     /// Data Source
     // Auth
     Get.lazyPut<RemoteDataSource>(() => RemoteDataSource());
     Get.lazyPut<LocalData>(() => LocalDataImp(Get.find<SharedPreferences>()));
+
+    // Client Profile
+    Get.lazyPut<ClientRemoteDataSource>(
+      () => ClientRemoteDataSourceImp(),
+    );
+    Get.lazyPut<ClientLocalDataSource>(
+      () => ClientLocalDataSourceImp(),
+    );
+    // ============================================================================
 
     /// Repository
     // Auth
@@ -36,6 +52,13 @@ class Injection {
       () => AuthRepositoryImp(Get.find<NetworkInfo>(),
           Get.find<RemoteDataSource>(), Get.find<LocalData>()),
     );
+
+    // Client Profile
+    Get.lazyPut<ClientProfileRepo>(
+      () => ClientProfileRepoImp(Get.find<ClientRemoteDataSource>(),
+          Get.find<ClientLocalDataSource>(), Get.find<NetworkInfo>()),
+    );
+    // ==========================================================================
 
     /// Usecases
     // Auth
@@ -48,6 +71,11 @@ class Injection {
     Get.lazyPut<DeleteAccountUsecase>(
         () => DeleteAccountUsecase(Get.find<AuthRepository>()));
 
+    // Client Profile
+    Get.lazyPut<UpdateProfileUsecase>(
+      () => UpdateProfileUsecase(Get.find<ClientProfileRepo>()),
+    );
+
     /// GetX
     //Auth
     Get.put<AuthController>(
@@ -57,6 +85,11 @@ class Injection {
             Get.find<SaveUserUsecase>(),
             Get.find<ClearUserUsecase>(),
             Get.find<DeleteAccountUsecase>()),
+        permanent: true);
+
+    // Client Profile
+    Get.put<ClientProfileController>(
+        ClientProfileController(Get.find<UpdateProfileUsecase>()),
         permanent: true);
   }
 }

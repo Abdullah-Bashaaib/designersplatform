@@ -8,7 +8,7 @@ class UpdateProfileUsecase {
 
   UpdateProfileUsecase(this.clientProfileRepo);
 
-  Future<Either<Failure, Unit>> updateProfileUsecase(Client client) async {
+  Future<Either<Failure, Unit>> call(Client client) async {
     return await clientProfileRepo.updateProfile(client);
   }
 }
