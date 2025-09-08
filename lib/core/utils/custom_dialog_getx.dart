@@ -451,7 +451,7 @@ class DialogHelper {
     SnackPosition position = SnackPosition.BOTTOM,
     Color? backgroundColor,
     Color? colorText,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 2),
     Widget? icon,
   }) {
     Get.snackbar(
@@ -471,7 +471,7 @@ class DialogHelper {
   static void showSuccessSnackBar({
     required String title,
     required String message,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 2),
   }) {
     showSnackBar(
       title: title,

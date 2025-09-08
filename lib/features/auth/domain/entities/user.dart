@@ -4,6 +4,7 @@ class User {
   final String email;
   final String password;
   final String role;
+  final String? avatarUrl;
 
   const User({
     this.id,
@@ -11,5 +12,6 @@ class User {
     required this.email,
     required this.password,
     required this.role,
+    this.avatarUrl,
   });
 }

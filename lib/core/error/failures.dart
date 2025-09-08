@@ -1,4 +1,4 @@
-import 'package:designers_platform/core/error/messages.dart';
+import 'package:designers_platform/core/utils/messages.dart';
 
 abstract class Failure {
   final String message;
@@ -14,7 +14,7 @@ class NoUserFailure extends Failure {
 }
 
 class OfflineFailure extends Failure {
-  const OfflineFailure([super.message = "No Internet Connection"]);
+  const OfflineFailure([super.message = offLineError]);
 }
 
 class LocalFailure extends Failure {

@@ -1,6 +1,7 @@
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
+import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
@@ -70,6 +71,8 @@ class Injection {
         () => ClearUserUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<DeleteAccountUsecase>(
         () => DeleteAccountUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<AddAvatarUsecase>(
+        () => AddAvatarUsecase(Get.find<AuthRepository>()));
 
     // Client Profile
     Get.lazyPut<UpdateProfileUsecase>(
@@ -84,7 +87,8 @@ class Injection {
             Get.find<SignUpUsecase>(),
             Get.find<SaveUserUsecase>(),
             Get.find<ClearUserUsecase>(),
-            Get.find<DeleteAccountUsecase>()),
+            Get.find<DeleteAccountUsecase>(),
+            Get.find<AddAvatarUsecase>()),
         permanent: true);
 
     // Client Profile

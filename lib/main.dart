@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             defaultTransition: Transition.cupertino,
             transitionDuration: const Duration(milliseconds: 400),
-            home: EditClientProfileScreen());
+            home: WelcomePage());
       },
     );
   }

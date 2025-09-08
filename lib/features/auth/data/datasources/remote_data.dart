@@ -6,11 +6,17 @@ abstract class RemoteData {
   Future<User> checkAccountInRemote(String email, String password);
   Future<User> signUp(User user);
   Future<bool> deleteAccount();
+  Future<String> addAvatar();
 }
 
 class RemoteDataSource implements RemoteData {
   List<User> users = [
-    User(id: '2', name: 'salem', email: 'sas@gmail.com', password: '12345678', role: 'عميل'),
+    User(
+        id: '2',
+        name: 'salem',
+        email: 'sas@gmail.com',
+        password: '12345678',
+        role: 'عميل'),
   ];
   @override
   Future<User> checkAccountInRemote(String email, String password) async {
@@ -31,6 +37,11 @@ class RemoteDataSource implements RemoteData {
 
   @override
   Future<bool> deleteAccount() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> addAvatar() {
     throw UnimplementedError();
   }
 }

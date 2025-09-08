@@ -10,4 +10,5 @@ abstract class AuthRepository {
   Future<void> clearUser();
   bool isLoggedIn();
   Future<bool> deleteAccount();
+  Future<Either<Failure, String>> addAvatar(String userId, String filePath);
 }

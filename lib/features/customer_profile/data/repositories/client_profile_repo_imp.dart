@@ -34,4 +34,9 @@ class ClientProfileRepoImp implements ClientProfileRepo {
       }
     }
   }
+  
+  @override
+  Future<Either<Failure, String>> uploadAvatar(String userId, String filePath) {
+    throw UnimplementedError();
+  }
 }

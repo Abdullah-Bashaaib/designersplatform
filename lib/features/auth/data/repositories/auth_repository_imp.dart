@@ -25,7 +25,7 @@ class AuthRepositoryImp implements AuthRepository {
         return left(NoUserFailure());
       }
     } else {
-      return left(ServerFailure());
+      return left(OfflineFailure());
     }
   }
 
@@ -40,7 +40,7 @@ class AuthRepositoryImp implements AuthRepository {
         return left(ServerFailure());
       }
     } else {
-      return left(ServerFailure());
+      return left(OfflineFailure());
     }
   }
 
@@ -67,5 +67,20 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<bool> deleteAccount() async {
     return await remoteData.deleteAccount();
+  }
+
+  @override
+  Future<Either<Failure, String>> addAvatar(
+      String userId, String filePath) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteData.addAvatar();
+        return right(result);
+      } on ServerException {
+        return left(ServerFailure());
+      }
+    } else {
+      return left(OfflineFailure());
+    }
   }
 }
