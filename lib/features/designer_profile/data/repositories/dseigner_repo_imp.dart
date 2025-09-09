@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
-import 'package:designers_platform/features/designer_profile/data/datasource/local_data_sorce.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/designer_local_data_source.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
 
 class DesignerRepoImp implements DesignerRepository {
-  final LocalDataSource localDataSource;
+  final DesignerLocalDataSource localDataSource;
   final RemoteDataSource remoteDataSource;
 
   DesignerRepoImp(this.localDataSource, this.remoteDataSource);
