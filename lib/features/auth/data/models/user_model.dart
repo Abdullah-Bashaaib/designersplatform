@@ -27,4 +27,14 @@ class UserModel extends User {
       'role': role,
     };
   }
+
+  factory UserModel.fromEntity(User user) {
+    return UserModel(
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    );
+  }
 }
