@@ -68,7 +68,7 @@ class AppThemes {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    fontFamily: "adobe_arabic",
+    // fontFamily: "adobe_arabic",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
 
@@ -85,7 +85,7 @@ class AppThemes {
     ),
 
     // تخصيص AppBar
-    appBarTheme:  AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.surfaceColor,
       foregroundColor: AppColors.textPrimary,
       elevation: 0,
@@ -145,7 +145,7 @@ class AppThemes {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    fontFamily: "adobe_arabic",
+    // fontFamily: "adobe_arabic",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     colorScheme: const ColorScheme.dark(
@@ -158,7 +158,7 @@ class AppThemes {
       onSurface: AppColors.darkTextPrimary,
       onError: AppColors.textOnPrimary,
     ),
-    appBarTheme:  AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkSurfaceColor,
       foregroundColor: AppColors.darkTextPrimary,
       elevation: 0,
