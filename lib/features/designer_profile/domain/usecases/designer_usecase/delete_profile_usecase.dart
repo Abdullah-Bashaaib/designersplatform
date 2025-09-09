@@ -7,7 +7,7 @@ class DeleteProfileUseCase {
 
   DeleteProfileUseCase({required this.designerRepository});
 
-  Future<Either<Failure, Unit>> call(int id) async {
+  Future<Either<Failure, Unit>> call(String id) async {
     return await designerRepository.deleteProfile(id);
   }
 }

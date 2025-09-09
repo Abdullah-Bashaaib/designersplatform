@@ -8,7 +8,7 @@ class GetReviewUseCase {
   final ReviewRepository reviewRepository;
   GetReviewUseCase({required this.reviewRepository});
 
-  Future<Either<Failure, Review>> call(int designerId) async {
+  Future<Either<Failure, Review>> call(String designerId) async {
     return await reviewRepository.getReview(designerId);
   }
 }

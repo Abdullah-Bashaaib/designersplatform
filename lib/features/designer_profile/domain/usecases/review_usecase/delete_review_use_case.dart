@@ -7,7 +7,7 @@ class DeleteReviewUseCase {
 
   DeleteReviewUseCase({required this.reviewRepository});
 
-  Future<Either<Failure, Unit>> call(int id) async {
+  Future<Either<Failure, Unit>> call(String id) async {
     return await reviewRepository.deleteReview(id);
   }
 }
