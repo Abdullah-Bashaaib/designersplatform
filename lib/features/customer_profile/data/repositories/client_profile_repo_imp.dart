@@ -36,7 +36,19 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
   
   @override
-  Future<Either<Failure, String>> uploadAvatar(String userId, String filePath) {
+  Future<Either<Failure, String>> getAvatar(String userId, String filePath) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<Either<Failure, Unit>> updateAvatar(String userId, String filePath) {
+    // TODO: implement updateAvatar
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<Either<Failure, Unit>> updatePassword(String userId, String password) {
+    // TODO: implement updatePassword
     throw UnimplementedError();
   }
 }

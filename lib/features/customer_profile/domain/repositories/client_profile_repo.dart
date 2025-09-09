@@ -4,5 +4,7 @@ import 'package:designers_platform/features/customer_profile/domain/entities/cli
 
 abstract class ClientProfileRepo {
   Future<Either<Failure, Unit>> updateProfile(Client client);
-  Future<Either<Failure, String>> uploadAvatar(String userId, String filePath);
+  Future<Either<Failure, String>> getAvatar(String userId, String filePath);
+  Future<Either<Failure, Unit>> updatePassword(String userId, String password);
+  Future<Either<Failure, Unit>> updateAvatar(String userId, String filePath);
 }

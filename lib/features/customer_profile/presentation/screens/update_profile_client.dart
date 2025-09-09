@@ -1,4 +1,3 @@
-import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
