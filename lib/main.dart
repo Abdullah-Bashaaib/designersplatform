@@ -1,6 +1,5 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/update_profile_client.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

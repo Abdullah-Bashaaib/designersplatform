@@ -8,7 +8,7 @@ class GetProfileUseCase {
 
   GetProfileUseCase({required this.designerRepository});
 
-  Future<Either<Failure, Designer>> call(int id) async {
+  Future<Either<Failure, Designer>> call(String id) async {
     return await designerRepository.getDesigner(id);
   }
 }

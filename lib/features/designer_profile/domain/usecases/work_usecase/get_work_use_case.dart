@@ -8,7 +8,7 @@ class GetWorkUseCase {
 
   GetWorkUseCase({required this.workRepository});
 
-  Future<Either<Failure, List<Work>>> call(int designerId) async {
+  Future<Either<Failure, List<Work>>> call(String designerId) async {
     return await workRepository.getWork(designerId);
   }
 }

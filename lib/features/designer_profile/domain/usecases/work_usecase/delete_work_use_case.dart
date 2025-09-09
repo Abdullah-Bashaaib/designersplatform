@@ -7,7 +7,7 @@ class DeleteWorkUseCase {
 
   DeleteWorkUseCase({required this.workRepository});
 
-  Future<Either<Failure, Unit>> call(int workId) async {
+  Future<Either<Failure, Unit>> call(String workId) async {
     return await workRepository.deleteWork(workId);
   }
 }
