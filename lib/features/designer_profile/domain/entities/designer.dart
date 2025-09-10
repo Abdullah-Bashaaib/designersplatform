@@ -3,16 +3,16 @@ import 'package:designers_platform/features/designer_profile/domain/entities/wor
 import '../../../auth/domain/entities/user.dart';
 
 class Designer {
-  late final User user;
-  late final int numberBank;
-  late final String nameBank;
-  late final String specialization;
-  late final bool isAvailable;
-  late final double averageRating; // محسوب من reviews
-  late final int reviewsCount; // عدد التقييمات
-  late final int totalOrders; // عدد الطلبات
-  late final int worksCount; // عدد الأعمال
-  late final List<Work> workList;
+  User user;
+  int? numberBank;
+  String? nameBank;
+  String? specialization;
+  bool? isAvailable;
+  double? averageRating; // محسوب من reviews
+  int? reviewsCount; // عدد التقييمات
+  int? totalOrders; // عدد الطلبات
+  int? worksCount; // عدد الأعمال
+  List<Work>? workList;
 
   Designer(
       {required this.user,

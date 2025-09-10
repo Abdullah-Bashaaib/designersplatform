@@ -3,3 +3,4 @@ const offLineError = '';
 const noUser = 'المستخدم غير موجود';
 const error = 'هناك خطاء';
 const addSuccess = 'تمت الاضافة بنجاح';
+const emptyLocalDatabase = "لا توجد هناك عناصر";

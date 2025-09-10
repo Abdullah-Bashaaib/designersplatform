@@ -20,3 +20,7 @@ class OfflineFailure extends Failure {
 class LocalFailure extends Failure {
   const LocalFailure([super.message = error]);
 }
+
+class EmptyLocalDatabaseFailure extends Failure {
+  const EmptyLocalDatabaseFailure([super.message = emptyLocalDatabase]);
+}

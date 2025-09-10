@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'app_colors.dart';
 import 'app_styles.dart';
 
@@ -355,7 +356,7 @@ class DialogHelper {
     String cancelText = 'إلغاء',
   }) {
     double currentRating = initialRating;
-    
+
     return Get.dialog<double>(
       StatefulBuilder(
         builder: (context, setState) => CustomDialog(
@@ -430,7 +431,8 @@ class DialogHelper {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColorHelper.getTextColor(Get.context!).withOpacity(0.3),
+                color:
+                    AppColorHelper.getTextColor(Get.context!).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -477,7 +479,10 @@ class DialogHelper {
       title: title,
       message: message,
       backgroundColor: AppColors.successColor,
-      icon: const Icon(Icons.check_circle, color: Colors.white),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Icon(Icons.check_circle, color: Colors.white),
+      ),
       duration: duration,
     );
   }
@@ -492,7 +497,10 @@ class DialogHelper {
       title: title,
       message: message,
       backgroundColor: AppColors.errorColor,
-      icon: const Icon(Icons.error, color: Colors.white),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Icon(Icons.error, color: Colors.white),
+      ),
       duration: duration,
     );
   }
@@ -507,7 +515,10 @@ class DialogHelper {
       title: title,
       message: message,
       backgroundColor: AppColors.warningColor,
-      icon: const Icon(Icons.warning, color: Colors.white),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Icon(Icons.warning, color: Colors.white),
+      ),
       duration: duration,
     );
   }
@@ -584,4 +595,3 @@ class LoadingDialog extends StatelessWidget {
     }
   }
 }
-
