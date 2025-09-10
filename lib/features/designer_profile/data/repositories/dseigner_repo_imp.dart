@@ -5,6 +5,9 @@ import 'package:designers_platform/features/designer_profile/data/datasource/loc
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
 
+import '../../../../core/error/exception.dart';
+import '../models/designer_model.dart';
+
 class DesignerRepoImp implements DesignerRepository {
   final DesignerLocalDataSource localDataSource;
   final RemoteDataSource remoteDataSource;
@@ -12,20 +15,33 @@ class DesignerRepoImp implements DesignerRepository {
   DesignerRepoImp(this.localDataSource, this.remoteDataSource);
 
   @override
-  Future<Either<Failure, Designer>> getDesigner(String id) {
-    // TODO: implement getDesigner
-    throw UnimplementedError();
+  Future<Either<Failure, Designer>> getDesigner(String id) async {
+    try {
+      final designerModel = await localDataSource.getData(id);
+      final designer = DesignerModel.fromJson(designerModel!.toJson());
+      return Right(designer);
+    } on EmptyLocalDatabaseException {
+      return Left(EmptyLocalDatabaseFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Unit>> updateProfile(Designer designer) {
-    // TODO: implement updateProfile
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> updateProfile(Designer designer) async {
+    try {
+      await localDataSource.updateData(designer as DesignerModel);
+      return Right(unit);
+    } on EmptyLocalDatabaseException {
+      return Left(LocalFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteProfile(String id) {
-    // TODO: implement deleteProfile
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> deleteProfile(String id) async {
+    try {
+      await localDataSource.deleteData(id);
+      return Right(unit);
+    } on EmptyLocalDatabaseException {
+      return Left(LocalFailure());
+    }
   }
 }

@@ -5,12 +5,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelper {
-  static Database? _db;
-  Future<Database> get database async {
-    _db ??= await openDB();
-    return _db!;
-  }
-
   Future<Database> openDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, 'database.db');
@@ -38,3 +32,4 @@ class SQLHelper {
     return await rootBundle.loadString('assets/database/database.db');
   }
 }
+SQLHelper sqlHelper = SQLHelper();
