@@ -17,8 +17,7 @@ class DesignerRepoImp implements DesignerRepository {
   @override
   Future<Either<Failure, Designer>> getDesigner(String id) async {
     try {
-      final designerModel = await localDataSource.getData(id);
-      final designer = DesignerModel.fromJson(designerModel!.toJson());
+      final designer = await localDataSource.getData(id);
       return Right(designer);
     } on EmptyLocalDatabaseException {
       return Left(EmptyLocalDatabaseFailure());
@@ -31,7 +30,7 @@ class DesignerRepoImp implements DesignerRepository {
       await localDataSource.updateData(designer as DesignerModel);
       return Right(unit);
     } on EmptyLocalDatabaseException {
-      return Left(LocalFailure());
+      return Left(EmptyLocalDatabaseFailure());
     }
   }
 
@@ -41,7 +40,7 @@ class DesignerRepoImp implements DesignerRepository {
       await localDataSource.deleteData(id);
       return Right(unit);
     } on EmptyLocalDatabaseException {
-      return Left(LocalFailure());
+      return Left(EmptyLocalDatabaseFailure());
     }
   }
 }

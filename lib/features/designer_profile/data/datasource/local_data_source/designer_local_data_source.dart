@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/exception.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/designer_model.dart';
 
 abstract class DesignerLocalDataSource {
-  Future<DesignerModel?> getData(String id);
+  Future<DesignerModel> getData(String id);
   Future<Unit> updateData(DesignerModel designer);
   Future<Unit> deleteData(String id);
 }
@@ -15,14 +16,14 @@ class DesignerLocalDataSourceImpBySql implements DesignerLocalDataSource {
 
   DesignerLocalDataSourceImpBySql(this._db);
   @override
-  Future<DesignerModel?> getData(String id) async {
+  Future<DesignerModel> getData(String id) async {
     final maps = await _db.query(
       'Users',
       where: 'id = ?',
       whereArgs: [id],
     );
     if (maps.isNotEmpty) return DesignerModel.fromJson(maps.first);
-    return null;
+    throw EmptyLocalDatabaseException();
   }
 
   @override
