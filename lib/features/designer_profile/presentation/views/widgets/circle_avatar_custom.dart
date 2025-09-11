@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CircleAvatarCustom extends StatelessWidget {
   const CircleAvatarCustom({
@@ -10,15 +11,15 @@ class CircleAvatarCustom extends StatelessWidget {
     return Column(
       children: [
         CircleAvatar(
-          radius: 50,
+          radius: 50.r,
           child: ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(100),
+            borderRadius: BorderRadiusGeometry.circular(100.r),
             child: Image.asset(
                 fit: BoxFit.fill, "assets/icons/image_profile01.png"),
           ),
         ),
         SizedBox(
-          width: 20,
+          width: 20.w,
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:designers_platform/features/designer_profile/presentation/views/
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/profile_image_and_statistic.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -46,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Center(
             child: SizedBox(
               width: double.infinity,
