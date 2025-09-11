@@ -2,15 +2,9 @@ flutter_native_splash:
   android: true
   ios: true
   web: false
-  background_image: "assets/images/splash_screen_background.png"
+  background_image: "assets/images/splash_screen_background2.png"
   image: "assets/icons/_0014(1).png"
 
-  
-
-  # From Android 12 onwards, the splash screen is handled differently than in previous versions.
-  # Please visit https://developer.android.com/guide/topics/ui/splash-screen
-  # Following are specific parameters for Android 12+.
   android_12:
-    background_image: "assets/images/splash_screen_background.png"
     image: "assets/icons/_0014(1).png"
-  
+    color: "#673AB7"
