@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class ClientProfileController extends GetxController {
-  final UpdateProfileUsecase updateProfileUsecase;
-  ClientProfileController(this.updateProfileUsecase);
+  final UpdateProfileUsecase updateProfileUseCase;
+  ClientProfileController(this.updateProfileUseCase);
 
   final userName = TextEditingController();
   final email = TextEditingController();
@@ -20,7 +20,7 @@ class ClientProfileController extends GetxController {
 
   Future<void> saveProfile(Client client) async {
     isLoading.value = true;
-    final result = await updateProfileUsecase.call(client);
+    final result = await updateProfileUseCase.call(client);
     result.fold((f) => Get.snackbar('خطاء', f.message), (u) => u);
   }
 

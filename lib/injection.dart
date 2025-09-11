@@ -95,5 +95,8 @@ class Injection {
     Get.put<ClientProfileController>(
         ClientProfileController(Get.find<UpdateProfileUsecase>()),
         permanent: true);
+
+    ///========================== [ Feat: Designer Profile ] ==============================
+    /// Data > datasource
   }
 }

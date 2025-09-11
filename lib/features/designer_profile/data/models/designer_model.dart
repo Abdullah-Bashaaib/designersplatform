@@ -5,6 +5,7 @@ import '../../domain/entities/designer.dart';
 class DesignerModel extends Designer {
   DesignerModel(
       {required super.user,
+      required super.bio,
       required super.numberBank,
       required super.nameBank,
       required super.specialization,
@@ -19,6 +20,7 @@ class DesignerModel extends Designer {
     UserModel userModel = UserModel.fromJson(json['user']);
     return DesignerModel(
         user: userModel,
+        bio: json['bio'],
         numberBank: json['numberBank'],
         nameBank: json['nameBank'],
         specialization: json['specialization'],

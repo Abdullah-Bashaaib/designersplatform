@@ -68,7 +68,7 @@ class AppThemes {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    fontFamily: "doran",
+    // fontFamily: "Doran",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
 
@@ -145,7 +145,7 @@ class AppThemes {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    fontFamily: "doran",
+    // fontFamily: "doran",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     colorScheme: const ColorScheme.dark(

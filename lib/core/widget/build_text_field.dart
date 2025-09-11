@@ -34,13 +34,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(widget.label, style: AppStyles.headingSmall),
         const SizedBox(height: 8),
         TextFormField(
           controller: widget.controller,
