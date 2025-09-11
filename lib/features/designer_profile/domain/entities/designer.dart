@@ -4,6 +4,7 @@ import '../../../auth/domain/entities/user.dart';
 
 class Designer {
   User user;
+  String? bio;
   int? numberBank;
   String? nameBank;
   String? specialization;
@@ -16,6 +17,7 @@ class Designer {
 
   Designer(
       {required this.user,
+      required this.bio,
       required this.numberBank,
       required this.nameBank,
       required this.specialization,

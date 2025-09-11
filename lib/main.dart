@@ -1,5 +1,5 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
-import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
+import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,15 +22,16 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Designer Platform',
-            locale: Get.deviceLocale,
-            theme: AppThemes.lightTheme,
-            darkTheme: AppThemes.darkTheme,
-            themeMode: ThemeMode.system,
-            defaultTransition: Transition.cupertino,
-            transitionDuration: const Duration(milliseconds: 400),
-            home: WelcomePage());
+          debugShowCheckedModeBanner: false,
+          title: 'Designer Platform',
+          locale: Get.deviceLocale,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          themeMode: ThemeMode.dark,
+          defaultTransition: Transition.cupertino,
+          transitionDuration: const Duration(milliseconds: 400),
+          home: ProfileScreen(),
+        );
       },
     );
   }

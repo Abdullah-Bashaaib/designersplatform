@@ -66,19 +66,22 @@ class AppStyles {
       ];
 
   // أنماط النصوص
-  static const TextStyle headingLarge = TextStyle(
-    fontSize: 32,
+  static final TextStyle headingLarge = TextStyle(
+    // fontFamily: "Doran",
+    fontSize: 30,
     fontWeight: FontWeight.bold,
     height: 1.2,
   );
 
   static const TextStyle headingMedium = TextStyle(
+    // fontFamily: "Doran",
     fontSize: 24,
     fontWeight: FontWeight.w600,
     height: 1.3,
   );
 
   static const TextStyle headingSmall = TextStyle(
+    // fontFamily: "Doran",
     fontSize: 20,
     fontWeight: FontWeight.w600,
     height: 1.3,
@@ -103,6 +106,7 @@ class AppStyles {
   );
 
   static const TextStyle caption = TextStyle(
+    fontFamily: "Doran",
     fontSize: 11,
     fontWeight: FontWeight.normal,
     height: 1.3,
@@ -124,12 +128,10 @@ class AppStyles {
       );
 
   static ButtonStyle get secondaryButtonStyle => OutlinedButton.styleFrom(
-        foregroundColor: AppColors.primaryColor,
         side: const BorderSide(color: AppColors.primaryColor, width: 1.5),
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
         textStyle: const TextStyle(
-          fontFamily: "adobe_arabic",
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
