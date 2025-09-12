@@ -2,6 +2,8 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/utils/app_colors.dart';
+
 class BioCustom extends StatelessWidget {
   const BioCustom({
     super.key,
@@ -15,10 +17,30 @@ class BioCustom extends StatelessWidget {
         SizedBox(
           height: 20.h,
         ),
-        Text(
-          "السيرة الذاتية",
-          style: AppStyles.headingSmall,
-        ),
+        Stack(clipBehavior: Clip.none, children: [
+          Positioned(
+            top: 5.r,
+            child: Container(
+              margin: EdgeInsets.only(top: 10.r, bottom: 20.r),
+              width: 140.w,
+              height: 8.h,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: AppStyles.mediumRadius,
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Icon(Icons.info_outline_rounded),
+              SizedBox(width: 5.w),
+              Text(
+                "السيرة الذاتية",
+                style: AppStyles.headingSmall,
+              ),
+            ],
+          ),
+        ]),
         SizedBox(
           height: 10.h,
         ),

@@ -193,7 +193,7 @@ class AppStyles {
           borderSide: const BorderSide(color: AppColors.errorColor),
         ),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+             EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       );
 
   // أنماط التقييم والنجوم
@@ -217,32 +217,32 @@ class AppStyles {
   // أنماط الشارات والعلامات
   static BoxDecoration get badgeDecoration => BoxDecoration(
         color: AppColors.primaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get successBadgeDecoration => BoxDecoration(
         color: AppColors.successColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get warningBadgeDecoration => BoxDecoration(
         color: AppColors.warningColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get errorBadgeDecoration => BoxDecoration(
         color: AppColors.errorColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   // أنماط الفواصل
   static Widget get horizontalDivider => Container(
-        height: 1,
+        height: 1.h,
         color: AppColors.dividerColor,
       );
 
   static Widget get verticalDivider => Container(
-        width: 1,
+        width: 1.w,
         color: AppColors.dividerColor,
       );
 

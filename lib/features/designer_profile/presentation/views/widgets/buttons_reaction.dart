@@ -15,10 +15,10 @@ class ButtonsReaction extends StatelessWidget {
           height: 10.h,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
-              width: 162.w,
+              width: 175.w,
               child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {},
@@ -29,7 +29,7 @@ class ButtonsReaction extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(right: 10.r),
-              width: 162.w,
+              width: 175.w,
               child: OutlinedButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {},
