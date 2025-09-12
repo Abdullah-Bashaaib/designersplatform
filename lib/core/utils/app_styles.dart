@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_colors.dart';
 
@@ -6,61 +7,57 @@ import 'app_colors.dart';
 /// تحتوي على جميع أنماط التصميم المستخدمة في منصة المصممين
 class AppStyles {
   // أنماط الحواف المختلفة
-  static const BorderRadius smallRadius = BorderRadius.all(Radius.circular(8));
-  static const BorderRadius mediumRadius =
-      BorderRadius.all(Radius.circular(12));
-  static const BorderRadius largeRadius = BorderRadius.all(Radius.circular(16));
-  static const BorderRadius extraLargeRadius =
-      BorderRadius.all(Radius.circular(24));
-  static const BorderRadius circularRadius =
-      BorderRadius.all(Radius.circular(50));
+  static BorderRadius smallRadius = BorderRadius.all(Radius.circular(8.r));
+  static BorderRadius mediumRadius = BorderRadius.all(Radius.circular(12.r));
+  static BorderRadius largeRadius = BorderRadius.all(Radius.circular(16.r));
+  static BorderRadius extraLargeRadius =
+      BorderRadius.all(Radius.circular(24.r));
+  static BorderRadius circularRadius = BorderRadius.all(Radius.circular(50.r));
 
   // أنماط الحواف المخصصة للعناصر المختلفة
-  static const BorderRadius cardRadius = BorderRadius.all(Radius.circular(16));
-  static const BorderRadius buttonRadius =
-      BorderRadius.all(Radius.circular(12));
-  static const BorderRadius inputRadius = BorderRadius.all(Radius.circular(12));
-  static const BorderRadius dialogRadius =
-      BorderRadius.all(Radius.circular(20));
-  static const BorderRadius bottomSheetRadius = BorderRadius.only(
-    topLeft: Radius.circular(24),
-    topRight: Radius.circular(24),
+  static BorderRadius cardRadius = BorderRadius.all(Radius.circular(16.r));
+  static BorderRadius buttonRadius = BorderRadius.all(Radius.circular(12.r));
+  static BorderRadius inputRadius = BorderRadius.all(Radius.circular(12.r));
+  static BorderRadius dialogRadius = BorderRadius.all(Radius.circular(20.r));
+  static BorderRadius bottomSheetRadius = BorderRadius.only(
+    topLeft: Radius.circular(24.r),
+    topRight: Radius.circular(24.r),
   );
 
   // أنماط الظلال
   static List<BoxShadow> get lightShadow => [
         BoxShadow(
-          color: AppColors.primaryColor.withOpacity(0.08),
-          blurRadius: 8,
+          color: AppColors.primaryColor.withValues(alpha: 0.08),
+          blurRadius: 8.r,
           offset: const Offset(0, 2),
         ),
       ];
 
   static List<BoxShadow> get mediumShadow => [
         BoxShadow(
-          color: AppColors.primaryColor.withOpacity(0.12),
-          blurRadius: 12,
+          color: AppColors.primaryColor.withValues(alpha: 0.12),
+          blurRadius: 12.r,
           offset: const Offset(0, 4),
         ),
       ];
 
   static List<BoxShadow> get heavyShadow => [
         BoxShadow(
-          color: AppColors.primaryColor.withOpacity(0.16),
-          blurRadius: 16,
+          color: AppColors.primaryColor.withValues(alpha: 0.16),
+          blurRadius: 16.r,
           offset: const Offset(0, 6),
         ),
       ];
 
   static List<BoxShadow> get cardShadow => [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 10,
+          color: Colors.black.withValues(alpha: 0.05),
+          blurRadius: 10.r,
           offset: const Offset(0, 2),
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.03),
-          blurRadius: 20,
+          color: Colors.black.withValues(alpha: 0.03),
+          blurRadius: 20.r,
           offset: const Offset(0, 4),
         ),
       ];
@@ -68,48 +65,47 @@ class AppStyles {
   // أنماط النصوص
   static final TextStyle headingLarge = TextStyle(
     // fontFamily: "Doran",
-    fontSize: 30,
+    fontSize: 30.sp,
     fontWeight: FontWeight.bold,
-    height: 1.2,
+    height: 1.2.h,
   );
 
-  static const TextStyle headingMedium = TextStyle(
+  static TextStyle headingMedium = TextStyle(
     // fontFamily: "Doran",
-    fontSize: 24,
+    fontSize: 24.sp,
     fontWeight: FontWeight.w600,
-    height: 1.3,
+    height: 1.3.h,
   );
 
-  static const TextStyle headingSmall = TextStyle(
+  static TextStyle headingSmall = TextStyle(
     // fontFamily: "Doran",
-    fontSize: 20,
+    fontSize: 20.sp,
     fontWeight: FontWeight.w600,
-    height: 1.3,
+    height: 1.3.h,
   );
 
-  static const TextStyle bodyLarge = TextStyle(
-    fontSize: 16,
+  static TextStyle bodyLarge = TextStyle(
+    fontSize: 16.sp,
     fontWeight: FontWeight.normal,
-    height: 1.5,
+    height: 1.5.h,
   );
 
-  static const TextStyle bodyMedium = TextStyle(
-    fontSize: 14,
+  static TextStyle bodyMedium = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.normal,
-    height: 1.4,
+    height: 1.4.h,
   );
 
-  static const TextStyle bodySmall = TextStyle(
-    fontSize: 12,
+  static TextStyle bodySmall = TextStyle(
+    fontSize: 12.sp,
     fontWeight: FontWeight.normal,
-    height: 1.4,
+    height: 1.4.h,
   );
 
-  static const TextStyle caption = TextStyle(
-    fontFamily: "Doran",
-    fontSize: 11,
+  static TextStyle caption = TextStyle(
+    fontSize: 11.sp,
     fontWeight: FontWeight.normal,
-    height: 1.3,
+    height: 1.3.h,
   );
 
   // أنماط الأزرار
@@ -117,22 +113,22 @@ class AppStyles {
         backgroundColor: AppColors.primaryColor,
         foregroundColor: AppColors.textOnPrimary,
         elevation: 2,
-        shadowColor: AppColors.primaryColor.withOpacity(0.3),
+        shadowColor: AppColors.primaryColor.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        textStyle: const TextStyle(
-          fontSize: 16,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
           fontWeight: FontWeight.w600,
           color: AppColors.textOnPrimary,
         ),
       );
 
   static ButtonStyle get secondaryButtonStyle => OutlinedButton.styleFrom(
-        side: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+        side: BorderSide(color: AppColors.primaryColor, width: 1.5.w),
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-        textStyle: const TextStyle(
-          fontSize: 16,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
           fontWeight: FontWeight.w600,
         ),
       );
@@ -140,9 +136,9 @@ class AppStyles {
   static ButtonStyle get ghostButtonStyle => TextButton.styleFrom(
         foregroundColor: AppColors.primaryColor,
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        textStyle: const TextStyle(
-          fontSize: 16,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
           fontWeight: FontWeight.w600,
         ),
       );
@@ -159,8 +155,8 @@ class AppStyles {
         borderRadius: cardRadius,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 10.r,
             offset: const Offset(0, 2),
           ),
         ],
@@ -197,7 +193,7 @@ class AppStyles {
           borderSide: const BorderSide(color: AppColors.errorColor),
         ),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+             EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       );
 
   // أنماط التقييم والنجوم
@@ -221,32 +217,32 @@ class AppStyles {
   // أنماط الشارات والعلامات
   static BoxDecoration get badgeDecoration => BoxDecoration(
         color: AppColors.primaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get successBadgeDecoration => BoxDecoration(
         color: AppColors.successColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get warningBadgeDecoration => BoxDecoration(
         color: AppColors.warningColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get errorBadgeDecoration => BoxDecoration(
         color: AppColors.errorColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
       );
 
   // أنماط الفواصل
   static Widget get horizontalDivider => Container(
-        height: 1,
+        height: 1.h,
         color: AppColors.dividerColor,
       );
 
   static Widget get verticalDivider => Container(
-        width: 1,
+        width: 1.w,
         color: AppColors.dividerColor,
       );
 
