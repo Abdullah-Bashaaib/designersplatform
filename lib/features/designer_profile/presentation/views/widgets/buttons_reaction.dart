@@ -1,6 +1,8 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/features/designer_profile/presentation/views/screens/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class ButtonsReaction extends StatelessWidget {
   const ButtonsReaction({
@@ -47,7 +49,9 @@ class ButtonsReaction extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton(
             style: AppStyles.secondaryButtonStyle,
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => UpdateProfile());
+            },
             child:
                 Text("تعديل الملف الشخصي", style: TextStyle(fontSize: 15.sp)),
           ),

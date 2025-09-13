@@ -16,50 +16,55 @@ class CircleAvatarCustom extends StatelessWidget {
     return Column(
       children: [
         Obx(
-          () => CircleAvatar(
-            radius: 50.r,
-            backgroundColor: Colors.grey.shade200,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100.r),
-              child: controller.designer.value?.avatarUrl != null
-                  ? Image.network(
-                      controller.designer.value!.avatarUrl!,
-                      fit: BoxFit.cover,
-                      width: 100.w,
-                      height: 100.h,
-                      // هنا نحط اللودر
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: SizedBox(
-                            width: 30.r,
-                            height: 30.r,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.w,
-                              color: AppColors.primaryColor,
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      (loadingProgress.expectedTotalBytes ?? 1)
-                                  : null,
+          () => Hero(
+            tag: "Avatar",
+            child: CircleAvatar(
+              radius: 50.r,
+              backgroundColor: Colors.grey.shade200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.r),
+                child: controller.designer.value?.avatarUrl != null
+                    ? Image.network(
+                        controller.designer.value!.avatarUrl!,
+                        fit: BoxFit.cover,
+                        width: 100.w,
+                        height: 100.h,
+                        // هنا نحط اللودر
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: SizedBox(
+                              width: 30.r,
+                              height: 30.r,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.w,
+                                color: AppColors.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          AppImage.icon1,
-                          fit: BoxFit.cover,
-                          width: 100.w,
-                          height: 100.h,
-                        );
-                      },
-                    )
-                  : Image.asset(
-                      AppImage.icon1,
-                      fit: BoxFit.cover,
-                      width: 100.w,
-                      height: 100.h,
-                    ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            AppImage.icon1,
+                            fit: BoxFit.cover,
+                            width: 100.w,
+                            height: 100.h,
+                          );
+                        },
+                      )
+                    : Image.asset(
+                        AppImage.icon1,
+                        fit: BoxFit.cover,
+                        width: 100.w,
+                        height: 100.h,
+                      ),
+              ),
             ),
           ),
         ),

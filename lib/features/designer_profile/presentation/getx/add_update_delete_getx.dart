@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/custom_dialog_getx.dart';
@@ -42,16 +43,10 @@ class AddUpdateDeleteGetx extends GetxController {
     isLoading.value = true;
 
     final result = await updateProfileUseCase(designer);
-    result.fold(
-      (failure) {
-        DialogHelper.showErrorSnackBar(
-            title: "Error", message: failure.message);
-      },
-      (profile) => DialogHelper.showSuccessSnackBar(
-        title: "Success",
-        message: "the opration Success",
-        duration: Duration(seconds: 2),
-      ),
-    );
+    result.fold((failure) {
+      DialogHelper.showErrorSnackBar(title: "Error", message: failure.message);
+    }, (profile) {
+      debugPrint("hi am here ${designer.id}");
+    });
   }
 }
