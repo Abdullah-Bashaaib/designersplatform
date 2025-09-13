@@ -11,7 +11,7 @@ class Designer {
   int? numberBank;
   String? nameBank;
   String? specialization;
-  bool? isAvailable;
+  int? isAvailable;
   double? averageRating; // محسوب من reviews
   int? reviewsCount; // عدد التقييمات
   int? totalOrders; // عدد الطلبات

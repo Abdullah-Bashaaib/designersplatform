@@ -49,10 +49,6 @@ class GetDataControllerGetx extends GetxController {
       (profile) {
         designer.value = profile;
         debugPrint("hi am here ${designer.value?.id}");
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          DialogHelper.showSuccessSnackBar(title: 'Success', message: 'Done');
-        });
       },
     );
 

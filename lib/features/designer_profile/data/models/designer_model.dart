@@ -17,26 +17,26 @@ class DesignerModel extends Designer {
       required super.reviewsCount,
       required super.totalOrders,
       required super.worksCount,
-      required super.workList});
+      super.workList});
 
   factory DesignerModel.fromJson(Map<String, dynamic> json) {
     return DesignerModel(
-        id: json['id'],
-        name: json['name'],
-        email: json['email'],
-        password: json['password'],
-        role: json['role'],
-        avatarUrl: json['avatar_url'],
-        bio: json['bio'],
-        numberBank: json['number_bank'],
-        nameBank: json['name_bank'],
-        specialization: json['specialization'],
-        isAvailable: json['is_available'],
-        averageRating: json['average_rating'],
-        reviewsCount: json['reviews_count'],
-        totalOrders: json['total_orders'],
-        worksCount: json['works_count'],
-        workList: json['work_list']);
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      role: json['role'],
+      avatarUrl: json['avatar_url'],
+      bio: json['bio'],
+      numberBank: json['number_bank'],
+      nameBank: json['name_bank'],
+      specialization: json['specialization'],
+      isAvailable: json['is_available'],
+      averageRating: json['average_rating'],
+      reviewsCount: json['reviews_count'],
+      totalOrders: json['total_orders'],
+      worksCount: json['works_count'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -56,7 +56,6 @@ class DesignerModel extends Designer {
       'reviews_count': reviewsCount,
       'total_orders': totalOrders,
       'works_count': worksCount,
-      'work_list': workList,
     };
   }
 }

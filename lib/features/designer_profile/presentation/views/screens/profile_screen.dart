@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: false,
         title: Obx(() => Text(
               controller.designer.value!.name,
-              style: AppStyles.headingLarge,
+              style: AppStyles.headingMedium,
             )),
         actions: [
           PopupMenuButton(
