@@ -1,8 +1,10 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
+import 'package:designers_platform/features/designer_profile/presentation/views/widgets/grid_works_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/profile_image_and_statistic.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -45,18 +47,21 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ProfileImageAndStatistic(),
-                  BioCustom(),
-                  ButtonsReaction(),
-                ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Center(
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileImageAndStatistic(),
+                    BioCustom(),
+                    ButtonsReaction(),
+                    GridWorksCustom(),
+                  ],
+                ),
               ),
             ),
           ),

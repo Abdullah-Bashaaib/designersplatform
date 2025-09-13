@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                   style: AppStyles.primaryButtonStyle,
-                                  child: const Text('تسجيل الدخول',
+                                  child:  Text('تسجيل الدخول',
                                       style: AppStyles.bodyLarge),
                                 ),
                         ),
