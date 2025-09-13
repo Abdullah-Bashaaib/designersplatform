@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/injection.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Injection.init();
+  await sqlHelper.openDB();
   runApp(const MyApp());
 }
 

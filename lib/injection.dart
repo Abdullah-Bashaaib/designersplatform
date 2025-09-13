@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
@@ -14,6 +15,25 @@ import 'package:designers_platform/features/customer_profile/data/repositories/c
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/designer_local_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/review_local_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/work_local_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/repositories/dseigner_repo_imp.dart';
+import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
+import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/delete_profile_usecase.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/get_profile_usecase.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/update_profile_usecase.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/add_review_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/delete_review_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/update_review_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/add_work_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/delete_work_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
+import 'package:designers_platform/features/designer_profile/presentation/getx/add_update_delete_getx.dart';
+import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,6 +117,117 @@ class Injection {
         permanent: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================
-    /// Data > datasource
+    ///Data Source
+    Get.put(SQLHelper());
+
+    ///Data Local
+    Get.lazyPut(
+      () => DesignerLocalDataSourceImpBySql(
+        sqlHelper: Get.find<SQLHelper>(),
+      ),
+    );
+    Get.lazyPut(
+      () => ReviewLocalDataSourceImpBySql(
+        sqlHelper: Get.find<SQLHelper>(),
+      ),
+    );
+    Get.lazyPut(
+      () => WorkLocalDataSourceImpBySql(
+        sqlHelper: Get.find<SQLHelper>(),
+      ),
+    );
+
+    /// Repo
+    Get.lazyPut(
+      () => DesignerRepoImp(
+        Get.find<DesignerLocalDataSourceImpBySql>(),
+      ),
+    );
+    Get.lazyPut(
+      () => ReviewRepoImp(
+        Get.find<ReviewLocalDataSourceImpBySql>(),
+      ),
+    );
+    Get.lazyPut(
+      () => WorkRepoImp(
+        Get.find<WorkLocalDataSourceImpBySql>(),
+      ),
+    );
+
+    /// UseCase
+    Get.put<GetProfileUseCase>(
+      GetProfileUseCase(
+        designerRepository: Get.find<DesignerRepoImp>(),
+      ),
+    );
+    Get.put<GetReviewUseCase>(
+      GetReviewUseCase(
+        reviewRepository: Get.find<ReviewRepoImp>(),
+      ),
+    );
+    Get.put<GetWorkUseCase>(
+      GetWorkUseCase(
+        workRepository: Get.find<WorkRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => UpdateProfileUseCase(
+        designerRepository: Get.find<DesignerRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => DeleteProfileUseCase(
+        designerRepository: Get.find<DesignerRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => AddReviewUseCase(
+        reviewRepository: Get.find<ReviewRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => UpdateReviewUseCase(
+        reviewRepository: Get.find<ReviewRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => DeleteReviewUseCase(
+        reviewRepository: Get.find<ReviewRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => AddWorkUseCase(
+        workRepository: Get.find<WorkRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => UpdateWorkUseCase(
+        workRepository: Get.find<WorkRepoImp>(),
+      ),
+    );
+    Get.lazyPut(
+      () => DeleteWorkUseCase(
+        workRepository: Get.find<WorkRepoImp>(),
+      ),
+    );
+
+    /// GetX Controller
+    Get.put<GetDataControllerGetx>(
+      GetDataControllerGetx(
+        Get.find<GetProfileUseCase>(),
+        Get.find<GetReviewUseCase>(),
+        Get.find<GetWorkUseCase>(),
+      ),
+    );
+    Get.put<AddUpdateDeleteGetx>(AddUpdateDeleteGetx(
+      Get.find<UpdateProfileUseCase>(),
+      Get.find<DeleteProfileUseCase>(),
+      Get.find<AddReviewUseCase>(),
+      Get.find<UpdateReviewUseCase>(),
+      Get.find<DeleteReviewUseCase>(),
+      Get.find<AddWorkUseCase>(),
+      Get.find<UpdateWorkUseCase>(),
+      Get.find<DeleteWorkUseCase>(),
+    ));
   }
 }

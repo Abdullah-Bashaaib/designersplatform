@@ -1,9 +1,12 @@
 import 'package:designers_platform/features/designer_profile/domain/entities/work.dart';
 
-import '../../../auth/domain/entities/user.dart';
-
 class Designer {
-  User user;
+  final String? id;
+  final String name;
+  final String email;
+  final String password;
+  final String role;
+  final String? avatarUrl;
   String? bio;
   int? numberBank;
   String? nameBank;
@@ -16,7 +19,12 @@ class Designer {
   List<Work>? workList;
 
   Designer(
-      {required this.user,
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.password,
+      required this.role,
+      required this.avatarUrl,
       required this.bio,
       required this.numberBank,
       required this.nameBank,

@@ -5,13 +5,12 @@ import 'package:designers_platform/features/designer_profile/data/models/reivew_
 import 'package:designers_platform/features/designer_profile/domain/entities/review.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/review_repository.dart';
 
-import '../../../auth/data/datasources/remote_data.dart';
 import '../datasource/local_data_source/review_local_data_source.dart';
 
 class ReviewRepoImp implements ReviewRepository {
   final ReviewLocalDataSource localDataSource;
-  final RemoteDataSource remoteDataSource;
-  ReviewRepoImp(this.localDataSource, this.remoteDataSource);
+  // final RemoteDataSource remoteDataSource;
+  ReviewRepoImp(this.localDataSource);
 
   @override
   Future<Either<Failure, List<Review>>> getReview(String designerId) async {
