@@ -41,6 +41,8 @@ dependencies:
   shared_preferences: 
   font_awesome_flutter: ^10.9.1
   flutter_screenutil: ^5.9.3
+  sqflite: ^2.4.2
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
@@ -86,11 +88,10 @@ flutter:
          - asset: assets/font/adobe_arabic.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+     - family: doran
+       fonts:
+         - asset: assets/font/Doran/Doran-Regular.ttf
+           weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
