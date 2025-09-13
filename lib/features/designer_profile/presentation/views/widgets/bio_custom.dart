@@ -1,21 +1,23 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 
 class BioCustom extends StatelessWidget {
-  const BioCustom({
+  BioCustom({
     super.key,
   });
-
+  final controller = Get.find<GetDataControllerGetx>();
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 20.h,
+          height: 10.h,
         ),
         Stack(clipBehavior: Clip.none, children: [
           Positioned(
@@ -44,9 +46,11 @@ class BioCustom extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Text(
-          "مصمم جرافيك محترف بخبرة تزيد عن 5 سنوات في تصميم الشعارات والهوية البصرية.",
-          style: AppStyles.bodySmall,
+        Obx(
+          () => Text(
+            controller.designer.value!.bio ?? "none",
+            style: AppStyles.bodySmall,
+          ),
         ),
       ],
     );

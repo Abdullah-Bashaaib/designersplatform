@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
 
+import '../../../../../core/database/sqflite_helper.dart';
 import '../../models/work_model.dart';
 
 abstract class WorkLocalDataSource {
@@ -12,12 +12,13 @@ abstract class WorkLocalDataSource {
   Future<Unit> deleteReview(String id);
 }
 
-class WorkRemoteDataSourceImpBySql implements WorkLocalDataSource {
-  final Database _db;
-  WorkRemoteDataSourceImpBySql(this._db);
+class WorkLocalDataSourceImpBySql implements WorkLocalDataSource {
+  final SQLHelper sqlHelper;
+  WorkLocalDataSourceImpBySql({required this.sqlHelper});
   @override
   Future<List<WorkModel>> getData(designerId) async {
-    final maps = await _db
+    final db = await sqlHelper.openDB();
+    final maps = await db
         .query("Works", where: "designerId = ?", whereArgs: [designerId]);
     if (maps.isNotEmpty) {
       return maps.map((e) => WorkModel.fromJson(e)).toList();
@@ -27,14 +28,16 @@ class WorkRemoteDataSourceImpBySql implements WorkLocalDataSource {
 
   @override
   Future<Unit> addReview(WorkModel workModel) async {
-    final response = await _db.insert("Works", workModel.toJson());
+    final db = await sqlHelper.openDB();
+    final response = await db.insert("Works", workModel.toJson());
     debugPrint("Insert is : ${response == 1 ? 'Done' : 'Failed'}");
     return unit;
   }
 
   @override
   Future<Unit> updateReview(WorkModel workModel) async {
-    final response = await _db.update("Works", workModel.toJson(),
+    final db = await sqlHelper.openDB();
+    final response = await db.update("Works", workModel.toJson(),
         where: "id = ? ", whereArgs: [workModel.id]);
     debugPrint("Update is : ${response == 1 ? 'Done' : 'Failed'}");
     return unit;
@@ -42,8 +45,9 @@ class WorkRemoteDataSourceImpBySql implements WorkLocalDataSource {
 
   @override
   Future<Unit> deleteReview(String id) async {
+    final db = await sqlHelper.openDB();
     final response =
-        await _db.delete("Works", where: "id = ? ", whereArgs: [id]);
+        await db.delete("Works", where: "id = ? ", whereArgs: [id]);
     debugPrint("Delete is : ${response == 1 ? 'Done' : 'Failed'}");
     return unit;
   }

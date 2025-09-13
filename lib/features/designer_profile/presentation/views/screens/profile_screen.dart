@@ -6,21 +6,24 @@ import 'package:designers_platform/features/designer_profile/presentation/views/
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+
+import '../../getx/getData_controller_getx.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final usernameController = TextEditingController();
-
+  final controller = Get.find<GetDataControllerGetx>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
-          "username",
-          style: AppStyles.headingLarge,
-        ),
+        title: Obx(() => Text(
+              controller.designer.value!.name,
+              style: AppStyles.headingLarge,
+            )),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [

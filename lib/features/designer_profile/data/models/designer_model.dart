@@ -1,10 +1,13 @@
-import 'package:designers_platform/features/auth/data/models/user_model.dart';
-
 import '../../domain/entities/designer.dart';
 
 class DesignerModel extends Designer {
   DesignerModel(
-      {required super.user,
+      {required super.id,
+      required super.name,
+      required super.email,
+      required super.password,
+      required super.role,
+      required super.avatarUrl,
       required super.bio,
       required super.numberBank,
       required super.nameBank,
@@ -17,35 +20,43 @@ class DesignerModel extends Designer {
       required super.workList});
 
   factory DesignerModel.fromJson(Map<String, dynamic> json) {
-    UserModel userModel = UserModel.fromJson(json['user']);
     return DesignerModel(
-        user: userModel,
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        password: json['password'],
+        role: json['role'],
+        avatarUrl: json['avatar_url'],
         bio: json['bio'],
-        numberBank: json['numberBank'],
-        nameBank: json['nameBank'],
+        numberBank: json['number_bank'],
+        nameBank: json['name_bank'],
         specialization: json['specialization'],
-        isAvailable: json['isAvailable'],
-        averageRating: json['averageRating'],
-        reviewsCount: json['reviewsCount'],
-        totalOrders: json['totalOrders'],
-        worksCount: json['worksCount'],
-        workList: json['workList']);
+        isAvailable: json['is_available'],
+        averageRating: json['average_rating'],
+        reviewsCount: json['reviews_count'],
+        totalOrders: json['total_orders'],
+        worksCount: json['works_count'],
+        workList: json['work_list']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'user': (user is UserModel)
-          ? (user as UserModel).toMap()
-          : UserModel.fromEntity(user).toMap(),
-      'numberBank': numberBank,
-      'nameBank': nameBank,
+      'id': id,
+      'name': name,
+      'email': email,
+      'password': password,
+      'role': role,
+      'avatar_url': avatarUrl,
+      'bio': bio,
+      'number_bank': numberBank,
+      'name_bank': nameBank,
       'specialization': specialization,
-      'isAvailable': isAvailable,
-      'averageRating': averageRating,
-      'reviewsCount': reviewsCount,
-      'totalOrders': totalOrders,
-      'worksCount': worksCount,
-      'workList': workList,
+      'is_available': isAvailable,
+      'average_rating': averageRating,
+      'reviews_count': reviewsCount,
+      'total_orders': totalOrders,
+      'works_count': worksCount,
+      'work_list': workList,
     };
   }
 }
