@@ -5,8 +5,8 @@ import 'package:designers_platform/features/customer_profile/presentation/getx/c
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EditClientProfileScreen extends StatelessWidget {
-  const EditClientProfileScreen({super.key});
+class ClientProfile extends StatelessWidget {
+  const ClientProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class EditClientProfileScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
         ),
         title: Text(
           'Edit Profile',

@@ -1,7 +1,9 @@
-class Client {
-  final String clientId;
-  final String name;
-  final String avatarUrl;
+import 'package:designers_platform/features/auth/domain/entities/user.dart';
 
-  Client({required this.clientId, required this.name, required this.avatarUrl});
+class Client {
+  final User user;
+
+  Client({
+    required this.user,
+  });
 }

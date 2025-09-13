@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/failures.dart';
+import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 
-class UpdateAvatarUsecase {
+class GetProfileUsecase {
   final ClientProfileRepo repo;
 
-  UpdateAvatarUsecase(this.repo);
+  GetProfileUsecase(this.repo);
 
-  Future<Either<Failure, Unit>> call(String userId, String filePath) async {
-    return await repo.updateAvatar(userId, filePath);
+  Future<Either<Failure, Client>> call() async {
+    return await repo.getProfile();
   }
 }

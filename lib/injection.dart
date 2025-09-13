@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
@@ -12,11 +13,14 @@ import 'package:designers_platform/features/customer_profile/data/data_source/lo
 import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/delete_profile.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
@@ -33,6 +37,10 @@ class Injection {
     Get.put<SharedPreferences>(sharedPreferences, permanent: true);
     // ==========================================================================
 
+    /// Database
+    final db = await sqlHelper.openDB();
+    Get.put<Database>(db, permanent: true);
+
     /// Data Source
     // Auth
     Get.lazyPut<RemoteDataSource>(() => RemoteDataSource());
@@ -43,7 +51,7 @@ class Injection {
       () => ClientRemoteDataSourceImp(),
     );
     Get.lazyPut<ClientLocalDataSource>(
-      () => ClientLocalDataSourceImp(),
+      () => ClientLocalDataSourceImp(Get.find<Database>()),
     );
     // ============================================================================
 
@@ -78,6 +86,12 @@ class Injection {
     Get.lazyPut<UpdateProfileUsecase>(
       () => UpdateProfileUsecase(Get.find<ClientProfileRepo>()),
     );
+    Get.lazyPut<GetProfileUsecase>(
+      () => GetProfileUsecase(Get.find<ClientProfileRepo>()),
+    );
+    Get.lazyPut<DeleteProfileUsecase>(
+      () => DeleteProfileUsecase(Get.find<ClientProfileRepo>()),
+    );
 
     /// GetX
     //Auth
@@ -93,7 +107,8 @@ class Injection {
 
     // Client Profile
     Get.put<ClientProfileController>(
-        ClientProfileController(Get.find<UpdateProfileUsecase>()),
+        ClientProfileController(Get.find<UpdateProfileUsecase>(),
+            Get.find<GetProfileUsecase>(), Get.find<DeleteProfileUsecase>()),
         permanent: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================
