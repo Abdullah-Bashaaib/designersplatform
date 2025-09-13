@@ -34,9 +34,32 @@ class ClientProfileRepoImp implements ClientProfileRepo {
       }
     }
   }
-  
+
   @override
-  Future<Either<Failure, String>> uploadAvatar(String userId, String filePath) {
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> deleteProfile() async {
+    if (await networkInfo.isConnected) {
+      try {
+        await localDataSource.deleteProfile();
+        return right(unit);
+      } on ServerException {
+        return left(ServerFailure());
+      }
+    } else {
+      return left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Client>> getProfile() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await localDataSource.getProfile();
+        return right(result);
+      } on ServerException {
+        return left(ServerFailure());
+      }
+    } else {
+      return left(OfflineFailure());
+    }
   }
 }

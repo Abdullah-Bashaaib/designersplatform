@@ -14,7 +14,7 @@ class NoUserFailure extends Failure {
 }
 
 class OfflineFailure extends Failure {
-  const OfflineFailure([super.message = offLineError]);
+  const OfflineFailure([super.message = offlineError]);
 }
 
 class LocalFailure extends Failure {
