@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/network/network_info.dart';
@@ -20,9 +22,10 @@ class AuthRepositoryImp implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteData.checkAccountInRemote(email, password);
+        await localData.saveUser(result!);
         return Right(result);
-      } on ServerException {
-        return left(NoUserFailure());
+      } on ServerException catch(e) {
+        return left(NoUserFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());
@@ -36,17 +39,12 @@ class AuthRepositoryImp implements AuthRepository {
         final result = await remoteData.signUp(user);
         await localData.saveUser(user);
         return Right(result);
-      } on ServerException {
-        return left(ServerFailure());
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());
     }
-  }
-
-  @override
-  Future<void> saveUser(User user) async {
-    await localData.saveUser(user);
   }
 
   @override
@@ -76,8 +74,8 @@ class AuthRepositoryImp implements AuthRepository {
       try {
         final result = await remoteData.addAvatar();
         return right(result);
-      } on ServerException {
-        return left(ServerFailure());
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());

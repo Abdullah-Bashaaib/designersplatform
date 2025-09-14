@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
@@ -22,8 +23,11 @@ class ClientProfileController extends GetxController {
 
   @override
   void onInit() {
-    userName.text = 'salem';
-    email.text = 'mslm66@gmail.com';
+    // if (CurrentUser.currentUser! != null) {
+    userName.text = CurrentUser.currentUser?.name ?? '';
+    email.text = CurrentUser.currentUser?.email ?? '';
+    // }
+
     super.onInit();
   }
 
