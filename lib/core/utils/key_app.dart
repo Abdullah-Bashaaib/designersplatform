@@ -1,4 +1,5 @@
 class KeySharedPref {
+  static const String userKey = "USER_KEY";
   static const String kUserId = "userId";
   static const String kUserName = "userName";
   static const String kUserEmail = "userEmail";

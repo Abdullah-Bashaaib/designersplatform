@@ -3,6 +3,7 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ClientProfile extends StatelessWidget {
@@ -12,21 +13,28 @@ class ClientProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.find<ClientProfileController>();
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            // color: Colors.black
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'Edit Profile',
-          style: TextStyle(color: Colors.black, fontSize: 18),
+          style: TextStyle(
+              // color: Colors.black,
+              fontSize: 18.sp),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert, color: Colors.black),
+            icon: Icon(
+              Icons.more_vert,
+            ),
             onPressed: () {},
           ),
         ],
@@ -39,7 +47,7 @@ class ClientProfile extends StatelessWidget {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 50,
+                  radius: 50.r,
                   backgroundImage: AssetImage(AppImage.image1),
                   // Or use NetworkImage for online images
                 ),
@@ -47,21 +55,19 @@ class ClientProfile extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   child: Container(
-                    padding: EdgeInsets.all(4),
+                    padding: EdgeInsets.all(4.w),
                     decoration: BoxDecoration(
-                      color: Colors.amber,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.camera_alt,
-                      size: 20,
-                      color: Colors.white,
+                      size: 20.sp,
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 30.h),
 
             // Username Field
 
@@ -70,7 +76,7 @@ class ClientProfile extends StatelessWidget {
               label: 'Username',
               prefixIcon: Icons.person_outline,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             // Email/Phone Field
             BuildTextField(
@@ -78,12 +84,12 @@ class ClientProfile extends StatelessWidget {
               label: 'Email or Phone Number',
               prefixIcon: Icons.email_outlined,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             // Account Linked With
             _buildAccountLinked(),
 
-            SizedBox(height: 40),
+            SizedBox(height: 40.h),
 
             // Save Changes Button
             ElevatedButton(
@@ -92,8 +98,7 @@ class ClientProfile extends StatelessWidget {
               child: Text(
                 'Save Changes',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -112,7 +117,7 @@ class ClientProfile extends StatelessWidget {
           'Account Liked With',
           style: TextStyle(
             color: Colors.grey[600],
-            fontSize: 14,
+            fontSize: 14.sp,
           ),
         ),
         SizedBox(height: 12),
@@ -120,8 +125,8 @@ class ClientProfile extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Colors.grey[300]!),
-            ),
+                // bottom: BorderSide(color: Colors.grey[300]!),
+                ),
           ),
           child: Row(
             children: [
@@ -130,16 +135,16 @@ class ClientProfile extends StatelessWidget {
               //   width: 24,
               //   height: 24,
               // ),
-              SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Text(
                 'Google',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16.sp),
               ),
               Spacer(),
               Icon(
                 Icons.link,
                 color: Colors.grey,
-                size: 20,
+                size: 20.sp,
               ),
             ],
           ),

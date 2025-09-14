@@ -117,12 +117,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         : ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                User user = User(
-                                    name: _usernameController.text,
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    role: c.role.value!);
-                                c.signUp(user);
+                                final name = _usernameController.text;
+                                final email = _emailController.text;
+                                final password = _passwordController.text;
+                                final role = c.role.value;
+                                c.signUp(name, email, password, role!);
                               }
                             },
                             style: AppStyles.primaryButtonStyle,

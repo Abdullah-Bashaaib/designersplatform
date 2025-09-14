@@ -44,7 +44,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
               hintText: widget.hintText ?? '',
               prefixIcon: Icon(
                 widget.prefixIcon,
-                color: Colors.grey,
+                // color: Colors.grey,
               ),
               suffixIcon: widget.suffixIcon),
           validator: (value) {
