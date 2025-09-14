@@ -135,6 +135,7 @@ class Injection {
     Get.put(SQLHelper());
 
     ///Data Local
+    Get.lazyPut(() => Get.find<SharedPreferences>());
     Get.lazyPut(
       () => DesignerLocalDataSourceImpBySql(
         sqlHelper: Get.find<SQLHelper>(),

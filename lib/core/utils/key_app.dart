@@ -13,4 +13,5 @@ class KeySharedPref {
   static const String kReviewsCount = "reviewsCount";
   static const String kTotalOrders = "totalOrders";
   static const String kWorksCount = "worksCount";
+  static const String kBio = "bio";
 }

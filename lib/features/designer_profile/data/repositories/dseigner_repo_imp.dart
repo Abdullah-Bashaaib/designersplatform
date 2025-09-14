@@ -33,13 +33,13 @@ class DesignerRepoImp implements DesignerRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, Unit>> deleteProfile(String id) async {
-    try {
-      await localDataSource.deleteData(id);
-      return Right(unit);
-    } on EmptyLocalDatabaseException {
-      return Left(EmptyLocalDatabaseFailure());
-    }
-  }
+  // @override
+  // Future<Either<Failure, Unit>> deleteProfile(String id) async {
+  //   try {
+  //     await localDataSource.deleteData(id);
+  //     return Right(unit);
+  //   } on EmptyLocalDatabaseException {
+  //     return Left(EmptyLocalDatabaseFailure());
+  //   }
+  // }
 }
