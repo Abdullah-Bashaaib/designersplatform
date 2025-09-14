@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/auth/data/models/user_model.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,6 @@ abstract class LocalData {
 
 class LocalDataImp implements LocalData {
   final SharedPreferences perf;
-  static const String _userKey = "USER_KEY";
 
   LocalDataImp(this.perf);
 
@@ -27,17 +27,17 @@ class LocalDataImp implements LocalData {
       role: user.role,
     );
     final jsonString = jsonEncode(userModel.toMap());
-    await perf.setString(_userKey, jsonString);
+    await perf.setString(KeySharedPref.userKey, jsonString);
   }
 
   @override
   bool isLoggedIn() {
-    return perf.containsKey(_userKey);
+    return perf.containsKey(KeySharedPref.userKey);
   }
 
   @override
   Future<void> clearUser() async {
-    await perf.remove(_userKey);
+    await perf.remove(KeySharedPref.userKey);
   }
 
   @override

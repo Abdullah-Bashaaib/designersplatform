@@ -1,9 +1,27 @@
-class ServerException implements Exception {}
+import 'package:designers_platform/core/utils/messages.dart';
 
-class OffLineException implements Exception {}
+abstract class BaseException implements Exception {
+  final String message;
 
-class LocalException implements Exception {}
+  BaseException([this.message = error]);
+}
 
-class NonUserException implements Exception {}
+class ServerException extends BaseException {
+  ServerException(dynamic e) : super(e.toString());
+}
 
-class EmptyLocalDatabaseException implements Exception {}
+class OfflineException extends BaseException {
+  OfflineException([dynamic e]) : super(e?.toString() ?? 'No Internet Connection');
+}
+
+class LocalException extends BaseException {
+  LocalException([dynamic e]) : super(e?.toString() ?? 'Local Error');
+}
+
+class NonUserException extends BaseException {
+  NonUserException([dynamic e]) : super(e?.toString() ?? 'User does not exist');
+}
+
+class EmptyLocalDatabaseException extends BaseException {
+  EmptyLocalDatabaseException([dynamic e]) : super(e?.toString() ?? 'Local database is empty');
+}

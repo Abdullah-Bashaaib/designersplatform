@@ -6,7 +6,6 @@ import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart
 import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
-import 'package:designers_platform/features/auth/domain/usecases/save_user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/features/customer_profile/data/data_source/local_data_source.dart';
@@ -40,6 +39,7 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:uuid/uuid.dart';
 
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
@@ -50,6 +50,8 @@ class Injection {
     Get.put<NetworkInfo>(
         NetworkInfoImp(InternetConnectionChecker.createInstance()),
         permanent: true);
+    final uuid = Uuid();
+    Get.lazyPut<Uuid>(() => uuid);
 
     /// SharedPreferences
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -62,7 +64,7 @@ class Injection {
 
     /// Data Source
     // Auth
-    Get.lazyPut<RemoteDataSource>(() => RemoteDataSource());
+    Get.lazyPut<RemoteDataSource>(() => RemoteDataSource(Get.find<Database>()));
     Get.lazyPut<LocalData>(() => LocalDataImp(Get.find<SharedPreferences>()));
 
     // Client Profile
@@ -92,8 +94,6 @@ class Injection {
     // Auth
     Get.lazyPut<LoginUsecase>(() => LoginUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<SignUpUsecase>(() => SignUpUsecase(Get.find<AuthRepository>()));
-    Get.lazyPut<SaveUserUsecase>(
-        () => SaveUserUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<ClearUserUsecase>(
         () => ClearUserUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<DeleteAccountUsecase>(
@@ -118,10 +118,10 @@ class Injection {
         AuthController(
             Get.find<LoginUsecase>(),
             Get.find<SignUpUsecase>(),
-            Get.find<SaveUserUsecase>(),
             Get.find<ClearUserUsecase>(),
             Get.find<DeleteAccountUsecase>(),
-            Get.find<AddAvatarUsecase>()),
+            Get.find<AddAvatarUsecase>(),
+            Get.find<Uuid>()),
         permanent: true);
 
     // Client Profile

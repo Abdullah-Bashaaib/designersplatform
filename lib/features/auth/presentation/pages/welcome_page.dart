@@ -106,11 +106,11 @@ class _WelcomePageState extends State<WelcomePage> {
               const SizedBox(height: 15.0),
               TextButton(
                 onPressed: () {
-                  Get.to(()=>const LoginScreen());
+                  Get.to(() => const LoginScreen());
                 },
                 child: const Text(
                   'هل تمتلك حسابا بالفعل؟',
-                  style: TextStyle(color: Colors.black54),
+                  style: TextStyle(),
                 ),
               ),
             ],

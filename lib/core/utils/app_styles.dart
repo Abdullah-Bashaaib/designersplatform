@@ -175,7 +175,7 @@ class AppStyles {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: AppColors.surfaceColor,
+        // fillColor: AppColors.surfaceColor,
         border: OutlineInputBorder(
           borderRadius: inputRadius,
           borderSide: const BorderSide(color: AppColors.borderColor),
@@ -192,8 +192,7 @@ class AppStyles {
           borderRadius: inputRadius,
           borderSide: const BorderSide(color: AppColors.errorColor),
         ),
-        contentPadding:
-             EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       );
 
   // أنماط التقييم والنجوم
@@ -217,22 +216,22 @@ class AppStyles {
   // أنماط الشارات والعلامات
   static BoxDecoration get badgeDecoration => BoxDecoration(
         color: AppColors.primaryColor,
-        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
+        borderRadius: BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get successBadgeDecoration => BoxDecoration(
         color: AppColors.successColor,
-        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
+        borderRadius: BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get warningBadgeDecoration => BoxDecoration(
         color: AppColors.warningColor,
-        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
+        borderRadius: BorderRadius.all(Radius.circular(12.r)),
       );
 
   static BoxDecoration get errorBadgeDecoration => BoxDecoration(
         color: AppColors.errorColor,
-        borderRadius:  BorderRadius.all(Radius.circular(12.r)),
+        borderRadius: BorderRadius.all(Radius.circular(12.r)),
       );
 
   // أنماط الفواصل
