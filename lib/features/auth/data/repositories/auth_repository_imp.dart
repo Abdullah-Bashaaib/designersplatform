@@ -24,7 +24,7 @@ class AuthRepositoryImp implements AuthRepository {
         final result = await remoteData.checkAccountInRemote(email, password);
         await localData.saveUser(result!);
         return Right(result);
-      } on ServerException catch(e) {
+      } on ServerException catch (e) {
         return left(NoUserFailure(e.message.toString()));
       }
     } else {
@@ -58,8 +58,13 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<User> getUser() async {
-    return await localData.getUser();
+  Either<Failure, User> getUser() {
+    final result = localData.getUser();
+    if (result != null) {
+      return right(result);
+    } else {
+      return left(NoUserFailure());
+    }
   }
 
   @override

@@ -8,7 +8,7 @@ class GetProfileUsecase {
 
   GetProfileUsecase(this.repo);
 
-  Future<Either<Failure, Client>> call() async {
-    return await repo.getProfile();
+  Either<Failure, Client> call() {
+    return repo.getProfile();
   }
 }

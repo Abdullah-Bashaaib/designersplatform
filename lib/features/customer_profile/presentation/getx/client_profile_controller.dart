@@ -1,4 +1,5 @@
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
@@ -12,33 +13,32 @@ class ClientProfileController extends GetxController {
   final UpdateProfileUsecase updateProfileUseCase;
   final GetProfileUsecase getProfileUsecase;
   final DeleteProfileUsecase deleteProfileUseCase;
+  final GetUserUseCase getUserUseCase;
 
   ClientProfileController(this.updateProfileUseCase, this.getProfileUsecase,
-      this.deleteProfileUseCase);
+      this.deleteProfileUseCase, this.getUserUseCase);
 
-  final userName = TextEditingController();
-  final email = TextEditingController();
+  var userName = TextEditingController().obs;
+  var email = TextEditingController().obs;
   var isLoading = false.obs;
   var clientProfile = Rxn<Client>();
 
   @override
   void onInit() {
-    // if (CurrentUser.currentUser! != null) {
-    userName.text = CurrentUser.currentUser?.name ?? '';
-    email.text = CurrentUser.currentUser?.email ?? '';
-    // }
-
     super.onInit();
   }
 
-  Future<void> getProfile() async {
+  void getProfile() {
     isLoading.value = true;
-    final result = await getProfileUsecase.call();
+    final result = getUserUseCase.call();
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
         (c) {
-      clientProfile.value = c;
+      // clientProfile.value = c;
+      userName.value.text = c.name;
+      email.value.text = c.email;
+      print('===== $c =====');
     });
     isLoading.value = false;
   }
@@ -59,8 +59,8 @@ class ClientProfileController extends GetxController {
 
   @override
   void onClose() {
-    userName.dispose();
-    email.dispose();
+    // userName.dispose();
+    // email.dispose();
     super.onClose();
   }
 }
