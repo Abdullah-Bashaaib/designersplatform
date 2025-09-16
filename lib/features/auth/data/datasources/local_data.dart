@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalData {
   Future<void> saveUser(User user);
-  Future<User> getUser();
+  User? getUser();
   Future<void> clearUser();
   bool isLoggedIn();
 }
@@ -28,6 +28,7 @@ class LocalDataImp implements LocalData {
     );
     final jsonString = jsonEncode(userModel.toMap());
     await perf.setString(KeySharedPref.userKey, jsonString);
+    print(' ===== $jsonString =====');
   }
 
   @override
@@ -41,7 +42,13 @@ class LocalDataImp implements LocalData {
   }
 
   @override
-  Future<User> getUser() {
-    throw UnimplementedError();
+  User? getUser() {
+    final jsonString = perf.getString(KeySharedPref.userKey);
+    if (jsonString != null) {
+      final Map<String, dynamic> userMap = jsonDecode(jsonString);
+      return UserModel.fromJson(userMap);
+    } else {
+      return null;
+    }
   }
 }

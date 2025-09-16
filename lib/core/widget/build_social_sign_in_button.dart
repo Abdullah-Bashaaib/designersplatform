@@ -6,7 +6,6 @@ class BuildSocialSignInButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final Color backgroundColor;
-  final Color textColor;
 
   const BuildSocialSignInButton(
       {super.key,
@@ -14,7 +13,7 @@ class BuildSocialSignInButton extends StatelessWidget {
       required this.text,
       required this.icon,
       required this.backgroundColor,
-      required this.textColor});
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +22,10 @@ class BuildSocialSignInButton extends StatelessWidget {
       height: 52,
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon: Icon(icon, color: textColor, size: 24),
+        icon: Icon(icon, size: 24),
         label: Text(
           text,
           style: TextStyle(
-            color: textColor,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),

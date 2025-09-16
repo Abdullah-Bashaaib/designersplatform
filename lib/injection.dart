@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
+import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
@@ -72,7 +73,8 @@ class Injection {
       () => ClientRemoteDataSourceImp(),
     );
     Get.lazyPut<ClientLocalDataSource>(
-      () => ClientLocalDataSourceImp(Get.find<Database>()),
+      () => ClientLocalDataSourceImp(
+          Get.find<Database>(), Get.find<SharedPreferences>()),
     );
     // ============================================================================
 
@@ -100,6 +102,8 @@ class Injection {
         () => DeleteAccountUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<AddAvatarUsecase>(
         () => AddAvatarUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<GetUserUseCase>(
+        () => GetUserUseCase(Get.find<AuthRepository>()));
 
     // Client Profile
     Get.lazyPut<UpdateProfileUsecase>(
@@ -126,8 +130,11 @@ class Injection {
 
     // Client Profile
     Get.put<ClientProfileController>(
-        ClientProfileController(Get.find<UpdateProfileUsecase>(),
-            Get.find<GetProfileUsecase>(), Get.find<DeleteProfileUsecase>()),
+        ClientProfileController(
+            Get.find<UpdateProfileUsecase>(),
+            Get.find<GetProfileUsecase>(),
+            Get.find<DeleteProfileUsecase>(),
+            Get.find<GetUserUseCase>()),
         permanent: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================

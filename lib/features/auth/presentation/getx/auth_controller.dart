@@ -7,7 +7,8 @@ import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/client_profile.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/edit_client_profile.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,7 +24,7 @@ class AuthController extends GetxController {
       this.deleteAccountUsecase, this.addAvatarUsecase, this.uuid);
 
   var isLoading = false.obs;
-  var user = Rxn<User>();
+  // var user = Rxn<User>();
   var role = Rxn<String>();
   var obscureText = true.obs;
   var avatarUrl = Rxn<String>();
@@ -40,30 +41,33 @@ class AuthController extends GetxController {
     result.fold(
         (failure) => DialogHelper.showErrorSnackBar(
             title: 'error', message: failure.message), (u) {
-      user.value = u;
+      // user.value = u;
       CurrentUser.currentUser = u;
       DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
+      Get.offAll(() => ViewProfile());
     });
     isLoading.value = false;
   }
 
   Future<void> signUp(
       String name, String email, String password, String role) async {
-    User user = User(
+    User newUser = User(
         id: uuid.v4(),
         name: name,
         email: email,
         password: password,
         role: role);
     isLoading.value = true;
-    final result = await signUpUsecase.call(user);
+    final result = await signUpUsecase.call(newUser);
     result.fold((failure) {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
       print(failure.message);
     }, (u) async {
-      user = u;
-      Get.snackbar('Ok', 'تم الحفظ بنجاح');
-      Get.to(() => ClientProfile());
+      // user = u as Rxn<User>;
+      DialogHelper.showSuccessSnackBar(title: 'ok', message: saveMessage);
+      CurrentUser.currentUser = u;
+      print(CurrentUser.currentUser);
+      Get.offAll(() => ViewProfile());
     });
     isLoading.value = false;
   }
@@ -84,7 +88,7 @@ class AuthController extends GetxController {
   Future<void> addAvatar(String filePath) async {
     isLoading.value = true;
     final result =
-        await addAvatarUsecase.call(CurrentUser.currentUser!.id!, filePath);
+        await addAvatarUsecase.call(CurrentUser.currentUser!.id, filePath);
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'خطاء', message: f.message),
