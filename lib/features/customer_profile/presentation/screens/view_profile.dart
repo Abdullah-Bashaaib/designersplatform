@@ -123,7 +123,9 @@ class ViewProfile extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            FavoritesList()
+            c.favoritesList.isNotEmpty
+                ? FavoritesList()
+                : Text(c.emptyMessage.value)
           ],
         ),
       ),
