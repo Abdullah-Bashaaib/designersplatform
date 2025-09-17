@@ -21,6 +21,12 @@ class LocalFailure extends Failure {
   const LocalFailure([super.message = error]);
 }
 
+class NoDataFailure extends Failure {
+  final String errorMessage;
+
+  const NoDataFailure(this.errorMessage) : super(errorMessage);
+}
+
 class EmptyLocalDatabaseFailure extends Failure {
   const EmptyLocalDatabaseFailure([super.message = emptyLocalDatabase]);
 }
