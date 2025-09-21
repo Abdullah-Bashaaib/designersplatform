@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/widget/favorites_list.dart';
 import 'package:flutter/material.dart';
@@ -123,9 +124,13 @@ class ViewProfile extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            c.favoritesList.isNotEmpty
-                ? FavoritesList()
-                : Text(c.emptyMessage.value)
+            Obx(
+              () => c.favoritesList.isNotEmpty
+                  ? FavoritesList()
+                  : Center(
+                      child: Text(emptyFavoritesListMessage),
+                    ),
+            )
           ],
         ),
       ),

@@ -10,6 +10,7 @@ import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/customer_profile/data/data_source/local_data_source.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
+import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -87,5 +88,11 @@ class ClientProfileRepoImp implements ClientProfileRepo {
     } else {
       return left(OfflineFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, List<OrderEntity>>> getOrders() {
+    // TODO: implement getOrders
+    throw UnimplementedError();
   }
 }

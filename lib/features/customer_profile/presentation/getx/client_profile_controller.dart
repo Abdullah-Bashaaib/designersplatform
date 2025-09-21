@@ -26,7 +26,6 @@ class ClientProfileController extends GetxController {
   var isLoading = false.obs;
   var clientProfile = Rxn<Client>();
   var favoritesList = <User>[].obs;
-  var emptyMessage = ''.obs;
 
   @override
   void onInit() {
@@ -65,7 +64,6 @@ class ClientProfileController extends GetxController {
   Future<void> getFavoritesList() async {
     final result = await getFavoritesUsecase.call();
     result.fold((f) {
-      emptyMessage.value = emptyFavoritesListMessage;
       DialogHelper.showErrorDialog(title: 'خطأ', message: f.message);
     }, (r) {
       favoritesList.value = r;
