@@ -12,6 +12,8 @@ import 'package:designers_platform/features/customer_profile/presentation/screen
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../designer_profile/presentation/views/screens/profile_screen.dart';
+
 class AuthController extends GetxController {
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
@@ -44,7 +46,11 @@ class AuthController extends GetxController {
       // user.value = u;
       CurrentUser.currentUser = u;
       DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
-      Get.offAll(() => ViewProfile());
+      if (u.role == 'عميل') {
+        Get.offAll(() => ViewProfile());
+      } else {
+        Get.offAll(() => ProfileScreen());
+      }
     });
     isLoading.value = false;
   }
