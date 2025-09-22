@@ -20,10 +20,18 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Obx(() => Text(
-              controller.designer.value!.name,
-              style: AppStyles.headingMedium,
-            )),
+        title: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(child: Text("loading..."));
+          } else if (controller.designer.value == null) {
+            debugPrint("The Controller : ${controller.designer.value}");
+
+            return Center(child: Text("لا يوجد بيانات للعرض"));
+          } else {
+            return Text(controller.designer.value!.user.name,
+                style: AppStyles.headingMedium);
+          }
+        }),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [

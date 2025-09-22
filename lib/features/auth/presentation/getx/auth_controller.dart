@@ -84,7 +84,7 @@ class AuthController extends GetxController {
   Future<void> addAvatar(String filePath) async {
     isLoading.value = true;
     final result =
-        await addAvatarUsecase.call(CurrentUser.currentUser!.id!, filePath);
+        await addAvatarUsecase.call(CurrentUser.currentUser!.id, filePath);
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'خطاء', message: f.message),

@@ -59,7 +59,7 @@ class GridWorksCustom extends StatelessWidget {
                 crossAxisSpacing: 2,
                 mainAxisSpacing: 2,
               ),
-              itemCount: controller.designer.value!.worksCount ?? 0,
+              itemCount: controller.designer.value?.worksCount ?? 0,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(

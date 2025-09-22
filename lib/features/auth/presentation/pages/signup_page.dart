@@ -1,13 +1,11 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
-import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_dropdown_button.dart';
 import 'package:designers_platform/core/widget/build_social_sign_in_button.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
+import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
-import '../../domain/entities/user.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});

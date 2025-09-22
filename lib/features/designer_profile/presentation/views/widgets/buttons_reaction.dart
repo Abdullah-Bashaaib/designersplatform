@@ -24,7 +24,7 @@ class ButtonsReaction extends StatelessWidget {
               child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
-                    // Get.dialog(Text("hi"));
+                    Get.dialog(Text("hi"));
                   },
                   child: Text(
                     "طلب خدمة",
@@ -36,7 +36,9 @@ class ButtonsReaction extends StatelessWidget {
               width: 175.w,
               child: OutlinedButton(
                   style: AppStyles.secondaryButtonStyle,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.defaultDialog();
+                  },
                   child: Text(
                     "تقييم المصمم",
                     style: TextStyle(fontSize: 15.sp),

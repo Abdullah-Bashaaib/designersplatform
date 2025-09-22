@@ -137,25 +137,25 @@ class Injection {
     ///Data Local
     Get.lazyPut(() => Get.find<SharedPreferences>());
     Get.lazyPut(
-      () => DesignerLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+      () => DesignerLocalDataSourceImpBySharedPref(
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
     Get.lazyPut(
       () => ReviewLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
     Get.lazyPut(
       () => WorkLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
 
     /// Repo
     Get.lazyPut(
       () => DesignerRepoImp(
-        Get.find<DesignerLocalDataSourceImpBySql>(),
+        Get.find<DesignerLocalDataSourceImpBySharedPref>(),
       ),
     );
     Get.lazyPut(
@@ -233,7 +233,9 @@ class Injection {
         Get.find<GetReviewUseCase>(),
         Get.find<GetWorkUseCase>(),
       ),
+      permanent: true,
     );
+
     Get.put<AddUpdateDeleteGetx>(AddUpdateDeleteGetx(
       Get.find<UpdateProfileUseCase>(),
       Get.find<DeleteProfileUseCase>(),

@@ -27,7 +27,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
                 right: 110.r,
                 top: 5.r,
                 child: Text(
-                  designer?.name ?? "nobody",
+                  designer?.user.name ?? "nobody",
                   style: AppStyles.headingSmall,
                 ),
               ),
@@ -44,7 +44,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
                     SizedBox(width: 30.w),
                     NumbersOfProfile(
                       field: 'التقييمات',
-                      number: designer?.reviewsCount.toString() ?? "0",
+                      number: "0",
                     ),
                     SizedBox(width: 30.w),
                     NumbersOfProfile(

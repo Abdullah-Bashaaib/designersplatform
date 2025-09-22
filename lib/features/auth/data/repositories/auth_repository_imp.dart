@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/network/network_info.dart';
@@ -24,7 +22,7 @@ class AuthRepositoryImp implements AuthRepository {
         final result = await remoteData.checkAccountInRemote(email, password);
         await localData.saveUser(result!);
         return Right(result);
-      } on ServerException catch(e) {
+      } on ServerException catch (e) {
         return left(NoUserFailure(e.message.toString()));
       }
     } else {

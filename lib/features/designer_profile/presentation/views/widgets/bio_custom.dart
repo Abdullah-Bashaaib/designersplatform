@@ -48,7 +48,7 @@ class BioCustom extends StatelessWidget {
         ),
         Obx(
           () => Text(
-            controller.designer.value!.bio ?? "none",
+            controller.designer.value?.bio ?? "ddddd",
             style: AppStyles.bodySmall,
           ),
         ),
