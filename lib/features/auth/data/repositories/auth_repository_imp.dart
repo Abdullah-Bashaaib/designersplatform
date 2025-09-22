@@ -36,7 +36,8 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, User>> signUp(User user) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteData.signUp(user);
+        final result = user;
+        // await remoteData.signUp(user);
         await localData.saveUser(user);
         return Right(result);
       } on ServerException catch (e) {
