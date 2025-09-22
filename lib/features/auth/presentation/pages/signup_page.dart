@@ -57,7 +57,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   'إبدء رحلتك في عالم التصميم عبر انشاء حساب',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey[600],
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -138,7 +137,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   child: Text(
                     'أو استخدم طريقة اخرى',
                     style: TextStyle(
-                      color: Colors.grey[600],
                       fontSize: 14,
                     ),
                   ),
@@ -149,7 +147,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   text: 'التسجيل بواسطة قوقل',
                   icon: Icons.g_mobiledata,
                   backgroundColor: Colors.white,
-                  textColor: Colors.black87,
                 ),
                 const SizedBox(height: 12),
                 BuildSocialSignInButton(
@@ -157,19 +154,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   text: 'التسجيل بواسطة فيسبوك',
                   icon: Icons.facebook,
                   backgroundColor: const Color(0xFF1877F2),
-                  textColor: Colors.white,
                 ),
                 const SizedBox(height: 24),
-                Center(
-                  child: Container(
-                    width: 64,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

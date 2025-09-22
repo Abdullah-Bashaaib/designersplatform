@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 
@@ -6,7 +8,7 @@ class GetUserUseCase {
 
   GetUserUseCase(this.authRepository);
 
-  Future<User> call() async {
-    return await authRepository.getUser();
+  Either<Failure, User> call() {
+    return authRepository.getUser();
   }
 }

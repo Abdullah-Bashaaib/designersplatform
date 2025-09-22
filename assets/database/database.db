@@ -5,10 +5,10 @@ CREATE TABLE "Users" (
   "password" TEXT NOT NULL,
   "role" TEXT NOT NULL,
   "avatar_url" TEXT,
-  "number_bank" INTEGER NOT NULL,
-  "name_bank" TEXT NOT NULL,
+  "number_bank" INTEGER,
+  "name_bank" TEXT,
   "specialization" TEXT,
-  "is_available" INTEGER NOT NULL, -- 0=false, 1=true
+  "is_available" INTEGER, -- 0=false, 1=true
   "average_rating" REAL,
   "reviews_count" INTEGER,
   "total_orders" INTEGER,

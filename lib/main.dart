@@ -1,6 +1,6 @@
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
-import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
+import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           defaultTransition: Transition.cupertino,
           transitionDuration: const Duration(milliseconds: 400),
-          home: ProfileScreen(),
+          home: WelcomePage(),
         );
       },
     );

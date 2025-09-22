@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ClientProfile extends StatelessWidget {
-  const ClientProfile({super.key});
+class EditClientProfile extends StatelessWidget {
+  const EditClientProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final c = Get.find<ClientProfileController>();
+    c.getProfile();
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
@@ -72,7 +73,7 @@ class ClientProfile extends StatelessWidget {
             // Username Field
 
             BuildTextField(
-              controller: c.userName,
+              controller: c.userName.value,
               label: 'Username',
               prefixIcon: Icons.person_outline,
             ),
@@ -80,7 +81,7 @@ class ClientProfile extends StatelessWidget {
 
             // Email/Phone Field
             BuildTextField(
-              controller: c.email,
+              controller: c.email.value,
               label: 'Email or Phone Number',
               prefixIcon: Icons.email_outlined,
             ),
