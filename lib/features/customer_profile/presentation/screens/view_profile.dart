@@ -2,6 +2,7 @@ import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/view_order.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/widget/favorites_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +29,7 @@ class ViewProfile extends StatelessWidget {
               icon: Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'orders') {
-                  // Get.to(() => OrdersClientPage());
+                  Get.to(() => ViewOrders());
                 } else if (value == 'settings') {
                   // Get.to(() => );
                 }

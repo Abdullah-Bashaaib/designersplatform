@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 
 import '../../../auth/domain/entities/user.dart';
@@ -8,6 +9,7 @@ abstract class ClientRemoteDataSource {
   Future<void> updateAvatar(String userId, String filePath);
   Future<void> updatePassword(String userId, String password);
   Future<List<User>> getFavoritesList();
+  Future<List<Order>> getOrders();
 }
 
 class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
@@ -37,6 +39,12 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
   @override
   Future<List<User>> getFavoritesList() {
     // TODO: implement getFavoritesList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Order>> getOrders() {
+    // TODO: implement getOrders
     throw UnimplementedError();
   }
 }

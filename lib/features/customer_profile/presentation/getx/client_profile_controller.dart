@@ -4,8 +4,10 @@ import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
+import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/delete_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,20 +19,27 @@ class ClientProfileController extends GetxController {
   final DeleteProfileUsecase deleteProfileUseCase;
   final GetUserUseCase getUserUseCase;
   final GetFavoritesUsecase getFavoritesUsecase;
+  final GetOrdersUsecase getOrdersUsecase;
 
-  ClientProfileController(this.updateProfileUseCase, this.getProfileUsecase,
-      this.deleteProfileUseCase, this.getUserUseCase, this.getFavoritesUsecase);
+  ClientProfileController(
+      this.updateProfileUseCase,
+      this.getProfileUsecase,
+      this.deleteProfileUseCase,
+      this.getUserUseCase,
+      this.getFavoritesUsecase,
+      this.getOrdersUsecase);
 
   var userName = TextEditingController().obs;
   var email = TextEditingController().obs;
   var isLoading = false.obs;
   var clientProfile = Rxn<Client>();
   var favoritesList = <User>[].obs;
+  var orderList = <OrderEntity>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  // }
 
   void getProfile() {
     isLoading.value = true;
@@ -68,6 +77,15 @@ class ClientProfileController extends GetxController {
     }, (r) {
       favoritesList.value = r;
     });
+  }
+
+  Future<void> getOrders() async {
+    isLoading.value = true;
+    final result = await getOrdersUsecase.call();
+    result.fold((l) {}, (r) {
+      orderList.value = r;
+    });
+    isLoading.value = false;
   }
 
   @override

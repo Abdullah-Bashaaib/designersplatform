@@ -15,6 +15,7 @@ import 'package:designers_platform/features/customer_profile/data/repositories/c
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/delete_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
@@ -131,6 +132,9 @@ class Injection {
     Get.lazyPut<GetFavoritesUsecase>(
         () => GetFavoritesUsecase(Get.find<ClientProfileRepo>()));
 
+    Get.lazyPut<GetOrdersUsecase>(
+        () => GetOrdersUsecase(Get.find<ClientProfileRepo>()));
+
     /// GetX
     Get.put<ClientProfileController>(
         ClientProfileController(
@@ -138,7 +142,8 @@ class Injection {
             Get.find<GetProfileUsecase>(),
             Get.find<DeleteProfileUsecase>(),
             Get.find<GetUserUseCase>(),
-            Get.find<GetFavoritesUsecase>()),
+            Get.find<GetFavoritesUsecase>(),
+            Get.find<GetOrdersUsecase>()),
         permanent: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================
