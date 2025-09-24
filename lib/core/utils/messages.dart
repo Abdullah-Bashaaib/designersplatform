@@ -6,3 +6,4 @@ const emptyLocalDatabase = "لا توجد هناك عناصر";
 const logout = "تم تسجيل الخروج بنجاح";
 const saveMessage = "تم الحفظ بنجاح";
 const emptyFavoritesListMessage = "قائمة المفضلة فارغة";
+const emptyOrdersMessage = 'لا توجد لديك طلبات';

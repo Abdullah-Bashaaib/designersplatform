@@ -4,16 +4,24 @@ class OrderModel extends OrderEntity {
   OrderModel(
       {required super.clientId,
       required super.designerId,
-      required super.imageUrl});
+      required super.imageUrl,
+      required super.designerName});
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-        clientId: json['clientId'],
-        designerId: json['designerId'],
-        imageUrl: json['imageUrl']);
+      clientId: json['clientId'],
+      designerId: json['designerId'],
+      designerName: json['designerName'],
+      imageUrl: json['imageUrl'],
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'clientId': clientId,
+      'designerId': designerId,
+      'designerName': designerName,
+      'imageUrl': imageUrl
+    };
   }
 }
