@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
@@ -38,6 +39,7 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/add_update_delete_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,9 +67,14 @@ class Injection {
     final db = await sqlHelper.openDB();
     Get.put<Database>(db, permanent: true);
 
+    /// Firebase
+    final dbF = FirebaseFirestore.instance;
+    Get.put<FirebaseFirestore>(dbF, permanent: true);
+
     ///========================== [ Feat: Auth ] ==============================
     /// Data Source
-    Get.lazyPut<RemoteDataSource>(() => RemoteDataSource(Get.find<Database>()));
+    Get.lazyPut<RemoteDataSource>(
+        () => RemoteDataSource(Get.find<FirebaseFirestore>()));
     Get.lazyPut<LocalData>(() => LocalDataImp(Get.find<SharedPreferences>()));
 
     // ============================================================================
