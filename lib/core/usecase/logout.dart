@@ -1,11 +1,11 @@
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 
-class ClearUserUsecase {
+class LogoutUsecase {
   final AuthRepository authRepository;
 
-  ClearUserUsecase(this.authRepository);
+  LogoutUsecase(this.authRepository);
 
-  Future<void> call() async {
-    await authRepository.clearUser();
+  void call() {
+    authRepository.logout();
   }
 }

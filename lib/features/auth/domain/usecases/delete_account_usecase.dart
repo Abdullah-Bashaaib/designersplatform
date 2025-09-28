@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 
 class DeleteAccountUsecase {
@@ -5,7 +7,7 @@ class DeleteAccountUsecase {
 
   DeleteAccountUsecase(this.authRepository);
 
-  Future<bool> call() async {
+  Future<Either<Failure, Unit>> call() async {
     return await authRepository.deleteAccount();
   }
 }

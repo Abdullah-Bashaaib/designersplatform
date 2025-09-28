@@ -1,13 +1,14 @@
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
-import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart';
+import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/edit_client_profile.dart';
+import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -17,19 +18,24 @@ import '../../../designer_profile/presentation/views/screens/profile_screen.dart
 class AuthController extends GetxController {
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
-  final ClearUserUsecase clearUserUsecase;
   final DeleteAccountUsecase deleteAccountUsecase;
   final AddAvatarUsecase addAvatarUsecase;
+  final GetUserUseCase getUserUseCase;
   final Uuid uuid;
 
-  AuthController(this.loginUsecase, this.signUpUsecase, this.clearUserUsecase,
-      this.deleteAccountUsecase, this.addAvatarUsecase, this.uuid);
+  AuthController(
+      this.loginUsecase,
+      this.signUpUsecase,
+      this.deleteAccountUsecase,
+      this.addAvatarUsecase,
+      this.uuid,
+      this.getUserUseCase);
 
   var isLoading = false.obs;
-  // var user = Rxn<User>();
   var role = Rxn<String>();
   var obscureText = true.obs;
   var avatarUrl = Rxn<String>();
+  var user = Rxn<User>();
 
   @override
   void onInit() {
@@ -78,17 +84,12 @@ class AuthController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> clearUser() async {
-    await clearUserUsecase.call();
-  }
-
   Future<void> deleteAccount() async {
     final result = await deleteAccountUsecase.call();
-    if (result) {
-      Get.snackbar('Ok', 'تم حذف الحساب بنجاح');
-    } else {
-      Get.snackbar('error', 'خطا في حذف الحساب');
-    }
+    result.fold(
+        (l) => DialogHelper.showErrorSnackBar(title: 'خطأ', message: l.message),
+        (r) => DialogHelper.showSuccessDialog(
+            message: deleteAccountMessage, title: ''));
   }
 
   Future<void> addAvatar(String filePath) async {

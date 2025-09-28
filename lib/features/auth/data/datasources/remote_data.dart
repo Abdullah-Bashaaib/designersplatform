@@ -10,7 +10,7 @@ import '../../domain/entities/user.dart';
 abstract class RemoteData {
   Future<User?> checkAccountInRemote(String email, String password);
   Future<User> signUp(User user);
-  Future<bool> deleteAccount();
+  Future<void> deleteAccount();
   Future<String> addAvatar();
 }
 
@@ -59,8 +59,15 @@ class RemoteDataSource implements RemoteData {
   }
 
   @override
-  Future<bool> deleteAccount() {
-    throw UnimplementedError();
+  Future<void> deleteAccount() async {
+    try {
+      await _firestore
+          .collection('Users')
+          .doc(CurrentUser.currentUser!.id)
+          .delete();
+    } catch (e) {
+      throw ServerException(e);
+    }
   }
 
   @override

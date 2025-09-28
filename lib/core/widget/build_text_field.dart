@@ -9,16 +9,18 @@ class BuildTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool obscureText;
   final Widget? suffixIcon;
-
-  const BuildTextField(
-      {super.key,
-      required this.controller,
-      this.hintText,
-      this.prefixIcon,
-      required this.label,
-      this.keyboardType,
-      this.suffixIcon,
-      this.obscureText = false});
+  final String? Function(String?)? validator;
+  const BuildTextField({
+    super.key,
+    required this.controller,
+    this.hintText,
+    this.prefixIcon,
+    required this.label,
+    this.keyboardType,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.validator,
+  });
 
   @override
   State<BuildTextField> createState() => _BuildTextFieldState();
@@ -47,12 +49,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
                 // color: Colors.grey,
               ),
               suffixIcon: widget.suffixIcon),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'هذا الحقل مطلوب';
-            }
-            return null;
-          },
+          validator: widget.validator,
         ),
       ],
     );

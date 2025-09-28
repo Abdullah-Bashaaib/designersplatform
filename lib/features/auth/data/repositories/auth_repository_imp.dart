@@ -37,7 +37,7 @@ class AuthRepositoryImp implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = user;
-        // await remoteData.signUp(user);
+        await remoteData.signUp(user);
         await localData.saveUser(user);
         return Right(result);
       } on ServerException catch (e) {
@@ -54,8 +54,8 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<void> clearUser() async {
-    await localData.clearUser();
+  void logout() {
+    localData.logout();
   }
 
   @override
@@ -69,8 +69,13 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<bool> deleteAccount() async {
-    return await remoteData.deleteAccount();
+  Future<Either<Failure, Unit>> deleteAccount() async {
+    if (await networkInfo.isConnected) {
+      await remoteData.deleteAccount();
+      return right(unit);
+    } else {
+      return left(OfflineFailure());
+    }
   }
 
   @override

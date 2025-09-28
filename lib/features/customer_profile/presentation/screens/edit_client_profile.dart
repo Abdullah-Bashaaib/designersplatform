@@ -1,6 +1,7 @@
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
+import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,6 +85,7 @@ class EditClientProfile extends StatelessWidget {
               controller: c.email.value,
               label: 'Email or Phone Number',
               prefixIcon: Icons.email_outlined,
+              validator: Validators.email,
             ),
             SizedBox(height: 20.h),
 
