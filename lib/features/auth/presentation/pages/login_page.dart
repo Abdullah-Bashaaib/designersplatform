@@ -1,4 +1,5 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: FontAwesomeIcons.envelope,
                         label: 'البريد الإلكتروني أو رقم الهاتف',
                         keyboardType: TextInputType.emailAddress,
+                        validator: Validators.email,
                       ),
                       const SizedBox(height: 24),
                       Obx(
@@ -71,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icons.lock_outlined,
                           label: 'كلمة المرور',
                           obscureText: c.obscureText.value,
+                          validator: Validators.password,
                           suffixIcon: IconButton(
                             icon: Icon(
                               c.obscureText.value
@@ -116,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                   style: AppStyles.primaryButtonStyle,
-                                  child:  Text('تسجيل الدخول',
+                                  child: Text('تسجيل الدخول',
                                       style: AppStyles.bodyLarge),
                                 ),
                         ),

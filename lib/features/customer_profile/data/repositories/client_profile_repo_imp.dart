@@ -45,20 +45,6 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteProfile() async {
-    if (await networkInfo.isConnected) {
-      try {
-        await localDataSource.deleteProfile();
-        return right(unit);
-      } on ServerException {
-        return left(ServerFailure());
-      }
-    } else {
-      return left(OfflineFailure());
-    }
-  }
-
-  @override
   Either<Failure, Client> getProfile() {
     try {
       final result = localDataSource.getProfile();

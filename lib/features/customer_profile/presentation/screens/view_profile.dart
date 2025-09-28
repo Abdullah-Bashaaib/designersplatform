@@ -26,39 +26,54 @@ class ViewProfile extends StatelessWidget {
         centerTitle: true,
         actions: [
           PopupMenuButton(
-              icon: Icon(Icons.more_vert),
-              onSelected: (value) {
-                if (value == 'orders') {
-                  Get.to(() => ViewOrders());
-                } else if (value == 'settings') {
-                  // Get.to(() => );
-                }
-              },
-              itemBuilder: (BuildContext context) => [
-                    PopupMenuItem(
-                      value: 'orders',
-                      child: Row(
-                        children: [
-                          Icon(Icons.shopping_cart),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text('طلباتي')
-                        ],
-                      ),
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'orders') {
+                Get.to(() => ViewOrders());
+              } else if (value == 'settings') {
+                // Get.to(() => );
+              } else if (value == 'logout') {
+                c.logout();
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: 'orders',
+                child: Row(
+                  children: [
+                    Icon(Icons.shopping_cart),
+                    SizedBox(
+                      width: 10.w,
                     ),
-                    PopupMenuItem(
-                        value: 'settings',
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text('الاعدادات')
-                          ],
-                        ))
-                  ])
+                    Text('طلباتي')
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'settings',
+                child: Row(
+                  children: [
+                    Icon(Icons.settings),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text('الاعدادات')
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text('تسجيل الخروج')
+                    ],
+                  ))
+            ],
+          )
         ],
       ),
       body: SingleChildScrollView(

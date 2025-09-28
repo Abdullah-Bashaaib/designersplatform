@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class LocalData {
   Future<void> saveUser(User user);
   User? getUser();
-  Future<void> clearUser();
+  void logout();
   bool isLoggedIn();
 }
 
@@ -37,8 +37,8 @@ class LocalDataImp implements LocalData {
   }
 
   @override
-  Future<void> clearUser() async {
-    await perf.remove(KeySharedPref.userKey);
+  void logout() {
+    perf.clear();
   }
 
   @override

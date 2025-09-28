@@ -5,7 +5,7 @@ import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
-import 'package:designers_platform/features/auth/domain/usecases/clear_user.dart';
+import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
@@ -14,7 +14,6 @@ import 'package:designers_platform/features/customer_profile/data/data_source/lo
 import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
-import 'package:designers_platform/features/customer_profile/domain/usecases/delete_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
@@ -71,6 +70,11 @@ class Injection {
     final dbF = FirebaseFirestore.instance;
     Get.put<FirebaseFirestore>(dbF, permanent: true);
 
+    /// Usecase
+    Get.lazyPut<GetUserUseCase>(
+        () => GetUserUseCase(Get.find<AuthRepository>()));
+    Get.lazyPut<LogoutUsecase>(() => LogoutUsecase(Get.find<AuthRepository>()));
+
     ///========================== [ Feat: Auth ] ==============================
     /// Data Source
     Get.lazyPut<RemoteDataSource>(
@@ -90,8 +94,7 @@ class Injection {
     /// Use cases
     Get.lazyPut<LoginUsecase>(() => LoginUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<SignUpUsecase>(() => SignUpUsecase(Get.find<AuthRepository>()));
-    Get.lazyPut<ClearUserUsecase>(
-        () => ClearUserUsecase(Get.find<AuthRepository>()));
+
     Get.lazyPut<DeleteAccountUsecase>(
         () => DeleteAccountUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<AddAvatarUsecase>(
@@ -104,10 +107,10 @@ class Injection {
         AuthController(
             Get.find<LoginUsecase>(),
             Get.find<SignUpUsecase>(),
-            Get.find<ClearUserUsecase>(),
             Get.find<DeleteAccountUsecase>(),
             Get.find<AddAvatarUsecase>(),
-            Get.find<Uuid>()),
+            Get.find<Uuid>(),
+            Get.find<GetUserUseCase>()),
         permanent: true);
 
     ///========================== [ Feat: Client Profile ] ==============================
@@ -133,9 +136,7 @@ class Injection {
     Get.lazyPut<GetProfileUsecase>(
       () => GetProfileUsecase(Get.find<ClientProfileRepo>()),
     );
-    Get.lazyPut<DeleteProfileUsecase>(
-      () => DeleteProfileUsecase(Get.find<ClientProfileRepo>()),
-    );
+
     Get.lazyPut<GetFavoritesUsecase>(
         () => GetFavoritesUsecase(Get.find<ClientProfileRepo>()));
 
@@ -145,12 +146,13 @@ class Injection {
     /// GetX
     Get.put<ClientProfileController>(
         ClientProfileController(
-            Get.find<UpdateProfileUsecase>(),
-            Get.find<GetProfileUsecase>(),
-            Get.find<DeleteProfileUsecase>(),
-            Get.find<GetUserUseCase>(),
-            Get.find<GetFavoritesUsecase>(),
-            Get.find<GetOrdersUsecase>()),
+          Get.find<UpdateProfileUsecase>(),
+          Get.find<GetProfileUsecase>(),
+          Get.find<GetUserUseCase>(),
+          Get.find<GetFavoritesUsecase>(),
+          Get.find<GetOrdersUsecase>(),
+          Get.find<LogoutUsecase>(),
+        ),
         permanent: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================
