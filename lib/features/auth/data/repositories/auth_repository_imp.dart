@@ -94,8 +94,16 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> forgetPassword(String newPassword) {
-    // TODO: implement forgetPassword
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> forgetPassword(String email) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteData.forgetPassword(email);
+        return right(unit);
+      } on ServerException {
+        return left(ServerFailure(e.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
   }
 }
