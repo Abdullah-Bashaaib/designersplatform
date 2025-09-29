@@ -8,10 +8,10 @@ import '../../domain/entities/user.dart';
 
 abstract class RemoteData {
   Future<User?> checkAccountInRemote(String email, String password);
-  Future<User> signUp(User user);
+  Future<User> signUp(User user, String password);
   Future<void> deleteAccount();
   Future<String> addAvatar();
-  Future<void> forgetPassword(String email);
+  Future<bool> forgetPassword(String email);
 }
 
 class RemoteDataSource implements RemoteData {
@@ -23,15 +23,19 @@ class RemoteDataSource implements RemoteData {
   @override
   Future<User?> checkAccountInRemote(String email, String password) async {
     try {
+      final loginUser = await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (!loginUser.user!.emailVerified) {
+        await loginUser.user!.sendEmailVerification();
+      }
       final result = await _firestore
           .collection('Users')
-          .where('email', isEqualTo: email)
-          .where('password', isEqualTo: password)
+          .where('email', isEqualTo: loginUser.user!.email)
           .get();
-      if (result.docs.isNotEmpty) {
-        return UserModel.fromJson(result.docs.first.data());
-      } else {
+      if (result.docs.isEmpty) {
         return null;
+      } else {
+        return UserModel.fromJson(result.docs.first.data());
       }
     } catch (e) {
       throw ServerException(e);
@@ -39,15 +43,16 @@ class RemoteDataSource implements RemoteData {
   }
 
   @override
-  Future<User> signUp(User user) async {
+  Future<User> signUp(User user, String password) async {
     try {
       UserModel userModel = UserModel(
         id: user.id,
         name: user.name,
         email: user.email,
-        password: user.password,
         role: user.role,
       );
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: userModel.email, password: password);
       await _firestore
           .collection('Users')
           .doc(userModel.id)
@@ -76,9 +81,18 @@ class RemoteDataSource implements RemoteData {
   }
 
   @override
-  Future<void> forgetPassword(String email) async {
+  Future<bool> forgetPassword(String email) async {
     try {
-      await firebaseAuth.sendPasswordResetEmail(email: email);
+      final result = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: email)
+          .get();
+      if (result.docs.isNotEmpty) {
+        await firebaseAuth.sendPasswordResetEmail(email: email);
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       throw ServerException(e);
     }

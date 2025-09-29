@@ -68,14 +68,9 @@ class AuthController extends GetxController {
 
   Future<void> signUp(
       String name, String email, String password, String role) async {
-    User newUser = User(
-        id: uuid.v4(),
-        name: name,
-        email: email,
-        password: password,
-        role: role);
+    User newUser = User(id: uuid.v4(), name: name, email: email, role: role);
     isLoading.value = true;
-    final result = await signUpUsecase.call(newUser);
+    final result = await signUpUsecase.call(newUser, password);
     result.fold((failure) {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
       print(failure.message);

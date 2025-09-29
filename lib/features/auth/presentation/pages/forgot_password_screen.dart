@@ -1,8 +1,10 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -81,31 +83,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   // Submit button
                   SizedBox(
                     height: 50,
-                    child: c.isLoading.value
-                        ? Center(child: CircularProgressIndicator())
-                        : ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                final email = _email.text;
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 2,
-                            ),
-                            child: Text(
-                              // _isCodeSent
-                              //     ? 'تحقق من الرمز'
-                              //     :
-                              'إرسال رمز التحقق',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                    child: Obx(
+                      () => c.isLoading.value
+                          ? Center(child: CircularProgressIndicator())
+                          : ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  final email = _email.text;
+                                  c.forgotPassword(email);
+                                }
+                              },
+                              style: AppStyles.primaryButtonStyle,
+                              child: Text(
+                                'إرسال رابط التحقق',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
+                    ),
                   ),
                 ],
               ),
