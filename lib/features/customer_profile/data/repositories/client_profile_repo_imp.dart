@@ -45,20 +45,6 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteProfile() async {
-    if (await networkInfo.isConnected) {
-      try {
-        await localDataSource.deleteProfile();
-        return right(unit);
-      } on ServerException {
-        return left(ServerFailure());
-      }
-    } else {
-      return left(OfflineFailure());
-    }
-  }
-
-  @override
   Either<Failure, Client> getProfile() {
     try {
       final result = localDataSource.getProfile();
@@ -91,8 +77,19 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getOrders() {
-    // TODO: implement getOrders
-    throw UnimplementedError();
+  Future<Either<Failure, List<OrderEntity>>> getOrders() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getOrders();
+        if (result.isEmpty) {
+          return left(NoDataFailure(emptyOrdersMessage));
+        }
+        return right(result.cast<OrderEntity>());
+      } on ServerException {
+        return left(ServerFailure());
+      }
+    } else {
+      return left(OfflineFailure());
+    }
   }
 }

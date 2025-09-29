@@ -23,7 +23,6 @@ class LocalFailure extends Failure {
 
 class NoDataFailure extends Failure {
   final String errorMessage;
-
   const NoDataFailure(this.errorMessage) : super(errorMessage);
 }
 

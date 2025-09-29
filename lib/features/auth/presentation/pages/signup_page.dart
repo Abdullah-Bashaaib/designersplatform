@@ -1,11 +1,14 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/widget/validators.dart';
+import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_dropdown_button.dart';
 import 'package:designers_platform/core/widget/build_social_sign_in_button.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
-import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
+import '../../domain/entities/user.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -73,6 +76,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   prefixIcon: FontAwesomeIcons.envelope,
                   label: 'الايميل او رقم الهاتف',
                   keyboardType: TextInputType.emailAddress,
+                  validator: Validators.email,
                 ),
                 const SizedBox(height: 16),
                 Obx(
@@ -82,6 +86,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     prefixIcon: Icons.lock_outlined,
                     label: 'كلمة المرور',
                     obscureText: c.obscureText.value,
+                    validator: Validators.password,
                     suffixIcon: IconButton(
                       icon: Icon(
                         c.obscureText.value
@@ -133,29 +138,29 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Center(
-                  child: Text(
-                    'أو استخدم طريقة اخرى',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                BuildSocialSignInButton(
-                  onPressed: () {},
-                  text: 'التسجيل بواسطة قوقل',
-                  icon: Icons.g_mobiledata,
-                  backgroundColor: Colors.white,
-                ),
-                const SizedBox(height: 12),
-                BuildSocialSignInButton(
-                  onPressed: () {},
-                  text: 'التسجيل بواسطة فيسبوك',
-                  icon: Icons.facebook,
-                  backgroundColor: const Color(0xFF1877F2),
-                ),
-                const SizedBox(height: 24),
+                // Center(
+                //   child: Text(
+                //     'أو استخدم طريقة اخرى',
+                //     style: TextStyle(
+                //       fontSize: 14,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 16),
+                // BuildSocialSignInButton(
+                //   onPressed: () {},
+                //   text: 'التسجيل بواسطة قوقل',
+                //   icon: Icons.g_mobiledata,
+                //   backgroundColor: Colors.white,
+                // ),
+                // const SizedBox(height: 12),
+                // BuildSocialSignInButton(
+                //   onPressed: () {},
+                //   text: 'التسجيل بواسطة فيسبوك',
+                //   icon: Icons.facebook,
+                //   backgroundColor: const Color(0xFF1877F2),
+                // ),
+                // const SizedBox(height: 24),
               ],
             ),
           ),

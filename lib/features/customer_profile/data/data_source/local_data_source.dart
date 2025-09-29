@@ -12,7 +12,6 @@ import '../../../../core/utils/key_app.dart';
 abstract class ClientLocalDataSource {
   Future<void> updateProfile(Client client);
   Client? getProfile();
-  Future<void> deleteProfile();
 }
 
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
@@ -26,16 +25,6 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
     try {
       ClientModel clientModel = ClientModel();
       await _db.update('Users', clientModel.toMap());
-    } catch (e) {
-      throw LocalException();
-    }
-  }
-
-  @override
-  Future<void> deleteProfile() async {
-    try {
-      await _db.delete('Users',
-          where: 'id = ?', whereArgs: [CurrentUser.currentUser!.id]);
     } catch (e) {
       throw LocalException();
     }
