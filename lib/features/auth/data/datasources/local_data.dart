@@ -23,7 +23,6 @@ class LocalDataImp implements LocalData {
       id: '1',
       name: user.name,
       email: user.email,
-      password: user.password,
       role: user.role,
     );
     final jsonString = jsonEncode(userModel.toMap());
