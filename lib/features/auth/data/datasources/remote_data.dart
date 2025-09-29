@@ -15,7 +15,6 @@ abstract class RemoteData {
 }
 
 class RemoteDataSource implements RemoteData {
-  // final Database _db;
   final FirebaseFirestore _firestore;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -30,7 +29,7 @@ class RemoteDataSource implements RemoteData {
           .where('password', isEqualTo: password)
           .get();
       if (result.docs.isNotEmpty) {
-        return UserModel.fromJson(result as Map<String, dynamic>);
+        return UserModel.fromJson(result.docs.first.data());
       } else {
         return null;
       }

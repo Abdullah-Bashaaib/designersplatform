@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
@@ -6,6 +7,7 @@ import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
+import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
@@ -21,6 +23,7 @@ class AuthController extends GetxController {
   final DeleteAccountUsecase deleteAccountUsecase;
   final AddAvatarUsecase addAvatarUsecase;
   final GetUserUseCase getUserUseCase;
+  final ForgetPasswordUsecase forgetPasswordUsecase;
   final Uuid uuid;
 
   AuthController(
@@ -29,13 +32,15 @@ class AuthController extends GetxController {
       this.deleteAccountUsecase,
       this.addAvatarUsecase,
       this.uuid,
-      this.getUserUseCase);
+      this.getUserUseCase,
+      this.forgetPasswordUsecase);
 
   var isLoading = false.obs;
   var role = Rxn<String>();
   var obscureText = true.obs;
   var avatarUrl = Rxn<String>();
   var user = Rxn<User>();
+  var email = Rxn<String>();
 
   @override
   void onInit() {
@@ -51,7 +56,7 @@ class AuthController extends GetxController {
             title: 'error', message: failure.message), (u) {
       // user.value = u;
       CurrentUser.currentUser = u;
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
+      // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
       if (u.role == 'عميل') {
         Get.offAll(() => ViewProfile());
       } else {
@@ -103,5 +108,18 @@ class AuthController extends GetxController {
       avatarUrl.value = s;
       DialogHelper.showSuccessSnackBar(title: 'ok', message: addSuccess);
     });
+  }
+
+  Future<void> forgotPassword(String email) async {
+    isLoading.value = true;
+    final result = await forgetPasswordUsecase.call(email);
+    result.fold(
+        (failure) => DialogHelper.showErrorSnackBar(
+            title: 'خطأ', message: failure.message), (unit) {
+      DialogHelper.showSuccessSnackBar(
+          title: 'تم', message: passwordVerifiedSuccessMessage);
+      Get.offAll(() => WelcomePage());
+    });
+    isLoading.value = false;
   }
 }

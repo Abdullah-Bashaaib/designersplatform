@@ -22,10 +22,14 @@ class AuthRepositoryImp implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteData.checkAccountInRemote(email, password);
-        await localData.saveUser(result!);
-        return Right(result);
+        if (result != null) {
+          await localData.saveUser(result);
+          return Right(result);
+        } else {
+          return left(NoUserFailure());
+        }
       } on ServerException catch (e) {
-        return left(NoUserFailure(e.message.toString()));
+        return left(ServerFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());
