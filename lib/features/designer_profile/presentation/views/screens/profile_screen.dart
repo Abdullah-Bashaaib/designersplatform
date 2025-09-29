@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
                     Text(
                       "حذف الحساب",
                       style: TextStyle(color: Colors.redAccent),
-                    )
+                    ),
                   ],
                 ),
               ),

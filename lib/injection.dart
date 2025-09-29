@@ -7,6 +7,7 @@ import 'package:designers_platform/features/auth/data/datasources/remote_data.da
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
+import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
@@ -101,6 +102,8 @@ class Injection {
         () => AddAvatarUsecase(Get.find<AuthRepository>()));
     Get.lazyPut<GetUserUseCase>(
         () => GetUserUseCase(Get.find<AuthRepository>()));
+    Get.lazyPut<ForgetPasswordUsecase>(
+        () => ForgetPasswordUsecase(Get.find<AuthRepository>()));
 
     /// GetX
     Get.put<AuthController>(
@@ -110,7 +113,8 @@ class Injection {
             Get.find<DeleteAccountUsecase>(),
             Get.find<AddAvatarUsecase>(),
             Get.find<Uuid>(),
-            Get.find<GetUserUseCase>()),
+            Get.find<GetUserUseCase>(),
+            Get.find<ForgetPasswordUsecase>()),
         permanent: true);
 
     ///========================== [ Feat: Client Profile ] ==============================
