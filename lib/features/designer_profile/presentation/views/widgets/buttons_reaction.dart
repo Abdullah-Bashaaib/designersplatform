@@ -1,4 +1,5 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,8 @@ class ButtonsReaction extends StatelessWidget {
               child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
-                    Get.dialog(Text("hi"));
+                    DialogHelper.showInfoDialog(
+                        title: "title", message: "message");
                   },
                   child: Text(
                     "طلب خدمة",
@@ -37,7 +39,8 @@ class ButtonsReaction extends StatelessWidget {
               child: OutlinedButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
-                    Get.defaultDialog();
+                    DialogHelper.showInfoDialog(
+                        title: "title", message: "message");
                   },
                   child: Text(
                     "تقييم المصمم",

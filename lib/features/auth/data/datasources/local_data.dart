@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/auth/data/models/user_model.dart';
@@ -20,15 +21,17 @@ class LocalDataImp implements LocalData {
   @override
   Future<void> saveUser(User user) async {
     UserModel userModel = UserModel(
-      id: '1',
+      id: user.id,
       name: user.name,
       email: user.email,
       password: user.password,
       role: user.role,
     );
+    await perf.setString(KeySharedPref.kUserId, user.id);
+    log("There id added in Sheard Pref: ${user.id}");
     final jsonString = jsonEncode(userModel.toMap());
     await perf.setString(KeySharedPref.userKey, jsonString);
-    print(' ===== $jsonString =====');
+    log(' ===== $jsonString =====');
   }
 
   @override

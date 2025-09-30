@@ -1,15 +1,13 @@
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
-import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
-import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
-import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/firebase_options.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'features/auth/presentation/pages/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

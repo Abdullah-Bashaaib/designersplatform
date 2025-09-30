@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,6 @@ import '../../../../../core/utils/key_app.dart';
 import '../../models/designer_model.dart';
 
 abstract class DesignerLocalDataSource {
-  Future<Unit> initDesigner();
   Future<List<DesignerModel>> getAllDesigners();
   Future<DesignerModel?> getData(String id);
   Future<Unit> updateData(DesignerModel designer);
@@ -21,53 +21,62 @@ class DesignerLocalDataSourceImpBySharedPref
   DesignerLocalDataSourceImpBySharedPref({required this.sharedPreferences});
 
   @override
-  Future<Unit> initDesigner() async {
-    final user = sharedPreferences.getString(KeySharedPref
-        .userKey); // بتجيب json حق المستخدم اللي انضافة من تسجيل الدخول
-    final userJson = jsonDecode(user!);
-    final designer = DesignerModel.fromJson({
-      // تعطي بيانات افتراضية لانشاء json للمصمم تكملة لـ json المستخدم
-      "user": userJson,
-      "bio": "none",
-      "number_bank": 0,
-      "name_bank": "none",
-      "specialization": "UI/UX",
-      "is_available": 0,
-      "reviewId": "none",
-      "total_orders": 0,
-      "works_count": 0,
-    });
-    // فقط لو مش موجود مسبقًا
-    final savedDesigner =
-        sharedPreferences.getString(KeySharedPref.designerKey);
-    List<dynamic> designerList = [];
-    if (savedDesigner != null) {
-      designerList = jsonDecode(savedDesigner);
-    } else {
-      if (!designerList // شوف قائمة المصممين
-          .any((designer) => designer['user']['id'] == designer.user.id)) {
-        // اذا لا يوجد هناك مصمم يمتلك نفس id نفذ الامر الذي تحت
-        designerList.add(designer.toJson());
-        await sharedPreferences.setString(
-          KeySharedPref.designerKey,
-          jsonEncode(designerList),
-        );
-      }
-    }
-    return unit;
-  }
-
-  @override
   Future<List<DesignerModel>> getAllDesigners() async {
-    await initDesigner();
-    final designerPref = sharedPreferences.getString(KeySharedPref.designerKey);
-    if (designerPref == null) return [];
+    try {
+      final userJsonString = sharedPreferences.getString(KeySharedPref.userKey);
 
-    final List<dynamic> jsonList = jsonDecode(designerPref);
+      // حاول تهيئة المصمم إذا كان المستخدم موجود ودوره designer
+      if (userJsonString != null) {
+        final userJson = jsonDecode(userJsonString);
+        log("-------------------------------------------------------${userJson['role']}");
 
-    final designers =
-        jsonList.map((json) => DesignerModel.fromJson(json)).toList();
-    return designers;
+        if (userJson['role'] == 'مصمم') {
+          final designer = DesignerModel.fromJson({
+            "user": userJson,
+            "bio": "none",
+            "number_bank": 0,
+            "name_bank": "none",
+            "specialization": "UI/UX",
+            "is_available": 0,
+            "reviewId": "none",
+            "total_orders": 0,
+            "works_count": 0,
+          });
+
+          final savedDesignerString =
+              sharedPreferences.getString(KeySharedPref.designerKey);
+          List<dynamic> designerList = savedDesignerString != null
+              ? jsonDecode(savedDesignerString)
+              : [];
+
+          // إذا لم يكن المصمم موجود مسبقًا → أضفه
+          final exists =
+              designerList.any((d) => d['user']['id'] == designer.user.id);
+          if (!exists) {
+            designerList.add(designer.toJson());
+            await sharedPreferences.setString(
+                KeySharedPref.designerKey, jsonEncode(designerList));
+          }
+        }
+      }
+
+      // جلب قائمة المصممين الحالية أو قائمة فارغة إذا لم توجد
+      final savedDesignerString =
+          sharedPreferences.getString(KeySharedPref.designerKey);
+
+      if (savedDesignerString == null || savedDesignerString.isEmpty) {
+        return [];
+      }
+
+      final List<dynamic> jsonList = jsonDecode(savedDesignerString);
+      final designers =
+          jsonList.map((json) => DesignerModel.fromJson(json)).toList();
+
+      return designers;
+    } catch (e) {
+      // لو حصل خطأ ترجع قائمة فارغة بدل crash
+      return [];
+    }
   }
 
   @override

@@ -13,72 +13,70 @@ class ProfileImageAndStatistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final designer = controller.designer.value;
-
-      return Column(
-        children: [
-          SizedBox(height: 20.h),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              CircleAvatarCustom(),
-              Positioned(
-                right: 110.r,
-                top: 5.r,
-                child: Text(
-                  designer?.user.name ?? "nobody",
-                  style: AppStyles.headingSmall,
-                ),
+    final designer = controller.designer.value;
+    return Column(
+      children: [
+        SizedBox(height: 20.h),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatarCustom(),
+            Positioned(
+              right: 110.r,
+              top: 5.r,
+              child: Text(
+                designer?.user.name ?? "لا يوجد أحد",
+                style: AppStyles.headingSmall,
               ),
-              Positioned(
-                right: 140.r,
-                top: 40.r,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    NumbersOfProfile(
-                      field: 'الأعمال',
-                      number: designer?.worksCount.toString() ?? "0",
-                    ),
-                    SizedBox(width: 30.w),
-                    NumbersOfProfile(
-                      field: 'التقييمات',
-                      number: "0",
-                    ),
-                    SizedBox(width: 30.w),
-                    NumbersOfProfile(
-                      field: 'الطلبات',
-                      number: designer?.totalOrders.toString() ?? "0",
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 85.r,
-                right: 105.r,
-                child: Container(
-                  height: 20.h,
-                  width: 230.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6.r),
-                    color: AppColors.primaryColor.withValues(alpha: 0.5),
+            ),
+            Positioned(
+              right: 140.r,
+              top: 40.r,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  NumbersOfProfile(
+                    field: 'الأعمال',
+                    number: "${designer?.worksCount ?? 0}",
                   ),
-                  child: Center(
-                    child: Text(
-                      designer?.specialization ?? "none",
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  SizedBox(width: 30.w),
+                  NumbersOfProfile(
+                    field: 'التقييمات',
+                    number: "${designer?.reviewsCount ?? 0}",
+                  ),
+                  SizedBox(width: 30.w),
+                  NumbersOfProfile(
+                    field: 'الطلبات',
+                    number: "${designer?.worksCount ?? 0}",
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              /// this bio
+              top: 85.r,
+              right: 105.r,
+              child: Container(
+                height: 20.h,
+                width: 230.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: AppColors.primaryColor.withValues(alpha: 0.5),
+                ),
+                child: Center(
+                  child: Text(
+                    designer?.specialization ?? "none",
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
-        ],
-      );
-    });
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }

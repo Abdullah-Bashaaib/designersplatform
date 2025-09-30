@@ -1,4 +1,3 @@
-import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
@@ -52,7 +51,7 @@ class ClientProfileController extends GetxController {
       // clientProfile.value = c;
       userName.value.text = c.name;
       email.value.text = c.email;
-      print('===== $c =====');
+      print('===== ${c.name} =====');
     });
     isLoading.value = false;
   }

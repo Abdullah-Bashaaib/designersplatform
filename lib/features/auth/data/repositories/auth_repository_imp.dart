@@ -98,7 +98,7 @@ class AuthRepositoryImp implements AuthRepository {
         await remoteData.forgetPassword(email);
         return right(unit);
       } on ServerException {
-        return left(ServerFailure(e.toString()));
+        return left(ServerFailure());
       }
     } else {
       return left(OfflineFailure());
