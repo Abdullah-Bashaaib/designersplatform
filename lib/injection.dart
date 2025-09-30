@@ -148,16 +148,16 @@ class Injection {
         () => GetOrdersUsecase(Get.find<ClientProfileRepo>()));
 
     /// GetX
-    Get.put<ClientProfileController>(
-        ClientProfileController(
-          Get.find<UpdateProfileUsecase>(),
-          Get.find<GetProfileUsecase>(),
-          Get.find<GetUserUseCase>(),
-          Get.find<GetFavoritesUsecase>(),
-          Get.find<GetOrdersUsecase>(),
-          Get.find<LogoutUsecase>(),
-        ),
-        permanent: true);
+    Get.lazyPut<ClientProfileController>(
+      () => ClientProfileController(
+        Get.find<UpdateProfileUsecase>(),
+        Get.find<GetProfileUsecase>(),
+        Get.find<GetUserUseCase>(),
+        Get.find<GetFavoritesUsecase>(),
+        Get.find<GetOrdersUsecase>(),
+        Get.find<LogoutUsecase>(),
+      ),
+    );
 
     ///========================== [ Feat: Designer Profile ] ==============================
     ///Data Source

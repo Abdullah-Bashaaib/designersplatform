@@ -1,11 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
+import 'package:designers_platform/core/error/firebase_error.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
+import 'package:firebase_auth_platform_interface/src/firebase_auth_exception.dart';
 
 import '../../../../core/error/failures.dart';
 
@@ -43,6 +45,8 @@ class AuthRepositoryImp implements AuthRepository {
         await remoteData.signUp(user, password);
         await localData.saveUser(user);
         return Right(result);
+      } on FirebaseAuthException catch (e) {
+        return left(ServerFailure(FirebaseAuthErrorHandler.getErrorMessage(e)));
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));
       }
@@ -100,7 +104,6 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, Unit>> forgetPassword(String email) async {
     if (await networkInfo.isConnected) {
       try {
-
         final result = await remoteData.forgetPassword(email);
         if (result == true) {
           return right(unit);

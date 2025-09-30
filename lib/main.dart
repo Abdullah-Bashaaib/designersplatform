@@ -13,7 +13,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Injection.init();
-  await sqlHelper.openDB();
   runApp(const MyApp());
 }
 
