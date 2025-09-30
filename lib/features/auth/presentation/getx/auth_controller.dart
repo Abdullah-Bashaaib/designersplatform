@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
@@ -5,12 +7,10 @@ import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
-import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -56,12 +56,14 @@ class AuthController extends GetxController {
             title: 'error', message: failure.message), (u) {
       // user.value = u;
       CurrentUser.currentUser = u;
+
       // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
       if (u.role == 'عميل') {
         Get.offAll(() => ViewProfile());
       } else {
         Get.offAll(() => ProfileScreen());
       }
+      DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
     });
     isLoading.value = false;
   }
@@ -70,6 +72,7 @@ class AuthController extends GetxController {
       String name, String email, String password, String role) async {
     User newUser = User(id: uuid.v4(), name: name, email: email, role: role);
     isLoading.value = true;
+
     final result = await signUpUsecase.call(newUser, password);
     result.fold((failure) {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);

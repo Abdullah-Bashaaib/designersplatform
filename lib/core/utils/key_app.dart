@@ -1,5 +1,8 @@
 class KeySharedPref {
   static const String userKey = "USER_KEY";
+  static const String designerKey = "DESIGNER_KEY";
+  static const String reviewKey = "REVIEW_KEY";
+  static const String worksKey = "WORKS_KEY";
   static const String kUserId = "userId";
   static const String kUserName = "userName";
   static const String kUserEmail = "userEmail";
@@ -14,4 +17,5 @@ class KeySharedPref {
   static const String kReviewsCount = "reviewsCount";
   static const String kTotalOrders = "totalOrders";
   static const String kWorksCount = "worksCount";
+  static const String kBio = "bio";
 }

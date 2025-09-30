@@ -1,4 +1,3 @@
-import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/grid_works_custom.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../getx/getData_controller_getx.dart';
 
@@ -15,15 +15,15 @@ class ProfileScreen extends StatelessWidget {
 
   final usernameController = TextEditingController();
   final controller = Get.find<GetDataControllerGetx>();
+  final sharedPreferences = Get.find<SharedPreferences>();
+
   @override
   Widget build(BuildContext context) {
+    final designer = controller.designer.value;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Obx(() => Text(
-              controller.designer.value!.name,
-              style: AppStyles.headingMedium,
-            )),
+        title: Text(designer?.user.name ?? " nothing "),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [
@@ -44,6 +44,14 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              PopupMenuItem(
+                  onTap: () {
+                    controller.logout();
+                  },
+                  child: ListTile(
+                    leading: Icon(Icons.logout),
+                    title: Text("تسجيل الخروج"),
+                  ))
             ],
           )
         ],

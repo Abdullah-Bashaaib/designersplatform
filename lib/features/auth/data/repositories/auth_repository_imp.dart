@@ -100,6 +100,7 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, Unit>> forgetPassword(String email) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await remoteData.forgetPassword(email);
         if (result == true) {
           return right(unit);

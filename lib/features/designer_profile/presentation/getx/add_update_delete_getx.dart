@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/custom_dialog_getx.dart';
@@ -44,9 +44,12 @@ class AddUpdateDeleteGetx extends GetxController {
 
     final result = await updateProfileUseCase(designer);
     result.fold((failure) {
-      DialogHelper.showErrorSnackBar(title: "Error", message: failure.message);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        DialogHelper.showErrorSnackBar(
+            title: "Error", message: failure.message);
+      });
     }, (profile) {
-      debugPrint("hi am here ${designer.id}");
+      debugPrint("Update Done Successfully!!");
     });
   }
 }

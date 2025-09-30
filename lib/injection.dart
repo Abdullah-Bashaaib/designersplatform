@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
+import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
-import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
@@ -39,7 +39,6 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/add_update_delete_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,7 +73,8 @@ class Injection {
     /// Usecase
     Get.lazyPut<GetUserUseCase>(
         () => GetUserUseCase(Get.find<AuthRepository>()));
-    Get.lazyPut<LogoutUsecase>(() => LogoutUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<LogoutUsecase>(() => LogoutUsecase(Get.find<AuthRepository>()),
+        fenix: true);
 
     ///========================== [ Feat: Auth ] ==============================
     /// Data Source
@@ -164,26 +164,27 @@ class Injection {
     Get.put(SQLHelper());
 
     ///Data Local
+    Get.lazyPut(() => Get.find<SharedPreferences>());
     Get.lazyPut(
-      () => DesignerLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+      () => DesignerLocalDataSourceImpBySharedPref(
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
     Get.lazyPut(
       () => ReviewLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
     Get.lazyPut(
       () => WorkLocalDataSourceImpBySql(
-        sqlHelper: Get.find<SQLHelper>(),
+        sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
 
     /// Repo
     Get.lazyPut(
       () => DesignerRepoImp(
-        Get.find<DesignerLocalDataSourceImpBySql>(),
+        Get.find<DesignerLocalDataSourceImpBySharedPref>(),
       ),
     );
     Get.lazyPut(
@@ -260,8 +261,12 @@ class Injection {
         Get.find<GetProfileUseCase>(),
         Get.find<GetReviewUseCase>(),
         Get.find<GetWorkUseCase>(),
+        Get.find<LogoutUsecase>(),
+        Get.find<SharedPreferences>(),
       ),
+      permanent: true,
     );
+
     Get.put<AddUpdateDeleteGetx>(AddUpdateDeleteGetx(
       Get.find<UpdateProfileUseCase>(),
       Get.find<DeleteProfileUseCase>(),
