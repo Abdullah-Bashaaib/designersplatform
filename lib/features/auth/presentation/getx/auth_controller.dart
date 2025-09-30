@@ -12,10 +12,12 @@ import 'package:designers_platform/features/auth/domain/usecases/forget_password
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../designer_profile/presentation/views/screens/profile_screen.dart';
+import '../pages/welcome_page.dart';
 
 class AuthController extends GetxController {
   final LoginUsecase loginUsecase;
@@ -52,19 +54,24 @@ class AuthController extends GetxController {
     isLoading.value = true;
     final result = await loginUsecase.call(email, password);
     result.fold(
-        (failure) => DialogHelper.showErrorSnackBar(
-            title: 'error', message: failure.message), (u) {
-      // user.value = u;
-      CurrentUser.currentUser = u;
-
-      // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
-      if (u.role == 'عميل') {
-        Get.offAll(() => ViewProfile());
-      } else {
-        Get.offAll(() => ProfileScreen());
-      }
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
-    });
+      (failure) {
+        DialogHelper.showErrorSnackBar(
+            title: 'error', message: failure.message);
+        print(failure.message);
+      },
+      (u) {
+        // user.value = u;
+        CurrentUser.currentUser = u;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (u.role == 'عميل') {
+            Get.offAll(() => ViewProfile());
+          } else {
+            Get.offAll(() => ProfileScreen());
+          }
+          DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
+        });
+      },
+    );
     isLoading.value = false;
   }
 
@@ -78,11 +85,11 @@ class AuthController extends GetxController {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
       print(failure.message);
     }, (u) async {
-      // user = u as Rxn<User>;
       DialogHelper.showSuccessSnackBar(title: 'ok', message: saveMessage);
       CurrentUser.currentUser = u;
       print(CurrentUser.currentUser);
-      Get.offAll(() => ViewProfile());
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => Get.offAll(() => ViewProfile()));
     });
     isLoading.value = false;
   }
@@ -116,7 +123,8 @@ class AuthController extends GetxController {
             title: 'خطأ', message: failure.message), (unit) {
       DialogHelper.showSuccessSnackBar(
           title: 'تم', message: passwordVerifiedSuccessMessage);
-      Get.offAll(() => WelcomePage());
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => Get.offAll(() => WelcomePage()));
     });
     isLoading.value = false;
   }
