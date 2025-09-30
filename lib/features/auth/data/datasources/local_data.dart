@@ -24,7 +24,6 @@ class LocalDataImp implements LocalData {
       id: user.id,
       name: user.name,
       email: user.email,
-      password: user.password,
       role: user.role,
     );
     await perf.setString(KeySharedPref.kUserId, user.id);

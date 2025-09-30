@@ -2,6 +2,8 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
+import 'package:designers_platform/features/auth/presentation/pages/change_password.dart';
+import 'package:designers_platform/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -29,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final c = Get.find<AuthController>();
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            // Handle forgot password
+                            Get.to(() => ForgotPasswordScreen());
                           },
                           child: const Text(
                             'هل نسيت كلمة المرور',
@@ -125,75 +126,75 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      Center(
-                        child: Text('أو استخدم طريقة اخرى',
-                            style: AppStyles.bodyMedium),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                // Handle Google sign in
-                              },
-                              icon: const Icon(Icons.abc),
-                              // Image.asset(
-                              //   'assets/images/2.png',
-                              //   width: 20,
-                              //   height: 20,
-                              // ),
-                              label: const Text(
-                                'سجل الدخول باستخدام قوقل',
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                side: BorderSide(color: Colors.grey[300]!),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                // Handle Facebook sign in
-                              },
-                              icon: const Icon(
-                                Icons.facebook,
-                                color: Color(0xFF1877F2),
-                                size: 20,
-                              ),
-                              label: const Text(
-                                'سجل الدخول باستخدام فيسبوك',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                side: BorderSide(color: Colors.grey[300]!),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 40),
+                      // Center(
+                      //   child: Text('أو استخدم طريقة اخرى',
+                      //       style: AppStyles.bodyMedium),
+                      // ),
+                      // const SizedBox(height: 24),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: OutlinedButton.icon(
+                      //         onPressed: () {
+                      //           // Handle Google sign in
+                      //         },
+                      //         icon: const Icon(Icons.abc),
+                      //         // Image.asset(
+                      //         //   'assets/images/2.png',
+                      //         //   width: 20,
+                      //         //   height: 20,
+                      //         // ),
+                      //         label: const Text(
+                      //           'سجل الدخول باستخدام قوقل',
+                      //           style: TextStyle(
+                      //             color: Colors.black87,
+                      //             fontSize: 14,
+                      //           ),
+                      //         ),
+                      //         style: OutlinedButton.styleFrom(
+                      //           padding:
+                      //               const EdgeInsets.symmetric(vertical: 16),
+                      //           side: BorderSide(color: Colors.grey[300]!),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 16),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: OutlinedButton.icon(
+                      //         onPressed: () {
+                      //           // Handle Facebook sign in
+                      //         },
+                      //         icon: const Icon(
+                      //           Icons.facebook,
+                      //           color: Color(0xFF1877F2),
+                      //           size: 20,
+                      //         ),
+                      //         label: const Text(
+                      //           'سجل الدخول باستخدام فيسبوك',
+                      //           style: TextStyle(
+                      //             fontSize: 14,
+                      //           ),
+                      //         ),
+                      //         style: OutlinedButton.styleFrom(
+                      //           padding:
+                      //               const EdgeInsets.symmetric(vertical: 16),
+                      //           side: BorderSide(color: Colors.grey[300]!),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 40),
                     ],
                   ),
                 ),

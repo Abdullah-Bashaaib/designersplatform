@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/network/network_info.dart';
+import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
@@ -20,10 +21,14 @@ class AuthRepositoryImp implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteData.checkAccountInRemote(email, password);
-        await localData.saveUser(result!);
-        return Right(result);
+        if (result != null) {
+          await localData.saveUser(result);
+          return Right(result);
+        } else {
+          return left(NoUserFailure());
+        }
       } on ServerException catch (e) {
-        return left(NoUserFailure(e.message.toString()));
+        return left(ServerFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());
@@ -31,11 +36,11 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> signUp(User user) async {
+  Future<Either<Failure, User>> signUp(User user, String password) async {
     if (await networkInfo.isConnected) {
       try {
         final result = user;
-        await remoteData.signUp(user);
+        await remoteData.signUp(user, password);
         await localData.saveUser(user);
         return Right(result);
       } on ServerException catch (e) {
@@ -95,10 +100,15 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, Unit>> forgetPassword(String email) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteData.forgetPassword(email);
-        return right(unit);
-      } on ServerException {
-        return left(ServerFailure());
+
+        final result = await remoteData.forgetPassword(email);
+        if (result == true) {
+          return right(unit);
+        } else {
+          return left(NoDataFailure(emptyEmailMessage));
+        }
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
       }
     } else {
       return left(OfflineFailure());
