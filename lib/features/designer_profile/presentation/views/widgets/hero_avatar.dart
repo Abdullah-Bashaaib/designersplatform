@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_image.dart';
-import '../../getx/add_update_delete_getx.dart';
+import '../../getx/getData_controller_getx.dart';
 
 class HeroAvatar extends StatelessWidget {
   const HeroAvatar({
@@ -12,7 +11,7 @@ class HeroAvatar extends StatelessWidget {
     required this.controller,
   });
 
-  final AddUpdateDeleteGetx controller;
+  final GetDataControllerGetx controller;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +23,9 @@ class HeroAvatar extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(150.r),
-            child: controller.designer.value?.user.avatarUrl != null
+            child: controller.designerR.value?.user.avatarUrl != null
                 ? Image.network(
-                    controller.designer.value!.user.avatarUrl!,
+                    controller.designerR.value!.user.avatarUrl!,
                     fit: BoxFit.cover,
                     width: 100.w,
                     height: 100.h,
@@ -68,9 +67,7 @@ class HeroAvatar extends StatelessWidget {
         Positioned(
             top: 100.r,
             child: GestureDetector(
-              onTap: () {
-                Get.snackbar("title", "message");
-              },
+              onTap: () {},
               child: CircleAvatar(
                 child: Icon(Icons.photo_camera_back_outlined),
               ),

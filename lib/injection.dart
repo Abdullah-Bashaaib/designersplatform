@@ -37,7 +37,6 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/delete_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
-import 'package:designers_platform/features/designer_profile/presentation/getx/add_update_delete_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -263,19 +262,16 @@ class Injection {
         Get.find<GetWorkUseCase>(),
         Get.find<LogoutUsecase>(),
         Get.find<SharedPreferences>(),
+        Get.find<AddReviewUseCase>(),
+        Get.find<AddWorkUseCase>(),
+        Get.find<DeleteProfileUseCase>(),
+        Get.find<DeleteReviewUseCase>(),
+        Get.find<DeleteWorkUseCase>(),
+        Get.find<UpdateProfileUseCase>(),
+        Get.find<UpdateReviewUseCase>(),
+        Get.find<UpdateWorkUseCase>(),
       ),
       permanent: true,
     );
-
-    Get.put<AddUpdateDeleteGetx>(AddUpdateDeleteGetx(
-      Get.find<UpdateProfileUseCase>(),
-      Get.find<DeleteProfileUseCase>(),
-      Get.find<AddReviewUseCase>(),
-      Get.find<UpdateReviewUseCase>(),
-      Get.find<DeleteReviewUseCase>(),
-      Get.find<AddWorkUseCase>(),
-      Get.find<UpdateWorkUseCase>(),
-      Get.find<DeleteWorkUseCase>(),
-    ));
   }
 }

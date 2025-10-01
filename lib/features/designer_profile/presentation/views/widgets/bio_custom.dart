@@ -13,7 +13,6 @@ class BioCustom extends StatelessWidget {
   final controller = Get.find<GetDataControllerGetx>();
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designer.value!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,9 +46,14 @@ class BioCustom extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Text(
-          designer.bio ?? "none",
-          style: AppStyles.bodySmall,
+        Obx(
+          () {
+            final designer = controller.designerR.value;
+            return Text(
+              designer?.bio ?? "none",
+              style: AppStyles.bodySmall,
+            );
+          },
         ),
       ],
     );

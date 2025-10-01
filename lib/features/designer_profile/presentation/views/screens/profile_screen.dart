@@ -19,11 +19,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designer.value;
+    final designer = controller.designerR.value;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(designer?.user.name ?? " nothing "),
+        title: Text(designer?.user.email.split("@")[0] ?? " nothing "),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [

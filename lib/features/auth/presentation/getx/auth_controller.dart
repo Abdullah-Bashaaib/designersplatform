@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
@@ -16,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../designer_profile/presentation/views/screens/profile_screen.dart';
+import '../pages/welcome_page.dart';
 
 class AuthController extends GetxController {
   final LoginUsecase loginUsecase;

@@ -1,11 +1,11 @@
 class User {
   final String id;
-  final String name;
+  String name;
   final String email;
   final String role;
   final String? avatarUrl;
 
-  const User({
+  User({
     required this.id,
     required this.name,
     required this.email,

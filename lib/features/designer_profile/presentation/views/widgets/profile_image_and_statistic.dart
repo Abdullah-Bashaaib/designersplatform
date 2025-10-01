@@ -13,7 +13,6 @@ class ProfileImageAndStatistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designer.value;
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -22,33 +21,38 @@ class ProfileImageAndStatistic extends StatelessWidget {
           children: [
             CircleAvatarCustom(),
             Positioned(
-              right: 110.r,
-              top: 5.r,
-              child: Text(
-                designer?.user.name ?? "لا يوجد أحد",
-                style: AppStyles.headingSmall,
-              ),
-            ),
+                right: 110.r,
+                top: 5.r,
+                child: Obx(
+                  () => Text(
+                    controller.designerR.value?.user.name ?? "لا يوجد أحد",
+                    style: AppStyles.headingSmall,
+                  ),
+                )),
             Positioned(
               right: 140.r,
               top: 40.r,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  NumbersOfProfile(
-                    field: 'الأعمال',
-                    number: "${designer?.worksCount ?? 0}",
+                  Obx(
+                    () => NumbersOfProfile(
+                      field: 'الأعمال',
+                      number: "${controller.designerR.value?.worksCount ?? 0}",
+                    ),
                   ),
                   SizedBox(width: 30.w),
-                  NumbersOfProfile(
-                    field: 'التقييمات',
-                    number: "${designer?.reviewsCount ?? 0}",
-                  ),
+                  Obx(() => NumbersOfProfile(
+                        field: 'التقييمات',
+                        number:
+                            "${controller.designerR.value?.reviewsCount ?? 0}",
+                      )),
                   SizedBox(width: 30.w),
-                  NumbersOfProfile(
-                    field: 'الطلبات',
-                    number: "${designer?.worksCount ?? 0}",
-                  ),
+                  Obx(() => NumbersOfProfile(
+                        field: 'الطلبات',
+                        number:
+                            "${controller.designerR.value?.worksCount ?? 0}",
+                      )),
                 ],
               ),
             ),
@@ -64,14 +68,15 @@ class ProfileImageAndStatistic extends StatelessWidget {
                   color: AppColors.primaryColor.withValues(alpha: 0.5),
                 ),
                 child: Center(
-                  child: Text(
-                    designer?.specialization ?? "none",
+                    child: Obx(
+                  () => Text(
+                    controller.designerR.value?.specialization ?? "none",
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                )),
               ),
             )
           ],
