@@ -6,10 +6,11 @@ import '../../../auth/domain/entities/user.dart';
 abstract class ClientRemoteDataSource {
   Future<void> updateProfile(Client client);
   Future<void> getAvatar(String userId, String filePath);
-  Future<void> updateAvatar(String userId, String filePath);
+  Future<String> updateAvatar(String userId, String filePath);
   Future<void> updatePassword(String userId, String password);
   Future<List<User>> getFavoritesList();
   Future<List<Order>> getOrders();
+  Future<String> addAvatar();
 }
 
 class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
@@ -25,7 +26,7 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
   }
 
   @override
-  Future<void> updateAvatar(String userId, String filePath) {
+  Future<String> updateAvatar(String userId, String filePath) {
     // TODO: implement updateAvatar
     throw UnimplementedError();
   }
@@ -45,6 +46,12 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
   @override
   Future<List<Order>> getOrders() {
     // TODO: implement getOrders
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> addAvatar() {
+    // TODO: implement addAvatar
     throw UnimplementedError();
   }
 }

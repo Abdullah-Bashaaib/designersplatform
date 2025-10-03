@@ -50,20 +50,22 @@ class EditClientProfile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 50.r,
-                  backgroundImage: AssetImage(AppImage.image1),
-                  // Or use NetworkImage for online images
+                  backgroundImage: AssetImage(AppImage.profileImage),
                 ),
                 Positioned(
-                  bottom: 0,
-                  right: 0,
+                  top: 51,
+                  left: 40,
                   child: Container(
                     padding: EdgeInsets.all(4.w),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 20.sp,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.camera_alt,
+                        size: 20.sp,
+                      ),
+                      onPressed: () {},
                     ),
                   ),
                 ),
@@ -75,7 +77,7 @@ class EditClientProfile extends StatelessWidget {
 
             BuildTextField(
               controller: c.userName.value,
-              label: 'Username',
+              label: 'اسم المستخدم',
               prefixIcon: Icons.person_outline,
             ),
             SizedBox(height: 20.h),
@@ -83,7 +85,7 @@ class EditClientProfile extends StatelessWidget {
             // Email/Phone Field
             BuildTextField(
               controller: c.email.value,
-              label: 'Email or Phone Number',
+              label: 'الايميل',
               prefixIcon: Icons.email_outlined,
               validator: Validators.email,
             ),
@@ -99,7 +101,7 @@ class EditClientProfile extends StatelessWidget {
               onPressed: () {},
               style: AppStyles.primaryButtonStyle,
               child: Text(
-                'Save Changes',
+                'حفظ التغيرات',
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,

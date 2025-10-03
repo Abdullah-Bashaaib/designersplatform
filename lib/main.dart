@@ -6,12 +6,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'features/auth/presentation/pages/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Supabase.initialize(
+      url: 'https://lkqdlophafsybtuwiqfd.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcWRsb3BoYWZzeWJ0dXdpcWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MDU1OTksImV4cCI6MjA3NTA4MTU5OX0.ybh93Vx7JjLb7DiqgZJJIBkwOMl-f-fc3UoLI69aRMU');
   await Injection.init();
   runApp(const MyApp());
 }

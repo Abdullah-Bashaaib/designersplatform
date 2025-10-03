@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
@@ -91,5 +92,11 @@ class ClientProfileRepoImp implements ClientProfileRepo {
     } else {
       return left(OfflineFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, String>> addAvatar(File file) {
+    // TODO: implement addAvatar
+    throw UnimplementedError();
   }
 }
