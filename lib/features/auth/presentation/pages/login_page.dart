@@ -2,7 +2,6 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
-import 'package:designers_platform/features/auth/presentation/pages/change_password.dart';
 import 'package:designers_platform/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
@@ -35,6 +36,7 @@ class ClientProfileController extends GetxController {
   var clientProfile = Rxn<Client>();
   var favoritesList = <User>[].obs;
   var orderList = <OrderEntity>[].obs;
+  var avatarUrl = ''.obs;
 
   // @override
   // void onInit() {
@@ -51,7 +53,7 @@ class ClientProfileController extends GetxController {
       // clientProfile.value = c;
       userName.value.text = c.name;
       email.value.text = c.email;
-      print('===== ${c.name} =====');
+      // print('===== ${c.name} =====');
     });
     isLoading.value = false;
   }
@@ -87,10 +89,10 @@ class ClientProfileController extends GetxController {
     DialogHelper.showSuccessSnackBar(title: 'تم', message: logoutMessage);
   }
 
-  @override
-  void onClose() {
-    // userName.dispose();
-    // email.dispose();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   // userName.dispose();
+  //   // email.dispose();
+  //   super.onClose();
+  // }
 }

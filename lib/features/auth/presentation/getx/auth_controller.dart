@@ -57,7 +57,7 @@ class AuthController extends GetxController {
       (failure) {
         DialogHelper.showErrorSnackBar(
             title: 'error', message: failure.message);
-        print(failure.message);
+        // print(failure.message);
       },
       (u) {
         // user.value = u;
@@ -68,7 +68,7 @@ class AuthController extends GetxController {
           } else {
             Get.offAll(() => ProfileScreen());
           }
-          DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
+          // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
         });
       },
     );
@@ -83,11 +83,11 @@ class AuthController extends GetxController {
     final result = await signUpUsecase.call(newUser, password);
     result.fold((failure) {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
-      print(failure.message);
+      // print(failure.message);
     }, (u) async {
       DialogHelper.showSuccessSnackBar(title: 'ok', message: saveMessage);
       CurrentUser.currentUser = u;
-      print(CurrentUser.currentUser);
+      // print(CurrentUser.currentUser);
       WidgetsBinding.instance
           .addPostFrameCallback((_) => Get.offAll(() => ViewProfile()));
     });

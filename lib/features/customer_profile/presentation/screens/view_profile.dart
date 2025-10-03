@@ -1,7 +1,9 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/edit_client_profile.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_order.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/widget/favorites_list.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +89,9 @@ class ViewProfile extends StatelessWidget {
                 backgroundColor: Colors.blueAccent.withOpacity(0.2),
                 child: CircleAvatar(
                   radius: 50.r,
-                  backgroundImage: AssetImage(AppImage.image1),
+                  backgroundImage: CurrentUser.currentUser!.avatarUrl != null
+                      ? NetworkImage(CurrentUser.currentUser!.avatarUrl!)
+                      : AssetImage(AppImage.profileImage),
                 ),
               ),
             ),
@@ -121,7 +125,9 @@ class ViewProfile extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => EditClientProfile());
+                },
                 style: AppStyles.primaryButtonStyle,
                 child: Text(
                   "تعديل الملف الشخصي",

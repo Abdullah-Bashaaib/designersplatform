@@ -1,19 +1,21 @@
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 
 class UserModel extends User {
-  const UserModel(
-      {required super.id,
-      required super.name,
-      required super.email,
-      required super.role});
+  const UserModel({
+    required super.id,
+    required super.name,
+    required super.email,
+    required super.role,
+    super.avatarUrl,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      role: json['role'],
-    );
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        role: json['role'],
+        avatarUrl: json['avatarUrl']);
   }
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class UserModel extends User {
       'name': name,
       'email': email,
       'role': role,
+      'avatarUrl': avatarUrl,
     };
   }
 
@@ -31,6 +34,7 @@ class UserModel extends User {
       name: user.name,
       email: user.email,
       role: user.role,
+      avatarUrl: user.avatarUrl,
     );
   }
 }

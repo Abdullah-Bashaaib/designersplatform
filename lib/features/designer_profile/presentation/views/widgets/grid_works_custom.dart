@@ -87,7 +87,7 @@ class GridWorksCustom extends StatelessWidget {
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
-                      AppImage.image1,
+                      AppImage.profileImage,
                       fit: BoxFit.cover,
                       width: 100.w,
                       height: 100.h,
