@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
@@ -27,7 +28,7 @@ class EditClientProfile extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          'Edit Profile',
+          'تحديث الملف الشخصي',
           style: TextStyle(
               // color: Colors.black,
               fontSize: 18.sp),
@@ -48,9 +49,13 @@ class EditClientProfile extends StatelessWidget {
             // Profile Picture
             Stack(
               children: [
-                CircleAvatar(
-                  radius: 50.r,
-                  backgroundImage: AssetImage(AppImage.profileImage),
+                Obx(
+                  () => CircleAvatar(
+                    radius: 50.r,
+                    backgroundImage: c.avatarUrl.value != null
+                        ? NetworkImage(c.avatarUrl.value!)
+                        : AssetImage(AppImage.profileImage),
+                  ),
                 ),
                 Positioned(
                   top: 51,
@@ -65,7 +70,9 @@ class EditClientProfile extends StatelessWidget {
                         Icons.camera_alt,
                         size: 20.sp,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        c.addAvatar();
+                      },
                     ),
                   ),
                 ),

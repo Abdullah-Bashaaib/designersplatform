@@ -3,9 +3,9 @@ class User {
   final String name;
   final String email;
   final String role;
-  final String? avatarUrl;
+  late String? avatarUrl;
 
-  const User({
+  User({
     required this.id,
     required this.name,
     required this.email,

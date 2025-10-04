@@ -6,7 +6,6 @@ import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
-import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
@@ -23,7 +22,6 @@ class AuthController extends GetxController {
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
   final DeleteAccountUsecase deleteAccountUsecase;
-  final AddAvatarUsecase addAvatarUsecase;
   final GetUserUseCase getUserUseCase;
   final ForgetPasswordUsecase forgetPasswordUsecase;
   final Uuid uuid;
@@ -32,7 +30,6 @@ class AuthController extends GetxController {
       this.loginUsecase,
       this.signUpUsecase,
       this.deleteAccountUsecase,
-      this.addAvatarUsecase,
       this.uuid,
       this.getUserUseCase,
       this.forgetPasswordUsecase);
@@ -100,19 +97,6 @@ class AuthController extends GetxController {
         (l) => DialogHelper.showErrorSnackBar(title: 'خطأ', message: l.message),
         (r) => DialogHelper.showSuccessDialog(
             message: deleteAccountMessage, title: ''));
-  }
-
-  Future<void> addAvatar(String filePath) async {
-    isLoading.value = true;
-    final result =
-        await addAvatarUsecase.call(CurrentUser.currentUser!.id, filePath);
-    result.fold(
-        (f) =>
-            DialogHelper.showErrorSnackBar(title: 'خطاء', message: f.message),
-        (s) {
-      avatarUrl.value = s;
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: addSuccess);
-    });
   }
 
   Future<void> forgotPassword(String email) async {

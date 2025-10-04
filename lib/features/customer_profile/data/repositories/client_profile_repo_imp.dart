@@ -1,20 +1,16 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/core/network/network_info.dart';
-import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
-import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/customer_profile/data/data_source/local_data_source.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../data_source/remote_data_source.dart';
 
@@ -95,8 +91,26 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Future<Either<Failure, String>> addAvatar(File file) {
-    // TODO: implement addAvatar
-    throw UnimplementedError();
+  Future<Either<Failure, String>> addAvatar(XFile file) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final imageUrl = await remoteDataSource.addAvatar(file);
+        return right(imageUrl);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
+  }
+
+  @override
+  Either<Failure, Unit> saveUser(User user) {
+    try {
+      localDataSource.saveUser(user);
+      return right(unit);
+    } on LocalException catch (e) {
+      return left(LocalFailure(e.message.toString()));
+    }
   }
 }
