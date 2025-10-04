@@ -9,6 +9,5 @@ abstract class AuthRepository {
   void logout();
   bool isLoggedIn();
   Future<Either<Failure, Unit>> deleteAccount();
-  Future<Either<Failure, String>> addAvatar(String userId, String filePath);
   Future<Either<Failure, Unit>> forgetPassword(String email);
 }

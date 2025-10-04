@@ -86,21 +86,6 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> addAvatar(
-      String userId, String filePath) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await remoteData.addAvatar();
-        return right(result);
-      } on ServerException catch (e) {
-        return left(ServerFailure(e.message.toString()));
-      }
-    } else {
-      return left(OfflineFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, Unit>> forgetPassword(String email) async {
     if (await networkInfo.isConnected) {
       try {

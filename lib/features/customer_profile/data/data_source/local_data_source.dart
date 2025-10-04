@@ -14,6 +14,7 @@ import '../../../auth/domain/entities/user.dart';
 abstract class ClientLocalDataSource {
   Future<void> updateProfile(Client client);
   Client? getProfile();
+  void saveUser(User user);
 }
 
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
@@ -43,16 +44,20 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
     }
   }
 
-  Future<void> saveUser(User user) async {
-    final UserModel userModel = UserModel(
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      avatarUrl: user.avatarUrl,
-    );
-
-    final jsonString = jsonEncode(userModel.toMap());
-    await perf.setString(KeySharedPref.userKey, jsonString);
+  @override
+  void saveUser(User user) {
+    try {
+      final UserModel userModel = UserModel(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatarUrl: user.avatarUrl,
+      );
+      final jsonString = jsonEncode(userModel.toMap());
+      perf.setString(KeySharedPref.userKey, jsonString);
+    } catch (e) {
+      throw LocalException();
+    }
   }
 }

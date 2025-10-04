@@ -12,7 +12,6 @@ abstract class RemoteData {
   Future<User?> checkAccountInRemote(String email, String password);
   Future<User> signUp(User user, String password);
   Future<void> deleteAccount();
-  Future<String> addAvatar();
   Future<bool> forgetPassword(String email);
 }
 
@@ -88,11 +87,6 @@ class RemoteDataSource implements RemoteData {
     } catch (e) {
       throw ServerException(e);
     }
-  }
-
-  @override
-  Future<String> addAvatar() {
-    throw UnimplementedError();
   }
 
   @override
