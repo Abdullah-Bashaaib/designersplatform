@@ -89,7 +89,7 @@ class ViewProfile extends StatelessWidget {
                 backgroundColor: Colors.blueAccent.withOpacity(0.2),
                 child: CircleAvatar(
                   radius: 50.r,
-                  backgroundImage: CurrentUser.currentUser!.avatarUrl != null
+                  backgroundImage: CurrentUser.currentUser!.avatarUrl != ''
                       ? NetworkImage(CurrentUser.currentUser!.avatarUrl!)
                       : AssetImage(AppImage.profileImage),
                 ),

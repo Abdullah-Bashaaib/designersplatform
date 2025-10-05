@@ -129,7 +129,7 @@ class Injection {
     );
     Get.lazyPut<ClientLocalDataSource>(
       () => ClientLocalDataSourceImp(
-          Get.find<Database>(), Get.find<SharedPreferences>()),
+          Get.find<SharedPreferences>()),
     );
 
     /// Repo
