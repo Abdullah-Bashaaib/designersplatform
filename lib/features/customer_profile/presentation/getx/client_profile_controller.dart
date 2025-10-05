@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
@@ -93,15 +95,16 @@ class ClientProfileController extends GetxController {
 
   void addAvatar() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
     final imageUrl = await addAvatarUsecase.call(image);
-    imageUrl.fold(
-        (failure) => DialogHelper.showErrorSnackBar(
-            title: 'error', message: failure.message), (s) {
-      CurrentUser.currentUser!.avatarUrl = s;
+    imageUrl.fold((failure) {
+      DialogHelper.showErrorSnackBar(title: 'error', message: failure.message);
+      print('============ ${failure.message}');
+    }, (s) {
+      avatarUrl.value = s;
       saveUserUsecase.call(CurrentUser.currentUser!);
     });
   }

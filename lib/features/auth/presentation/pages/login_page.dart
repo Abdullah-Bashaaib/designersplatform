@@ -1,9 +1,11 @@
+import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/auth/presentation/getx/auth_controller.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -35,28 +37,28 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 40),
-                      const Text(
+                      SizedBox(height: 40.h),
+                      Text(
                         'تسجيل الدخول',
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 28.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         'الرجاء تسجيل الدخول باستخدام الحساب المسجل',
                         style: TextStyle(
                           fontSize: 14,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      SizedBox(height: 40.h),
                       BuildTextField(
                         controller: _emailController,
                         hintText: 'أدخل بريدك الإلكتروني أو رقم هاتفك',
@@ -65,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         validator: Validators.email,
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       Obx(
                         () => BuildTextField(
                           controller: _passwordController,
@@ -87,26 +89,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: 5.h),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
                             Get.to(() => ForgotPasswordScreen());
                           },
-                          child: const Text(
+                          child: Text(
                             'هل نسيت كلمة المرور',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15.h),
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 56.h,
                         child: Obx(
                           () => c.isLoading.value
                               ? const Center(child: CircularProgressIndicator())
@@ -120,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   style: AppStyles.primaryButtonStyle,
                                   child: Text('تسجيل الدخول',
-                                      style: AppStyles.bodyLarge),
+                                      style: AppStyles.bodyMedium),
                                 ),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32.h),
                       // Center(
                       //   child: Text('أو استخدم طريقة اخرى',
                       //       style: AppStyles.bodyMedium),

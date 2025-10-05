@@ -1,4 +1,3 @@
-import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/firebase_options.dart';
 import 'package:designers_platform/injection.dart';
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           locale: Get.deviceLocale,
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.system,
           defaultTransition: Transition.cupertino,
           transitionDuration: const Duration(milliseconds: 400),
           home: SplashScreen(),

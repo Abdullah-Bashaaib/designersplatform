@@ -12,22 +12,20 @@ import '../../../auth/data/models/user_model.dart';
 import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientLocalDataSource {
-  Future<void> updateProfile(Client client);
+  void updateProfile(User user);
   Client? getProfile();
   void saveUser(User user);
 }
 
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
-  final Database _db;
   final SharedPreferences perf;
 
-  ClientLocalDataSourceImp(this._db, this.perf);
-
+  ClientLocalDataSourceImp( this.perf);
   @override
-  Future<void> updateProfile(Client client) async {
+  void updateProfile(User user)  {
     try {
-      ClientModel clientModel = ClientModel();
-      await _db.update('Users', clientModel.toMap());
+      
+      saveUser(user);
     } catch (e) {
       throw LocalException();
     }

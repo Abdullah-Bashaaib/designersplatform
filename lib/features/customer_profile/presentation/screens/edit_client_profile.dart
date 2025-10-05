@@ -1,6 +1,7 @@
-import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
@@ -43,7 +44,7 @@ class EditClientProfile extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         child: Column(
           children: [
             // Profile Picture
@@ -52,14 +53,14 @@ class EditClientProfile extends StatelessWidget {
                 Obx(
                   () => CircleAvatar(
                     radius: 50.r,
-                    backgroundImage: c.avatarUrl.value != null
+                    backgroundImage: c.avatarUrl.value != ''
                         ? NetworkImage(c.avatarUrl.value!)
                         : AssetImage(AppImage.profileImage),
                   ),
                 ),
                 Positioned(
-                  top: 51,
-                  left: 40,
+                  top: 51.h,
+                  left: 40.w,
                   child: Container(
                     padding: EdgeInsets.all(4.w),
                     decoration: BoxDecoration(
@@ -71,7 +72,25 @@ class EditClientProfile extends StatelessWidget {
                         size: 20.sp,
                       ),
                       onPressed: () {
-                        c.addAvatar();
+                        DialogHelper.showCustomDialog(
+                            title: 'صورة الملف الشخصي',
+                            customContent: Column(
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      c.addAvatar();
+                                    },
+                                    child: Text('تعديل الصورة')),
+                                TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'حذف الصورة',
+                                      style: TextStyle(
+                                          color: AppColors.errorColor),
+                                    )),
+                              ],
+                            ));
+                        // c.addAvatar();
                       },
                     ),
                   ),
@@ -128,13 +147,12 @@ class EditClientProfile extends StatelessWidget {
         Text(
           'Account Liked With',
           style: TextStyle(
-            color: Colors.grey[600],
             fontSize: 14.sp,
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 12.w),
           decoration: BoxDecoration(
             border: Border(
                 // bottom: BorderSide(color: Colors.grey[300]!),
@@ -155,7 +173,6 @@ class EditClientProfile extends StatelessWidget {
               Spacer(),
               Icon(
                 Icons.link,
-                color: Colors.grey,
                 size: 20.sp,
               ),
             ],

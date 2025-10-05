@@ -37,9 +37,9 @@ class GetDataControllerGetx extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getDataDesignerProfile();
-    getDataReviews();
-    getDataWorks();
+    // getDataDesignerProfile();
+    // getDataReviews();
+    // getDataWorks();
   }
 
   /// get the designer profile
