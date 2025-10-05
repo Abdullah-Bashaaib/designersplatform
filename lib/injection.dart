@@ -3,9 +3,9 @@ import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
+import 'package:designers_platform/core/usecase/save_user.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
-import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
@@ -15,6 +15,7 @@ import 'package:designers_platform/features/customer_profile/data/data_source/lo
 import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
@@ -42,6 +43,7 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import 'features/auth/data/repositories/auth_repository_imp.dart';
@@ -68,6 +70,10 @@ class Injection {
     /// Firebase
     final dbF = FirebaseFirestore.instance;
     Get.put<FirebaseFirestore>(dbF, permanent: true);
+
+    /// Supabase
+    final dbS = Supabase.instance.client;
+    Get.put<SupabaseClient>(dbS, permanent: true);
 
     /// Usecase
     Get.lazyPut<GetUserUseCase>(
@@ -97,8 +103,7 @@ class Injection {
 
     Get.lazyPut<DeleteAccountUsecase>(
         () => DeleteAccountUsecase(Get.find<AuthRepository>()));
-    Get.lazyPut<AddAvatarUsecase>(
-        () => AddAvatarUsecase(Get.find<AuthRepository>()));
+
     Get.lazyPut<GetUserUseCase>(
         () => GetUserUseCase(Get.find<AuthRepository>()));
     Get.lazyPut<ForgetPasswordUsecase>(
@@ -110,7 +115,6 @@ class Injection {
             Get.find<LoginUsecase>(),
             Get.find<SignUpUsecase>(),
             Get.find<DeleteAccountUsecase>(),
-            Get.find<AddAvatarUsecase>(),
             Get.find<Uuid>(),
             Get.find<GetUserUseCase>(),
             Get.find<ForgetPasswordUsecase>()),
@@ -119,7 +123,8 @@ class Injection {
     ///========================== [ Feat: Client Profile ] ==============================
     /// Data Source
     Get.lazyPut<ClientRemoteDataSource>(
-      () => ClientRemoteDataSourceImp(),
+      () => ClientRemoteDataSourceImp(
+          Get.find<SupabaseClient>(), Get.find<FirebaseFirestore>()),
     );
     Get.lazyPut<ClientLocalDataSource>(
       () => ClientLocalDataSourceImp(
@@ -146,17 +151,25 @@ class Injection {
     Get.lazyPut<GetOrdersUsecase>(
         () => GetOrdersUsecase(Get.find<ClientProfileRepo>()));
 
+    Get.lazyPut<AddAvatarUsecase>(
+        () => AddAvatarUsecase(Get.find<ClientProfileRepo>()));
+
+    Get.lazyPut<SaveUserUsecase>(
+        () => SaveUserUsecase(Get.find<ClientProfileRepo>()));
+
     /// GetX
-    Get.put<ClientProfileController>(
-        ClientProfileController(
-          Get.find<UpdateProfileUsecase>(),
-          Get.find<GetProfileUsecase>(),
-          Get.find<GetUserUseCase>(),
-          Get.find<GetFavoritesUsecase>(),
-          Get.find<GetOrdersUsecase>(),
-          Get.find<LogoutUsecase>(),
-        ),
-        permanent: true);
+    Get.lazyPut<ClientProfileController>(
+        () => ClientProfileController(
+              Get.find<UpdateProfileUsecase>(),
+              Get.find<GetProfileUsecase>(),
+              Get.find<GetUserUseCase>(),
+              Get.find<GetFavoritesUsecase>(),
+              Get.find<GetOrdersUsecase>(),
+              Get.find<LogoutUsecase>(),
+              Get.find<AddAvatarUsecase>(),
+              Get.find<SaveUserUsecase>(),
+            ),
+        fenix: true);
 
     ///========================== [ Feat: Designer Profile ] ==============================
     ///Data Source

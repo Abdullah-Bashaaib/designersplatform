@@ -8,10 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/utils/key_app.dart';
+import '../../../auth/data/models/user_model.dart';
+import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientLocalDataSource {
   Future<void> updateProfile(Client client);
   Client? getProfile();
+  void saveUser(User user);
 }
 
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
@@ -41,18 +44,20 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
     }
   }
 
-  // Future<void> saveUser(User user) async {
-  //   final clientMap = {
-  //     "user": UserModel(
-  //       id: user.id,
-  //       name: user.name,
-  //       email: user.email,
-  //       password: user.password,
-  //       role: user.role,
-  //     ).toMap()
-  //   };
-  //
-  //   final jsonString = jsonEncode(clientMap);
-  //   await perf.setString(KeySharedPref.userKey, jsonString);
-  // }
+  @override
+  void saveUser(User user) {
+    try {
+      final UserModel userModel = UserModel(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatarUrl: user.avatarUrl,
+      );
+      final jsonString = jsonEncode(userModel.toMap());
+      perf.setString(KeySharedPref.userKey, jsonString);
+    } catch (e) {
+      throw LocalException();
+    }
+  }
 }

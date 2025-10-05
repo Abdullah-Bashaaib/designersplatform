@@ -3,7 +3,7 @@ class User {
   String name;
   final String email;
   final String role;
-  final String? avatarUrl;
+  late String? avatarUrl;
 
   User({
     required this.id,

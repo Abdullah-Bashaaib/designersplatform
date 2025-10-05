@@ -18,7 +18,7 @@ class _WelcomePageState extends State<WelcomePage> {
   int _currentPage = 0;
 
   final List<String> images = [
-    AppImage.image1,
+    AppImage.image2,
     AppImage.image2,
     AppImage.image3,
   ];

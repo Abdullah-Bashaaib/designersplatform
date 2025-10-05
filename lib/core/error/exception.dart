@@ -11,7 +11,8 @@ class ServerException extends BaseException {
 }
 
 class OfflineException extends BaseException {
-  OfflineException([dynamic e]) : super(e?.toString() ?? 'No Internet Connection');
+  OfflineException([dynamic e])
+      : super(e?.toString() ?? 'No Internet Connection');
 }
 
 class LocalException extends BaseException {
@@ -23,5 +24,10 @@ class NonUserException extends BaseException {
 }
 
 class EmptyLocalDatabaseException extends BaseException {
-  EmptyLocalDatabaseException([dynamic e]) : super(e?.toString() ?? 'Local database is empty');
+  EmptyLocalDatabaseException([dynamic e])
+      : super(e?.toString() ?? 'Local database is empty');
+}
+
+class FirebaseException extends BaseException {
+  FirebaseException(dynamic e) : super(e.toString());
 }

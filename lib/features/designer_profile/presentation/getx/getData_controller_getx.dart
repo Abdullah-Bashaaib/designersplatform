@@ -64,7 +64,9 @@ class GetDataControllerGetx extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getDataDesignerProfile();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getDataDesignerProfile(); // ← الملاحة ستكون آمنة هنا
+    });
     getDataReviews();
     getDataWorks();
   }

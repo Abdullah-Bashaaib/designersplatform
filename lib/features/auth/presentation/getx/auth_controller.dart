@@ -3,12 +3,12 @@ import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
-import 'package:designers_platform/features/auth/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +19,6 @@ class AuthController extends GetxController {
   final LoginUsecase loginUsecase;
   final SignUpUsecase signUpUsecase;
   final DeleteAccountUsecase deleteAccountUsecase;
-  final AddAvatarUsecase addAvatarUsecase;
   final GetUserUseCase getUserUseCase;
   final ForgetPasswordUsecase forgetPasswordUsecase;
   final Uuid uuid;
@@ -28,7 +27,6 @@ class AuthController extends GetxController {
       this.loginUsecase,
       this.signUpUsecase,
       this.deleteAccountUsecase,
-      this.addAvatarUsecase,
       this.uuid,
       this.getUserUseCase,
       this.forgetPasswordUsecase);
@@ -50,19 +48,24 @@ class AuthController extends GetxController {
     isLoading.value = true;
     final result = await loginUsecase.call(email, password);
     result.fold(
-        (failure) => DialogHelper.showErrorSnackBar(
-            title: 'error', message: failure.message), (u) {
-      // user.value = u;
-      CurrentUser.currentUser = u;
-
-      // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
-      if (u.role == 'عميل') {
-        Get.offAll(() => ViewProfile());
-      } else {
-        Get.offAll(() => ProfileScreen());
-      }
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
-    });
+      (failure) {
+        DialogHelper.showErrorSnackBar(
+            title: 'error', message: failure.message);
+        // print(failure.message);
+      },
+      (u) {
+        // user.value = u;
+        CurrentUser.currentUser = u;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (u.role == 'عميل') {
+            Get.offAll(() => ViewProfile());
+          } else {
+            Get.offAll(() => ProfileScreen());
+          }
+          // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
+        });
+      },
+    );
     isLoading.value = false;
   }
 
@@ -74,13 +77,13 @@ class AuthController extends GetxController {
     final result = await signUpUsecase.call(newUser, password);
     result.fold((failure) {
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
-      print(failure.message);
+      // print(failure.message);
     }, (u) async {
-      // user = u as Rxn<User>;
       DialogHelper.showSuccessSnackBar(title: 'ok', message: saveMessage);
       CurrentUser.currentUser = u;
-      print(CurrentUser.currentUser);
-      Get.offAll(() => ViewProfile());
+      // print(CurrentUser.currentUser);
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => Get.offAll(() => ViewProfile()));
     });
     isLoading.value = false;
   }
@@ -93,19 +96,6 @@ class AuthController extends GetxController {
             message: deleteAccountMessage, title: ''));
   }
 
-  Future<void> addAvatar(String filePath) async {
-    isLoading.value = true;
-    final result =
-        await addAvatarUsecase.call(CurrentUser.currentUser!.id, filePath);
-    result.fold(
-        (f) =>
-            DialogHelper.showErrorSnackBar(title: 'خطاء', message: f.message),
-        (s) {
-      avatarUrl.value = s;
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: addSuccess);
-    });
-  }
-
   Future<void> forgotPassword(String email) async {
     isLoading.value = true;
     final result = await forgetPasswordUsecase.call(email);
@@ -114,7 +104,8 @@ class AuthController extends GetxController {
             title: 'خطأ', message: failure.message), (unit) {
       DialogHelper.showSuccessSnackBar(
           title: 'تم', message: passwordVerifiedSuccessMessage);
-      Get.offAll(() => WelcomePage());
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => Get.offAll(() => WelcomePage()));
     });
     isLoading.value = false;
   }

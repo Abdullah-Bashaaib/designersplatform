@@ -1,17 +1,21 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
+import 'package:designers_platform/core/usecase/save_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
+import 'package:designers_platform/features/customer_profile/domain/usecases/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ClientProfileController extends GetxController {
   final UpdateProfileUsecase updateProfileUseCase;
@@ -19,15 +23,20 @@ class ClientProfileController extends GetxController {
   final GetUserUseCase getUserUseCase;
   final GetFavoritesUsecase getFavoritesUsecase;
   final GetOrdersUsecase getOrdersUsecase;
+  final AddAvatarUsecase addAvatarUsecase;
+  final SaveUserUsecase saveUserUsecase;
   final LogoutUsecase logoutUsecase;
 
   ClientProfileController(
-      this.updateProfileUseCase,
-      this.getProfileUsecase,
-      this.getUserUseCase,
-      this.getFavoritesUsecase,
-      this.getOrdersUsecase,
-      this.logoutUsecase);
+    this.updateProfileUseCase,
+    this.getProfileUsecase,
+    this.getUserUseCase,
+    this.getFavoritesUsecase,
+    this.getOrdersUsecase,
+    this.logoutUsecase,
+    this.addAvatarUsecase,
+    this.saveUserUsecase,
+  );
 
   var userName = TextEditingController().obs;
   var email = TextEditingController().obs;
@@ -35,6 +44,7 @@ class ClientProfileController extends GetxController {
   var clientProfile = Rxn<Client>();
   var favoritesList = <User>[].obs;
   var orderList = <OrderEntity>[].obs;
+  var avatarUrl = CurrentUser.currentUser!.avatarUrl.obs;
 
   // @override
   // void onInit() {
@@ -51,7 +61,7 @@ class ClientProfileController extends GetxController {
       // clientProfile.value = c;
       userName.value.text = c.name;
       email.value.text = c.email;
-      print('===== ${c.name} =====');
+      // print('===== ${c.name} =====');
     });
     isLoading.value = false;
   }
@@ -81,16 +91,31 @@ class ClientProfileController extends GetxController {
     isLoading.value = false;
   }
 
+  void addAvatar() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image == null) {
+      return;
+    }
+    final imageUrl = await addAvatarUsecase.call(image);
+    imageUrl.fold(
+        (failure) => DialogHelper.showErrorSnackBar(
+            title: 'error', message: failure.message), (s) {
+      CurrentUser.currentUser!.avatarUrl = s;
+      saveUserUsecase.call(CurrentUser.currentUser!);
+    });
+  }
+
   void logout() {
     logoutUsecase.call();
     Get.offAll(() => WelcomePage());
     DialogHelper.showSuccessSnackBar(title: 'تم', message: logoutMessage);
   }
 
-  @override
-  void onClose() {
-    // userName.dispose();
-    // email.dispose();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   // userName.dispose();
+  //   // email.dispose();
+  //   super.onClose();
+  // }
 }
