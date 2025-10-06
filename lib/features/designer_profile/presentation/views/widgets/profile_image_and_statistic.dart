@@ -6,6 +6,7 @@ import 'package:designers_platform/features/designer_profile/presentation/views/
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileImageAndStatistic extends StatelessWidget {
   ProfileImageAndStatistic({super.key});
@@ -13,7 +14,6 @@ class ProfileImageAndStatistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designer.value;
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -24,10 +24,15 @@ class ProfileImageAndStatistic extends StatelessWidget {
             Positioned(
               right: 110.r,
               top: 5.r,
-              child: Text(
-                designer?.user.name ?? "لا يوجد أحد",
-                style: AppStyles.headingSmall,
-              ),
+              child: Obx(() => Skeletonizer(
+                    enabled: controller.isLoading.value,
+                    child: controller.designerR.value == null
+                        ? Text("لا نوجد بيانات")
+                        : Text(
+                            controller.designerR.value!.user.name,
+                            style: AppStyles.headingSmall,
+                          ),
+                  )),
             ),
             Positioned(
               right: 140.r,
@@ -35,19 +40,37 @@ class ProfileImageAndStatistic extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  NumbersOfProfile(
-                    field: 'الأعمال',
-                    number: "${designer?.worksCount ?? 0}",
+                  Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
+                        field: 'الأعمال',
+                        number:
+                            "${controller.designerR.value?.worksCount ?? 0}",
+                      ),
+                    ),
                   ),
                   SizedBox(width: 30.w),
-                  NumbersOfProfile(
-                    field: 'التقييمات',
-                    number: "${designer?.reviewsCount ?? 0}",
+                  Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
+                        field: 'التقييمات',
+                        number:
+                            "${controller.designerR.value?.reviewsCount ?? 0}",
+                      ),
+                    ),
                   ),
                   SizedBox(width: 30.w),
-                  NumbersOfProfile(
-                    field: 'الطلبات',
-                    number: "${designer?.worksCount ?? 0}",
+                  Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
+                        field: 'الطلبات',
+                        number:
+                            "${controller.designerR.value?.worksCount ?? 0}",
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -64,11 +87,16 @@ class ProfileImageAndStatistic extends StatelessWidget {
                   color: AppColors.primaryColor.withValues(alpha: 0.5),
                 ),
                 child: Center(
-                  child: Text(
-                    designer?.specialization ?? "none",
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
+                  child: Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: Text(
+                        controller.designerR.value?.specialization ?? "none",
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),

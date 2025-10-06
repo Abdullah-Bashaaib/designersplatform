@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';

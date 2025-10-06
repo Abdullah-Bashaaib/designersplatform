@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/designer_local_data_source.dart';
@@ -6,15 +8,36 @@ import 'package:designers_platform/features/designer_profile/domain/entities/des
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
 
 import '../../../../core/error/exception.dart';
+import '../../../../core/network/network_info.dart';
+import '../datasource/remote_data_source/designer_remote_data_source.dart';
 
 class DesignerRepoImp implements DesignerRepository {
   final DesignerLocalDataSource localDataSource;
-  // final RemoteDataSource remoteDataSource;
-
-  DesignerRepoImp(this.localDataSource);
+  final DesignerRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
+  DesignerRepoImp(
+      this.localDataSource, this.networkInfo, this.remoteDataSource);
 
   @override
   Future<Either<Failure, Designer>> getDesigner(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        log("----------------------------------> in DataSource imp user id : $id");
+
+        final designer = await remoteDataSource.getData(id);
+        if (designer == null) {
+          try {
+            final designer = await localDataSource.getData(id);
+            return Right(designer!);
+          } on EmptyLocalDatabaseException {
+            return Left(EmptyLocalDatabaseFailure());
+          }
+        }
+        return Right(designer);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }
     try {
       final designer = await localDataSource.getData(id);
       return Right(designer!);

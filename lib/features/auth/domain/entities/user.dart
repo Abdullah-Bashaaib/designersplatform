@@ -1,6 +1,6 @@
 class User {
   final String id;
-  final String name;
+  String name;
   final String email;
   final String role;
   late String? avatarUrl;

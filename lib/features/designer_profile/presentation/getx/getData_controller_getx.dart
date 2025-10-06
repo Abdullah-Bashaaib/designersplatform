@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
@@ -12,7 +14,15 @@ import '../../../auth/presentation/pages/welcome_page.dart';
 import '../../domain/entities/designer.dart';
 import '../../domain/entities/review.dart';
 import '../../domain/entities/work.dart';
+import '../../domain/usecases/designer_usecase/delete_profile_usecase.dart';
 import '../../domain/usecases/designer_usecase/get_profile_usecase.dart';
+import '../../domain/usecases/designer_usecase/update_profile_usecase.dart';
+import '../../domain/usecases/review_usecase/add_review_use_case.dart';
+import '../../domain/usecases/review_usecase/delete_review_use_case.dart';
+import '../../domain/usecases/review_usecase/update_review_use_case.dart';
+import '../../domain/usecases/work_usecase/add_work_use_case.dart';
+import '../../domain/usecases/work_usecase/delete_work_use_case.dart';
+import '../../domain/usecases/work_usecase/update_work_use_case.dart';
 
 class GetDataControllerGetx extends GetxController {
   final GetProfileUseCase getProfileUseCase;
@@ -20,9 +30,20 @@ class GetDataControllerGetx extends GetxController {
   final GetWorkUseCase getWorkUseCase;
   final LogoutUsecase logoutUsecase;
   final SharedPreferences sharedPreferences;
+  // Designer
+  final UpdateProfileUseCase updateProfileUseCase;
+  final DeleteProfileUseCase deleteProfileUseCase;
+  // Review
+  final AddReviewUseCase addReviewUseCase;
+  final UpdateReviewUseCase updateReviewUseCase;
+  final DeleteReviewUseCase deleteReviewUseCase;
+  // Work
+  final AddWorkUseCase addWorkUseCase;
+  final UpdateWorkUseCase updateWorkUseCase;
+  final DeleteWorkUseCase deleteWorkUseCase;
 
-  var isLoading = false.obs;
-  var designer = Rxn<Designer>();
+  RxBool isLoading = true.obs;
+  var designerR = Rxn<Designer>();
   var reviews = <Review>[].obs;
   var works = <Work>[].obs;
 
@@ -32,29 +53,45 @@ class GetDataControllerGetx extends GetxController {
     this.getWorkUseCase,
     this.logoutUsecase,
     this.sharedPreferences,
+    this.addReviewUseCase,
+    this.addWorkUseCase,
+    this.deleteProfileUseCase,
+    this.deleteReviewUseCase,
+    this.deleteWorkUseCase,
+    this.updateProfileUseCase,
+    this.updateReviewUseCase,
+    this.updateWorkUseCase,
   );
 
   @override
   void onInit() {
     super.onInit();
-    // getDataDesignerProfile();
-    // getDataReviews();
-    // getDataWorks();
+    fetchAllData();
+
+  }
+
+  Future<void> fetchAllData() async {
+    isLoading.value = true;
+
+    await Future.wait([
+      getDataDesignerProfile(),
+      getDataReviews(),
+      getDataWorks(),
+    ]);
+
+    isLoading.value = false;
   }
 
   /// get the designer profile
   Future<void> getDataDesignerProfile() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
-
+    log("----------------------------------> The user id : $id");
     if (id == null) {
       Get.offAll(() => WelcomePage());
       DialogHelper.showErrorSnackBar(
         title: "خطأ",
         message: "لم يتم العثور على معرف المستخدم",
       );
-      isLoading.value = false;
       return;
     }
 
@@ -71,7 +108,7 @@ class GetDataControllerGetx extends GetxController {
         Get.offAll(() => WelcomePage());
       },
       (user) {
-        designer.value = user;
+        designerR.value = user;
       },
     );
 
@@ -80,8 +117,6 @@ class GetDataControllerGetx extends GetxController {
 
   /// get all reviews for designer
   Future<void> getDataReviews() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
     if (id == null) {
       isLoading.value = false;
@@ -101,14 +136,10 @@ class GetDataControllerGetx extends GetxController {
         reviews.assignAll(data);
       },
     );
-
-    isLoading.value = false;
   }
 
   /// get all works of designer
   Future<void> getDataWorks() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
     if (id == null) {
       isLoading.value = false;
@@ -128,7 +159,24 @@ class GetDataControllerGetx extends GetxController {
         works.assignAll(data);
       },
     );
+  }
 
+  Future<void> updateDesigner(Designer designer) async {
+    isLoading.value = true;
+
+    final result = await updateProfileUseCase(designer);
+    result.fold((failure) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        DialogHelper.showErrorSnackBar(
+            title: "Error", message: failure.message);
+      });
+    }, (profile) {
+      getDataDesignerProfile();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        DialogHelper.showSuccessSnackBar(
+            title: "نجاح", message: "تمت التعديل بنجاح!");
+      });
+    });
     isLoading.value = false;
   }
 

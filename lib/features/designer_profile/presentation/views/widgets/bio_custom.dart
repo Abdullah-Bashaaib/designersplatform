@@ -3,6 +3,7 @@ import 'package:designers_platform/features/designer_profile/presentation/getx/g
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 
@@ -13,7 +14,6 @@ class BioCustom extends StatelessWidget {
   final controller = Get.find<GetDataControllerGetx>();
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designer.value!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,9 +47,19 @@ class BioCustom extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Text(
-          designer.bio ?? "none",
-          style: AppStyles.bodySmall,
+        Obx(
+          () {
+            final designer = controller.designerR.value;
+            return Skeletonizer(
+              enabled: controller.isLoading.value,
+              child: designer == null
+                  ? Text("لا توجد بيانات")
+                  : Text(
+                      designer.bio!,
+                      style: AppStyles.bodySmall,
+                    ),
+            );
+          },
         ),
       ],
     );

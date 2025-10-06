@@ -1,5 +1,58 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/designer_profile/data/models/designer_model.dart';
 
 abstract class DesignerRemoteDataSource {
-  Future<DesignerModel> getDesigner(String id);
+  Future<DesignerModel?> getData(String id);
+  Future<Unit> updateData(DesignerModel designer);
+  Future<Unit> deleteData(String id);
+}
+
+class DesignerRemoteDataSourceImpByFirebase
+    implements DesignerRemoteDataSource {
+  final FirebaseFirestore firestore;
+
+  DesignerRemoteDataSourceImpByFirebase({required this.firestore});
+
+  CollectionReference get _designerRef => firestore.collection('Users');
+
+  @override
+  Future<DesignerModel?> getData(String id) async {
+    try {
+      log("----------------------------------> The user id in firebase : $id");
+      final doc = await _designerRef.doc(id).get();
+      log("---------------------------------> the exist doc ${doc.data()}");
+      if (!doc.exists) return null;
+      return DesignerModel.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      log("-------------------------------------> Error in Firebase : $e");
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<Unit> updateData(DesignerModel designer) async {
+    try {
+      await _designerRef.doc(designer.user.id).set(
+            designer.toJson(),
+            SetOptions(merge: true),
+          );
+      return unit;
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<Unit> deleteData(String id) async {
+    try {
+      await _designerRef.doc(id).delete();
+      return unit;
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
 }

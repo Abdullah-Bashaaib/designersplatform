@@ -24,6 +24,7 @@ import 'package:designers_platform/features/customer_profile/presentation/getx/c
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/designer_local_data_source.dart';
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/review_local_data_source.dart';
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/work_local_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/remote_data_source/designer_remote_data_source.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/dseigner_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
@@ -38,7 +39,6 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/delete_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
-import 'package:designers_platform/features/designer_profile/presentation/getx/add_update_delete_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -183,6 +183,8 @@ class Injection {
         sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
+    Get.lazyPut(() => DesignerRemoteDataSourceImpByFirebase(
+        firestore: Get.find<FirebaseFirestore>()));
     Get.lazyPut(
       () => ReviewLocalDataSourceImpBySql(
         sharedPreferences: Get.find<SharedPreferences>(),
@@ -197,8 +199,9 @@ class Injection {
     /// Repo
     Get.lazyPut(
       () => DesignerRepoImp(
-        Get.find<DesignerLocalDataSourceImpBySharedPref>(),
-      ),
+          Get.find<DesignerLocalDataSourceImpBySharedPref>(),
+          Get.find<NetworkInfo>(),
+          Get.find<DesignerRemoteDataSourceImpByFirebase>()),
     );
     Get.lazyPut(
       () => ReviewRepoImp(
@@ -269,26 +272,23 @@ class Injection {
     );
 
     /// GetX Controller
-    Get.put<GetDataControllerGetx>(
-      GetDataControllerGetx(
+    Get.lazyPut<GetDataControllerGetx>(
+      fenix: true,
+      () => GetDataControllerGetx(
         Get.find<GetProfileUseCase>(),
         Get.find<GetReviewUseCase>(),
         Get.find<GetWorkUseCase>(),
         Get.find<LogoutUsecase>(),
         Get.find<SharedPreferences>(),
+        Get.find<AddReviewUseCase>(),
+        Get.find<AddWorkUseCase>(),
+        Get.find<DeleteProfileUseCase>(),
+        Get.find<DeleteReviewUseCase>(),
+        Get.find<DeleteWorkUseCase>(),
+        Get.find<UpdateProfileUseCase>(),
+        Get.find<UpdateReviewUseCase>(),
+        Get.find<UpdateWorkUseCase>(),
       ),
-      permanent: true,
     );
-
-    Get.put<AddUpdateDeleteGetx>(AddUpdateDeleteGetx(
-      Get.find<UpdateProfileUseCase>(),
-      Get.find<DeleteProfileUseCase>(),
-      Get.find<AddReviewUseCase>(),
-      Get.find<UpdateReviewUseCase>(),
-      Get.find<DeleteReviewUseCase>(),
-      Get.find<AddWorkUseCase>(),
-      Get.find<UpdateWorkUseCase>(),
-      Get.find<DeleteWorkUseCase>(),
-    ));
   }
 }

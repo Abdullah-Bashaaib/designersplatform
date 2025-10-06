@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
@@ -9,6 +11,7 @@ class GetProfileUseCase {
   GetProfileUseCase({required this.designerRepository});
 
   Future<Either<Failure, Designer>> call(String id) async {
+    log("----------------------------------> in use case user id : $id");
     return await designerRepository.getDesigner(id);
   }
 }
