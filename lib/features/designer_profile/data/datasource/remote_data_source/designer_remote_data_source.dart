@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/designer_profile/data/models/designer_model.dart';
 
 abstract class DesignerRemoteDataSource {
-  Future<List<DesignerModel>> getAllDesigners();
   Future<DesignerModel?> getData(String id);
   Future<Unit> updateData(DesignerModel designer);
   Future<Unit> deleteData(String id);
@@ -17,33 +17,19 @@ class DesignerRemoteDataSourceImpByFirebase
 
   DesignerRemoteDataSourceImpByFirebase({required this.firestore});
 
-  CollectionReference get _designerRef => firestore.collection('designers');
-
-  @override
-  Future<List<DesignerModel>> getAllDesigners() async {
-    try {
-      final querySnapshot = await _designerRef.get();
-      final designers = querySnapshot.docs
-          .map((doc) => DesignerModel.fromJson(
-                doc.data() as Map<String, dynamic>,
-              ))
-          .toList();
-      return designers;
-    } catch (e) {
-      log("🔥 Error in getAllDesigners: $e");
-      return [];
-    }
-  }
+  CollectionReference get _designerRef => firestore.collection('Users');
 
   @override
   Future<DesignerModel?> getData(String id) async {
     try {
+      log("----------------------------------> The user id in firebase : $id");
       final doc = await _designerRef.doc(id).get();
+      log("---------------------------------> the exist doc ${doc.data()}");
       if (!doc.exists) return null;
       return DesignerModel.fromJson(doc.data() as Map<String, dynamic>);
     } catch (e) {
-      log("🔥 Error in getData: $e");
-      return null;
+      log("-------------------------------------> Error in Firebase : $e");
+      throw ServerException(e);
     }
   }
 
@@ -56,8 +42,7 @@ class DesignerRemoteDataSourceImpByFirebase
           );
       return unit;
     } catch (e) {
-      print("🔥 Error in updateData: $e");
-      return unit;
+      throw ServerException(e);
     }
   }
 
@@ -67,8 +52,7 @@ class DesignerRemoteDataSourceImpByFirebase
       await _designerRef.doc(id).delete();
       return unit;
     } catch (e) {
-      print("🔥 Error in deleteData: $e");
-      return unit;
+      throw ServerException(e);
     }
   }
 }

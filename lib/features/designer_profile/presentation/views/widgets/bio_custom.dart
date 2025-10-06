@@ -3,6 +3,7 @@ import 'package:designers_platform/features/designer_profile/presentation/getx/g
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 
@@ -49,9 +50,14 @@ class BioCustom extends StatelessWidget {
         Obx(
           () {
             final designer = controller.designerR.value;
-            return Text(
-              designer?.bio ?? "none",
-              style: AppStyles.bodySmall,
+            return Skeletonizer(
+              enabled: controller.isLoading.value,
+              child: designer == null
+                  ? Text("لا توجد بيانات")
+                  : Text(
+                      designer.bio!,
+                      style: AppStyles.bodySmall,
+                    ),
             );
           },
         ),

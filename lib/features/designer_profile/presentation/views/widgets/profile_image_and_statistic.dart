@@ -6,6 +6,7 @@ import 'package:designers_platform/features/designer_profile/presentation/views/
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileImageAndStatistic extends StatelessWidget {
   ProfileImageAndStatistic({super.key});
@@ -21,14 +22,18 @@ class ProfileImageAndStatistic extends StatelessWidget {
           children: [
             CircleAvatarCustom(),
             Positioned(
-                right: 110.r,
-                top: 5.r,
-                child: Obx(
-                  () => Text(
-                    controller.designerR.value?.user.name ?? "لا يوجد أحد",
-                    style: AppStyles.headingSmall,
-                  ),
-                )),
+              right: 110.r,
+              top: 5.r,
+              child: Obx(() => Skeletonizer(
+                    enabled: controller.isLoading.value,
+                    child: controller.designerR.value == null
+                        ? Text("لا نوجد بيانات")
+                        : Text(
+                            controller.designerR.value!.user.name,
+                            style: AppStyles.headingSmall,
+                          ),
+                  )),
+            ),
             Positioned(
               right: 140.r,
               top: 40.r,
@@ -36,23 +41,37 @@ class ProfileImageAndStatistic extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Obx(
-                    () => NumbersOfProfile(
-                      field: 'الأعمال',
-                      number: "${controller.designerR.value?.worksCount ?? 0}",
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
+                        field: 'الأعمال',
+                        number:
+                            "${controller.designerR.value?.worksCount ?? 0}",
+                      ),
                     ),
                   ),
                   SizedBox(width: 30.w),
-                  Obx(() => NumbersOfProfile(
+                  Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
                         field: 'التقييمات',
                         number:
                             "${controller.designerR.value?.reviewsCount ?? 0}",
-                      )),
+                      ),
+                    ),
+                  ),
                   SizedBox(width: 30.w),
-                  Obx(() => NumbersOfProfile(
+                  Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: NumbersOfProfile(
                         field: 'الطلبات',
                         number:
                             "${controller.designerR.value?.worksCount ?? 0}",
-                      )),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -68,15 +87,19 @@ class ProfileImageAndStatistic extends StatelessWidget {
                   color: AppColors.primaryColor.withValues(alpha: 0.5),
                 ),
                 child: Center(
-                    child: Obx(
-                  () => Text(
-                    controller.designerR.value?.specialization ?? "none",
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
+                  child: Obx(
+                    () => Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: Text(
+                        controller.designerR.value?.specialization ?? "none",
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                )),
+                ),
               ),
             )
           ],

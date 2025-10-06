@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
@@ -40,7 +42,7 @@ class GetDataControllerGetx extends GetxController {
   final UpdateWorkUseCase updateWorkUseCase;
   final DeleteWorkUseCase deleteWorkUseCase;
 
-  var isLoading = false.obs;
+  RxBool isLoading = true.obs;
   var designerR = Rxn<Designer>();
   var reviews = <Review>[].obs;
   var works = <Work>[].obs;
@@ -64,26 +66,31 @@ class GetDataControllerGetx extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getDataDesignerProfile(); // ← الملاحة ستكون آمنة هنا
-    });
-    getDataReviews();
-    getDataWorks();
+    fetchAllData();
+  }
+
+  Future<void> fetchAllData() async {
+    isLoading.value = true;
+
+    await Future.wait([
+      getDataDesignerProfile(),
+      getDataReviews(),
+      getDataWorks(),
+    ]);
+
+    isLoading.value = false;
   }
 
   /// get the designer profile
   Future<void> getDataDesignerProfile() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
-
+    log("----------------------------------> The user id : $id");
     if (id == null) {
       Get.offAll(() => WelcomePage());
       DialogHelper.showErrorSnackBar(
         title: "خطأ",
         message: "لم يتم العثور على معرف المستخدم",
       );
-      isLoading.value = false;
       return;
     }
 
@@ -109,8 +116,6 @@ class GetDataControllerGetx extends GetxController {
 
   /// get all reviews for designer
   Future<void> getDataReviews() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
     if (id == null) {
       isLoading.value = false;
@@ -130,14 +135,10 @@ class GetDataControllerGetx extends GetxController {
         reviews.assignAll(data);
       },
     );
-
-    isLoading.value = false;
   }
 
   /// get all works of designer
   Future<void> getDataWorks() async {
-    isLoading.value = true;
-
     final id = sharedPreferences.getString(KeySharedPref.kUserId);
     if (id == null) {
       isLoading.value = false;
@@ -157,8 +158,6 @@ class GetDataControllerGetx extends GetxController {
         works.assignAll(data);
       },
     );
-
-    isLoading.value = false;
   }
 
   Future<void> updateDesigner(Designer designer) async {

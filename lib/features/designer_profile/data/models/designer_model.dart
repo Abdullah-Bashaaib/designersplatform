@@ -21,8 +21,8 @@ class DesignerModel extends Designer {
   factory DesignerModel.fromJson(Map<String, dynamic> json) {
     return DesignerModel(
         user: UserModel.fromJson(json['user']),
-        reviewId: json['reviewId'],
-        bio: json['bio'],
+        reviewId: json['reviewId'] ?? '0',
+        bio: json['bio'] ?? '',
         numberBank: json['number_bank'],
         nameBank: json['name_bank'],
         specialization: json['specialization'],

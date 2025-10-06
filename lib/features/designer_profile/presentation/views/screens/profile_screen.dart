@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../getx/getData_controller_getx.dart';
 
@@ -19,11 +20,18 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designer = controller.designerR.value;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(designer?.user.email.split("@")[0] ?? " nothing "),
+        title: Obx(() {
+          final designer = controller.designerR.value;
+          return Skeletonizer(
+            enabled: controller.isLoading.value,
+            child: designer == null
+                ? Text("لا توجد بيانات")
+                : Text(designer.user.email.split("@")[0]),
+          );
+        }),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [
@@ -45,13 +53,14 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               PopupMenuItem(
-                  onTap: () {
-                    controller.logout();
-                  },
-                  child: ListTile(
-                    leading: Icon(Icons.logout),
-                    title: Text("تسجيل الخروج"),
-                  ))
+                onTap: () {
+                  controller.logout();
+                },
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text("تسجيل الخروج"),
+                ),
+              )
             ],
           )
         ],
