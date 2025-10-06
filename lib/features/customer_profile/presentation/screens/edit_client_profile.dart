@@ -55,7 +55,7 @@ class EditClientProfile extends StatelessWidget {
                     radius: 50.r,
                     backgroundImage: c.avatarUrl.value != ''
                         ? NetworkImage(c.avatarUrl.value!)
-                        : AssetImage(AppImage.profileImage),
+                        : AssetImage(AppImage.icon1),
                   ),
                 ),
                 Positioned(
@@ -79,15 +79,20 @@ class EditClientProfile extends StatelessWidget {
                                 TextButton(
                                     onPressed: () {
                                       c.addAvatar();
+                                      Get.back();
                                     },
                                     child: Text('تعديل الصورة')),
                                 TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      'حذف الصورة',
-                                      style: TextStyle(
-                                          color: AppColors.errorColor),
-                                    )),
+                                  onPressed: () {
+                                    c.deleteAvatar();
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'حذف الصورة',
+                                    style:
+                                        TextStyle(color: AppColors.errorColor),
+                                  ),
+                                ),
                               ],
                             ));
                         // c.addAvatar();
