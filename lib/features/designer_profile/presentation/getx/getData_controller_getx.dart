@@ -67,6 +67,7 @@ class GetDataControllerGetx extends GetxController {
   void onInit() {
     super.onInit();
     fetchAllData();
+
   }
 
   Future<void> fetchAllData() async {

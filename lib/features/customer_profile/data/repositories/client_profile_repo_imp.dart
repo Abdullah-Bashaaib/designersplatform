@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/core/network/network_info.dart';
@@ -25,15 +26,15 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   Future<Either<Failure, Unit>> updateProfile(Client client) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.updateProfile(client);
-        await localDataSource.updateProfile(client);
+        // await remoteDataSource.updateProfile(client);
+        // localDataSource.updateProfile(client);
         return right(unit);
       } on ServerException {
         return left(ServerFailure());
       }
     } else {
       try {
-        await localDataSource.updateProfile(client);
+        // localDataSource.updateProfile(client);
         return right(unit);
       } on LocalException {
         return left(LocalFailure());
@@ -95,6 +96,8 @@ class ClientProfileRepoImp implements ClientProfileRepo {
     if (await networkInfo.isConnected) {
       try {
         final imageUrl = await remoteDataSource.addAvatar(file);
+        CurrentUser.currentUser!.avatarUrl = imageUrl;
+        localDataSource.saveUser(CurrentUser.currentUser!);
         return right(imageUrl);
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));
@@ -111,6 +114,22 @@ class ClientProfileRepoImp implements ClientProfileRepo {
       return right(unit);
     } on LocalException catch (e) {
       return left(LocalFailure(e.message.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAvatar() async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.deleteAvatar();
+        CurrentUser.currentUser!.avatarUrl = '';
+        localDataSource.saveUser(CurrentUser.currentUser!);
+        return right(unit);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
     }
   }
 }
