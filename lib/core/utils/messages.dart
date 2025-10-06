@@ -13,3 +13,5 @@ const passwordVerifiedSuccessMessage =
 const emptyEmailMessage = 'البريد الالكتروني غير موجود';
 const foundAccountMessage = 'هذا الحساب موجود';
 const passwordFalseMessage = 'البريد الالكتروني او كلمة المرور خاطئة';
+const deleteAvatarMessage = 'تم حذف صورة الملف الشخصي بنجاح';
+const updateAvatarMessage = 'تم تعديل صورة الملف الشخصي بنجاح';
