@@ -16,9 +16,10 @@ class UpdateProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var designer = controller.designerR.value!;
-    _nameController.text = designer.user.name;
-    _bioController.text = designer.bio ?? "none";
-    _specializationController.text = designer.specialization ?? "none";
+    _nameController.text = designer.name;
+    _bioController.text = designer.bio ?? "لا توجد بيانات";
+    _specializationController.text =
+        designer.specialization ?? "لا توجد بيانات";
     return Scaffold(
       appBar: AppBar(
         title: Text("تعديل الملف الشخصي"),
@@ -167,7 +168,7 @@ class UpdateProfile extends StatelessWidget {
                 child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
-                    designer.user.name = _nameController.text;
+                    designer.name = _nameController.text;
                     designer.bio = _bioController.text;
                     designer.specialization = _specializationController.text;
                     controller.updateDesigner(designer);

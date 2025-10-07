@@ -1,10 +1,12 @@
-import 'package:designers_platform/features/auth/data/models/user_model.dart';
-
 import '../../domain/entities/designer.dart';
 
 class DesignerModel extends Designer {
   DesignerModel({
-    required super.user,
+    required super.id,
+    required super.name,
+    required super.email,
+    required super.role,
+    required super.avatarUrl,
     required super.reviewId,
     required super.bio,
     required super.numberBank,
@@ -20,21 +22,29 @@ class DesignerModel extends Designer {
 
   factory DesignerModel.fromJson(Map<String, dynamic> json) {
     return DesignerModel(
-        user: UserModel.fromJson(json['user']),
-        reviewId: json['reviewId'] ?? '0',
-        bio: json['bio'] ?? '',
-        numberBank: json['number_bank'],
-        nameBank: json['name_bank'],
-        specialization: json['specialization'],
-        isAvailable: json['is_available'],
-        totalOrders: json['total_orders'],
-        worksCount: json['works_count'],
-        averageRating: json['average_review'],
-        reviewsCount: json['review_count']);
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        role: json['role'],
+        avatarUrl: json['avatarUrl'] ?? '',
+        reviewId: json['review_id'] ?? '0',
+        bio: json['bio'] ?? 'لا توجد بيانات',
+        numberBank: json['number_bank'] ?? 0,
+        nameBank: json['name_bank'] ?? 'لا توجد بيانات',
+        specialization: json['specialization'] ?? 'لا توجد بيانات',
+        isAvailable: json['is_available'] ?? 0,
+        totalOrders: json['total_orders'] ?? 0,
+        worksCount: json['works_count'] ?? 0,
+        averageRating: json['average_review'] ?? 0,
+        reviewsCount: json['review_count'] ?? 0);
   }
   factory DesignerModel.fromEntity(Designer designer) {
     return DesignerModel(
-      user: designer.user,
+      id: designer.id,
+      name: designer.name,
+      email: designer.email,
+      role: designer.role,
+      avatarUrl: designer.avatarUrl,
       reviewId: designer.reviewId,
       reviewsCount: designer.reviewsCount,
       bio: designer.bio,
@@ -50,8 +60,12 @@ class DesignerModel extends Designer {
 
   Map<String, dynamic> toJson() {
     return {
-      'user': (user as UserModel).toMap(),
-      'reviewId': reviewId,
+      'id': id,
+      'name': name,
+      'email': email,
+      'role': role,
+      'avatarUrl': avatarUrl,
+      'review_id': reviewId,
       'bio': bio,
       'number_bank': numberBank,
       'name_bank': nameBank,

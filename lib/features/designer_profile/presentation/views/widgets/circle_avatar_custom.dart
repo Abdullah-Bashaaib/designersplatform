@@ -22,9 +22,9 @@ class CircleAvatarCustom extends StatelessWidget {
             backgroundColor: Colors.grey.shade200,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100.r),
-              child: controller.designerR.value?.user.avatarUrl != null
+              child: controller.designerR.value?.avatarUrl != null
                   ? Image.network(
-                      controller.designerR.value!.user.avatarUrl!,
+                      controller.designerR.value!.avatarUrl!,
                       fit: BoxFit.cover,
                       width: 100.w,
                       height: 100.h,

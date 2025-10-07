@@ -23,9 +23,9 @@ class HeroAvatar extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(150.r),
-            child: controller.designerR.value?.user.avatarUrl != null
+            child: controller.designerR.value?.avatarUrl != null
                 ? Image.network(
-                    controller.designerR.value!.user.avatarUrl!,
+                    controller.designerR.value!.avatarUrl!,
                     fit: BoxFit.cover,
                     width: 100.w,
                     height: 100.h,
