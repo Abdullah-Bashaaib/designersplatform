@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/usecase/save_user.dart';
@@ -8,7 +11,7 @@ import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
-import 'package:designers_platform/features/customer_profile/domain/usecases/add_avatar.dart';
+import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
@@ -24,6 +27,7 @@ class ClientProfileController extends GetxController {
   final GetFavoritesUsecase getFavoritesUsecase;
   final GetOrdersUsecase getOrdersUsecase;
   final AddAvatarUsecase addAvatarUsecase;
+  final DeleteAvatarUsecase deleteAvatarUsecase;
   final SaveUserUsecase saveUserUsecase;
   final LogoutUsecase logoutUsecase;
 
@@ -36,6 +40,7 @@ class ClientProfileController extends GetxController {
     this.logoutUsecase,
     this.addAvatarUsecase,
     this.saveUserUsecase,
+    this.deleteAvatarUsecase,
   );
 
   var userName = TextEditingController().obs;
@@ -93,16 +98,30 @@ class ClientProfileController extends GetxController {
 
   void addAvatar() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
     final imageUrl = await addAvatarUsecase.call(image);
-    imageUrl.fold(
-        (failure) => DialogHelper.showErrorSnackBar(
-            title: 'error', message: failure.message), (s) {
-      CurrentUser.currentUser!.avatarUrl = s;
+    imageUrl.fold((failure) {
+      DialogHelper.showErrorSnackBar(title: 'error', message: failure.message);
+    }, (s) {
+      avatarUrl.value = s;
       saveUserUsecase.call(CurrentUser.currentUser!);
+      DialogHelper.showSuccessSnackBar(
+          title: 'ok', message: updateAvatarMessage);
+    });
+  }
+
+  Future<void> deleteAvatar() async {
+    final result = await deleteAvatarUsecase.call();
+    result.fold(
+        (f) =>
+            DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
+        (u) {
+      DialogHelper.showSuccessSnackBar(
+          title: 'ok', message: deleteAvatarMessage);
+      avatarUrl.value = '';
     });
   }
 

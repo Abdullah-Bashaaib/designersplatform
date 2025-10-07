@@ -17,6 +17,7 @@ class ViewProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.find<ClientProfileController>();
     c.getProfile();
+    print(CurrentUser.currentUser!);
 
     return Scaffold(
       appBar: AppBar(
@@ -84,16 +85,16 @@ class ViewProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: CircleAvatar(
-                radius: 55.r,
-                backgroundColor: Colors.blueAccent.withOpacity(0.2),
-                child: CircleAvatar(
-                  radius: 50.r,
-                  backgroundImage: CurrentUser.currentUser!.avatarUrl != null
-                      ? NetworkImage(CurrentUser.currentUser!.avatarUrl!)
-                      : AssetImage(AppImage.profileImage),
-                ),
-              ),
+              child: Obx(() => CircleAvatar(
+                    radius: 55.r,
+                    backgroundColor: Colors.blueAccent.withOpacity(0.2),
+                    child: CircleAvatar(
+                      radius: 50.r,
+                      backgroundImage: c.avatarUrl.value != ''
+                          ? NetworkImage(c.avatarUrl.value!)
+                          : AssetImage(AppImage.icon1),
+                    ),
+                  )),
             ),
             SizedBox(height: 20.h),
             Text('اسم المستخدم:'),

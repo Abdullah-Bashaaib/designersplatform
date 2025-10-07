@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
+import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/usecase/save_user.dart';
@@ -15,7 +16,7 @@ import 'package:designers_platform/features/customer_profile/data/data_source/lo
 import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
-import 'package:designers_platform/features/customer_profile/domain/usecases/add_avatar.dart';
+import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
@@ -128,8 +129,7 @@ class Injection {
           Get.find<SupabaseClient>(), Get.find<FirebaseFirestore>()),
     );
     Get.lazyPut<ClientLocalDataSource>(
-      () => ClientLocalDataSourceImp(
-          Get.find<Database>(), Get.find<SharedPreferences>()),
+      () => ClientLocalDataSourceImp(Get.find<SharedPreferences>()),
     );
 
     /// Repo
@@ -158,6 +158,9 @@ class Injection {
     Get.lazyPut<SaveUserUsecase>(
         () => SaveUserUsecase(Get.find<ClientProfileRepo>()));
 
+    Get.lazyPut<DeleteAvatarUsecase>(
+        () => DeleteAvatarUsecase(Get.find<ClientProfileRepo>()));
+
     /// GetX
     Get.lazyPut<ClientProfileController>(
         () => ClientProfileController(
@@ -169,6 +172,7 @@ class Injection {
               Get.find<LogoutUsecase>(),
               Get.find<AddAvatarUsecase>(),
               Get.find<SaveUserUsecase>(),
+              Get.find<DeleteAvatarUsecase>(),
             ),
         fenix: true);
 
