@@ -56,7 +56,7 @@ class BioCustom extends StatelessWidget {
                   ? Text("لا توجد بيانات")
                   : Text(
                       designer.bio!,
-                      style: AppStyles.bodySmall,
+                      style: AppStyles.bodyMedium,
                     ),
             );
           },

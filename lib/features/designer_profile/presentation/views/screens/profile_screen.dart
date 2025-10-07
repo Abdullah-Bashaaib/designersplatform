@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
             enabled: controller.isLoading.value,
             child: designer == null
                 ? Text("لا توجد بيانات")
-                : Text(designer.user.email.split("@")[0]),
+                : Text(designer.email.split("@")[0]),
           );
         }),
         actions: [
