@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../domain/entities/order_entity.dart';
 
 class ViewOrders extends StatelessWidget {
   const ViewOrders({super.key});
@@ -39,14 +38,13 @@ class ViewOrders extends StatelessWidget {
                         elevation: 4,
                         child: Row(
                           children: [
-                            // صورة الطلب
                             ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(16.r),
                                 bottomLeft: Radius.circular(16.r),
                               ),
                               child: Image.network(
-                                order.imageUrl,
+                                order.imageUrl!,
                                 width: 100.w,
                                 height: 100.h,
                                 fit: BoxFit.cover,
@@ -55,7 +53,6 @@ class ViewOrders extends StatelessWidget {
 
                             SizedBox(width: 12.w),
 
-                            // بيانات المصمم
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 12.h),

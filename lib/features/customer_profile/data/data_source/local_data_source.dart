@@ -1,18 +1,15 @@
 import 'dart:convert';
 
-import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/customer_profile/data/model/client_model.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/utils/key_app.dart';
 import '../../../auth/data/models/user_model.dart';
 import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientLocalDataSource {
-  void updateProfile(User user);
   Client? getProfile();
   void saveUser(User user);
 }
@@ -21,15 +18,6 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
   final SharedPreferences perf;
 
   ClientLocalDataSourceImp( this.perf);
-  @override
-  void updateProfile(User user)  {
-    try {
-      
-      saveUser(user);
-    } catch (e) {
-      throw LocalException();
-    }
-  }
 
   @override
   Client? getProfile() {
