@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/usecase/logout.dart';
@@ -41,11 +43,14 @@ class GetDataControllerGetx extends GetxController {
   final AddWorkUseCase addWorkUseCase;
   final UpdateWorkUseCase updateWorkUseCase;
   final DeleteWorkUseCase deleteWorkUseCase;
+  // avatar use case
+  final AddAvatarUsecase addAvatarUsecase;
 
   RxBool isLoading = true.obs;
   var designerR = Rxn<Designer>();
   var reviews = <Review>[].obs;
   var works = <Work>[].obs;
+  // var avatarUrl = CurrentUser.currentUser!.avatarUrl;
 
   GetDataControllerGetx(
     this.getProfileUseCase,
@@ -61,13 +66,13 @@ class GetDataControllerGetx extends GetxController {
     this.updateProfileUseCase,
     this.updateReviewUseCase,
     this.updateWorkUseCase,
+    this.addAvatarUsecase,
   );
 
   @override
   void onInit() {
     super.onInit();
     fetchAllData();
-
   }
 
   Future<void> fetchAllData() async {
@@ -168,18 +173,62 @@ class GetDataControllerGetx extends GetxController {
     result.fold((failure) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogHelper.showErrorSnackBar(
-            title: "Error", message: failure.message);
+            title: "خطأ!!", message: failure.message);
       });
     }, (profile) {
       getDataDesignerProfile();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         DialogHelper.showSuccessSnackBar(
-            title: "نجاح", message: "تمت التعديل بنجاح!");
+            title: "نجاح!!", message: "تمت التعديل بنجاح!");
       });
     });
     isLoading.value = false;
   }
 
+  /// edit avatar designer
+  void editAvatar() async {
+    isLoading.value = true;
+    final picker = ImagePicker();
+
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        isLoading.value = false;
+        return;
+      }
+
+      final result = await addAvatarUsecase(image);
+
+      result.fold(
+        (failure) {
+          DialogHelper.showErrorSnackBar(
+            title: "خطأ!!",
+            message: failure.message,
+          );
+        },
+        (avatarUrl) {
+          // ✅ تحديث القيمة بشكل صحيح لتفعيل الـ Obx
+          designerR.update((designer) {
+            designer?.avatarUrl = avatarUrl;
+          });
+          DialogHelper.showSuccessSnackBar(
+            title: "نجاح!!",
+            message: "تم التعديل بنجاح!",
+          );
+          log("-------------------------> new avatarUrl : $avatarUrl");
+        },
+      );
+    } catch (e) {
+      DialogHelper.showErrorSnackBar(
+        title: "خطأ!!",
+        message: "حدث خطأ أثناء اختيار الصورة: $e",
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// log out methods
   void logout() {
     logoutUsecase.call();
     Get.offAll(() => WelcomePage());

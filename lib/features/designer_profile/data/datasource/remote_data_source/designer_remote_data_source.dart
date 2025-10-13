@@ -22,6 +22,8 @@ class DesignerRemoteDataSourceImpByFirebase
   @override
   Future<DesignerModel?> getData(String id) async {
     try {
+      log("------------------------------------->  in Firebase : $id");
+
       final doc = await _designerRef
           .doc(id)
           .get(const GetOptions(source: Source.serverAndCache));
