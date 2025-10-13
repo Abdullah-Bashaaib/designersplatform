@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_image.dart';
@@ -17,62 +20,67 @@ class HeroAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: "Avatar",
-      child: Stack(clipBehavior: Clip.none, children: [
-        CircleAvatar(
-          radius: 70.r,
-          backgroundColor: Colors.grey.shade200,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(150.r),
-            child: controller.designerR.value?.user.avatarUrl != null
-                ? Image.network(
-                    controller.designerR.value!.user.avatarUrl!,
-                    fit: BoxFit.cover,
-                    width: 100.w,
-                    height: 100.h,
-                    // هنا نحط اللودر
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: SizedBox(
-                          width: 30.r,
-                          height: 30.r,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.w,
-                            color: AppColors.primaryColor,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    (loadingProgress.expectedTotalBytes ?? 1)
-                                : null,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Obx(() {
+            final avatarUrl = controller.designerR.value?.avatarUrl;
+            return CircleAvatar(
+              radius: 70.r,
+              backgroundColor: Colors.grey.shade200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(150.r),
+                child: Skeletonizer(
+                  enabled: controller.isLoading.value,
+                  child: avatarUrl != null
+                      ? CachedNetworkImage(
+                          imageUrl:
+                              "$avatarUrl?v=${DateTime.now().millisecondsSinceEpoch}",
+                          fit: BoxFit.cover,
+                          width: 140.w,
+                          height: 140.h,
+                          placeholder: (context, url) => Center(
+                            child: SizedBox(
+                              width: 30.r,
+                              height: 30.r,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.w,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
                           ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            AppImage.icon1,
+                            fit: BoxFit.cover,
+                            width: 140.w,
+                            height: 140.h,
+                          ),
+                        )
+                      : Image.asset(
+                          AppImage.icon1,
+                          fit: BoxFit.cover,
+                          width: 140.w,
+                          height: 140.h,
                         ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        AppImage.icon1,
-                        fit: BoxFit.cover,
-                        width: 140.w,
-                        height: 140.h,
-                      );
-                    },
-                  )
-                : Image.asset(
-                    AppImage.icon1,
-                    fit: BoxFit.cover,
-                    width: 140.w,
-                    height: 140.h,
-                  ),
-          ),
-        ),
-        Positioned(
-            top: 100.r,
-            child: GestureDetector(
-              onTap: () {},
-              child: CircleAvatar(
-                child: Icon(Icons.photo_camera_back_outlined),
+                ),
               ),
-            )),
-      ]),
+            );
+          }),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: controller.editAvatar,
+              child: CircleAvatar(
+                radius: 20.r,
+                backgroundColor: AppColors.primaryColor,
+                child:
+                    Icon(Icons.photo_camera, color: Colors.white, size: 20.r),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

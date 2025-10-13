@@ -59,7 +59,7 @@ void main() {
 
       // Assert
       expect(result, isA<DesignerModel>());
-      expect(result?.user.id, "123");
+      expect(result?.id, "123");
     });
 
     test('should return null if designer with id does not exist', () async {

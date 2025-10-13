@@ -29,7 +29,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
                     child: controller.designerR.value == null
                         ? Text("لا نوجد بيانات")
                         : Text(
-                            controller.designerR.value!.user.name,
+                            controller.designerR.value!.name,
                             style: AppStyles.headingSmall,
                           ),
                   )),

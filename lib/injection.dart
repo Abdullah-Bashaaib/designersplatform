@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:designers_platform/core/database/sqflite_helper.dart';
 import 'package:designers_platform/core/network/network_info.dart';
+import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
@@ -16,7 +16,6 @@ import 'package:designers_platform/features/customer_profile/data/data_source/lo
 import 'package:designers_platform/features/customer_profile/data/data_source/remote_data_source.dart';
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
-import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
@@ -44,7 +43,6 @@ import 'package:designers_platform/features/designer_profile/presentation/getx/g
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -64,10 +62,6 @@ class Injection {
     final sharedPreferences = await SharedPreferences.getInstance();
     Get.put<SharedPreferences>(sharedPreferences, permanent: true);
     // ==========================================================================
-
-    /// Database
-    final db = await sqlHelper.openDB();
-    Get.put<Database>(db, permanent: true);
 
     /// Firebase
     final dbF = FirebaseFirestore.instance;
@@ -178,7 +172,6 @@ class Injection {
 
     ///========================== [ Feat: Designer Profile ] ==============================
     ///Data Source
-    Get.put(SQLHelper());
 
     ///Data Local
     Get.lazyPut(() => Get.find<SharedPreferences>());
@@ -279,20 +272,20 @@ class Injection {
     Get.lazyPut<GetDataControllerGetx>(
       fenix: true,
       () => GetDataControllerGetx(
-        Get.find<GetProfileUseCase>(),
-        Get.find<GetReviewUseCase>(),
-        Get.find<GetWorkUseCase>(),
-        Get.find<LogoutUsecase>(),
-        Get.find<SharedPreferences>(),
-        Get.find<AddReviewUseCase>(),
-        Get.find<AddWorkUseCase>(),
-        Get.find<DeleteProfileUseCase>(),
-        Get.find<DeleteReviewUseCase>(),
-        Get.find<DeleteWorkUseCase>(),
-        Get.find<UpdateProfileUseCase>(),
-        Get.find<UpdateReviewUseCase>(),
-        Get.find<UpdateWorkUseCase>(),
-      ),
+          Get.find<GetProfileUseCase>(),
+          Get.find<GetReviewUseCase>(),
+          Get.find<GetWorkUseCase>(),
+          Get.find<LogoutUsecase>(),
+          Get.find<SharedPreferences>(),
+          Get.find<AddReviewUseCase>(),
+          Get.find<AddWorkUseCase>(),
+          Get.find<DeleteProfileUseCase>(),
+          Get.find<DeleteReviewUseCase>(),
+          Get.find<DeleteWorkUseCase>(),
+          Get.find<UpdateProfileUseCase>(),
+          Get.find<UpdateReviewUseCase>(),
+          Get.find<UpdateWorkUseCase>(),
+          Get.find<AddAvatarUsecase>()),
     );
   }
 }

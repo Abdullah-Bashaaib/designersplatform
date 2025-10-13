@@ -28,30 +28,33 @@ class DesignerLocalDataSourceImpBySharedPref
       // حاول تهيئة المصمم إذا كان المستخدم موجود ودوره designer
       if (userJsonString != null) {
         final userJson = jsonDecode(userJsonString);
-        log("-------------------------------------------------------${userJson['role']}");
 
         if (userJson['role'] == 'مصمم') {
-          final designer = DesignerModel.fromJson({
-            "user": userJson,
-            "bio": "none",
-            "number_bank": 0,
-            "name_bank": "none",
-            "specialization": "UI/UX",
-            "is_available": 0,
-            "reviewId": "none",
-            "total_orders": 0,
-            "works_count": 0,
-          });
-
+          final designer = DesignerModel.fromJson(
+            {
+              "id": userJson['id'],
+              "name": userJson['name'],
+              "email": userJson['email'],
+              "role": userJson['role'],
+              "avatarUrl": userJson['avatarUrl'] ?? "",
+              "bio": "none",
+              "number_bank": 0,
+              "name_bank": "none",
+              "specialization": "UI/UX",
+              "is_available": 0,
+              "review_id": "none",
+              "total_orders": 0,
+              "works_count": 0,
+            },
+          );
           final savedDesignerString =
               sharedPreferences.getString(KeySharedPref.designerKey);
+
           List<dynamic> designerList = savedDesignerString != null
               ? jsonDecode(savedDesignerString)
               : [];
-
           // إذا لم يكن المصمم موجود مسبقًا → أضفه
-          final exists =
-              designerList.any((d) => d['user']['id'] == designer.user.id);
+          final exists = designerList.any((d) => d['id'] == designer.id);
           if (!exists) {
             designerList.add(designer.toJson());
             await sharedPreferences.setString(
@@ -75,7 +78,8 @@ class DesignerLocalDataSourceImpBySharedPref
       return designers;
     } catch (e) {
       // لو حصل خطأ ترجع قائمة فارغة بدل crash
-      return [];
+      log("---------------------------------> Error in repo imp : $e");
+      throw Exception();
     }
   }
 
@@ -83,7 +87,7 @@ class DesignerLocalDataSourceImpBySharedPref
   Future<DesignerModel?> getData(String id) async {
     final designers = await getAllDesigners();
     for (var designer in designers) {
-      if (designer.user.id == id) return designer;
+      if (designer.id == id) return designer;
     }
     return null;
   }
@@ -101,8 +105,7 @@ class DesignerLocalDataSourceImpBySharedPref
         jsonDesigners.map((item) => DesignerModel.fromJson(item)).toList();
 
     // 3. البحث عن المصمم باستخدام id
-    final index =
-        designersList.indexWhere((d) => d.user.id == updatedDesigner.user.id);
+    final index = designersList.indexWhere((d) => d.id == updatedDesigner.id);
 
     if (index == -1) return unit; // المصمم غير موجود
 
@@ -131,7 +134,7 @@ class DesignerLocalDataSourceImpBySharedPref
         jsonDesigners.map((item) => DesignerModel.fromJson(item)).toList();
 
     // 3. حذف المصمم بالـ id
-    designersList.removeWhere((d) => d.user.id == id);
+    designersList.removeWhere((d) => d.id == id);
 
     // 4. حفظ القائمة من جديد
     final String encoded =

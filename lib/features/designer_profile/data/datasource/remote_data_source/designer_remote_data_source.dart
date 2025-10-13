@@ -22,9 +22,11 @@ class DesignerRemoteDataSourceImpByFirebase
   @override
   Future<DesignerModel?> getData(String id) async {
     try {
-      log("----------------------------------> The user id in firebase : $id");
-      final doc = await _designerRef.doc(id).get();
-      log("---------------------------------> the exist doc ${doc.data()}");
+      log("------------------------------------->  in Firebase : $id");
+
+      final doc = await _designerRef
+          .doc(id)
+          .get(const GetOptions(source: Source.serverAndCache));
       if (!doc.exists) return null;
       return DesignerModel.fromJson(doc.data() as Map<String, dynamic>);
     } catch (e) {
@@ -36,7 +38,7 @@ class DesignerRemoteDataSourceImpByFirebase
   @override
   Future<Unit> updateData(DesignerModel designer) async {
     try {
-      await _designerRef.doc(designer.user.id).set(
+      await _designerRef.doc(designer.id).set(
             designer.toJson(),
             SetOptions(merge: true),
           );

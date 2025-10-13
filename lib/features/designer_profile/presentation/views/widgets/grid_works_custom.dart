@@ -20,25 +20,13 @@ class GridWorksCustom extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              top: 10.r,
-              child: Container(
-                margin: EdgeInsets.only(top: 10.r, bottom: 20.r),
-                width: 85.w,
-                height: 8.h,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: AppStyles.mediumRadius,
-                ),
-              ),
-            ),
-            Positioned(
               child: Padding(
                 padding: EdgeInsets.only(top: 8.r),
                 child: Row(
                   children: [
                     Icon(Icons.work_outline_rounded),
                     SizedBox(width: 5),
-                    Text("أعمالي", style: AppStyles.headingSmall),
+                    Text("أعمالـــــــي", style: AppStyles.headingSmall),
                   ],
                 ),
               ),
