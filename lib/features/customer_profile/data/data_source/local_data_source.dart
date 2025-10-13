@@ -10,7 +10,6 @@ import '../../../auth/data/models/user_model.dart';
 import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientLocalDataSource {
-  void updateProfile(User user);
   Client? getProfile();
   void saveUser(User user);
 }
@@ -18,15 +17,7 @@ abstract class ClientLocalDataSource {
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
   final SharedPreferences perf;
 
-  ClientLocalDataSourceImp(this.perf);
-  @override
-  void updateProfile(User user) {
-    try {
-      saveUser(user);
-    } catch (e) {
-      throw LocalException();
-    }
-  }
+  ClientLocalDataSourceImp( this.perf);
 
   @override
   Client? getProfile() {

@@ -1,14 +1,21 @@
-import 'package:designers_platform/features/auth/data/models/user_model.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 
 class ClientModel extends Client {
-  ClientModel();
+  ClientModel({required super.userId, super.favorites, super.orders});
 
   factory ClientModel.fromJson(Map<String, dynamic> json) {
-    return ClientModel();
+    return ClientModel(
+      userId: json['userId'],
+      favorites: json['favorites'],
+      orders: json['orders'],
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return {};
+    return {
+      'userid': userId,
+      'favorites': favorites,
+      'orders': orders,
+    };
   }
 }
