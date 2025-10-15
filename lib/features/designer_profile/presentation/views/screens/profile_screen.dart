@@ -1,3 +1,4 @@
+import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/grid_works_custom.dart';
@@ -12,7 +13,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../getx/getData_controller_getx.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  final Designer? currentDesigner;
+  ProfileScreen({super.key, this.currentDesigner});
 
   final usernameController = TextEditingController();
   final controller = Get.find<GetDataControllerGetx>();
@@ -24,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Obx(() {
-          final designer = controller.designerR.value;
+          final designer = currentDesigner ?? controller.designerR.value;
           return Skeletonizer(
             enabled: controller.isLoading.value,
             child: designer == null
@@ -76,8 +78,12 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileImageAndStatistic(),
-                    BioCustom(),
+                    ProfileImageAndStatistic(
+                      designer: currentDesigner,
+                    ),
+                    BioCustom(
+                      currentBio: currentDesigner!.bio,
+                    ),
                     ButtonsReaction(),
                     GridWorksCustom(),
                   ],

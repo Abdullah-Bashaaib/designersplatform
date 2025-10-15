@@ -109,6 +109,10 @@ class ViewProfile extends StatelessWidget {
                         ),
                         onPressed: () {
                           DialogHelper.showCustomDialog(
+                            customIcon: Icon(
+                              Icons.person,
+                              color: AppColors.primaryColor,
+                            ),
                             title: 'صورة الملف الشخصي',
                             customContent: Column(
                               children: [
@@ -161,8 +165,7 @@ class ViewProfile extends StatelessWidget {
                           () => Text(
                             c.user.value?.name ?? '',
                             textAlign: TextAlign.right,
-                            overflow: TextOverflow
-                                .ellipsis,
+                            overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: const TextStyle(fontSize: 16),
                           ),
@@ -170,7 +173,6 @@ class ViewProfile extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   TextButton(
                     onPressed: () {
                       c.updateUserName();

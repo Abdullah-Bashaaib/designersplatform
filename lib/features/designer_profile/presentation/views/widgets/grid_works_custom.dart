@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/utils/app_image.dart';
 
 class GridWorksCustom extends StatelessWidget {
-  GridWorksCustom({super.key});
+  final Designer? currentDesigner;
+  GridWorksCustom({super.key, this.currentDesigner});
   final controller = Get.find<GetDataControllerGetx>();
 
   @override
@@ -36,7 +38,7 @@ class GridWorksCustom extends StatelessWidget {
 
         /// 👇 هنا فقط الجزء المتغير
         Obx(() {
-          final designer = controller.designerR.value;
+          final designer = currentDesigner ?? controller.designerR.value;
           return Skeletonizer(
             enabled: controller.isLoading.value,
             child: designer == null
