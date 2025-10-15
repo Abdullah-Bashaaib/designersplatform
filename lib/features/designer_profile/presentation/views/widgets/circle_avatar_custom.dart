@@ -9,7 +9,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../getx/getData_controller_getx.dart';
 
 class CircleAvatarCustom extends StatelessWidget {
-  CircleAvatarCustom({super.key});
+  final String? currentAvatarUrl;
+  CircleAvatarCustom({super.key, this.currentAvatarUrl});
 
   final controller = Get.find<GetDataControllerGetx>();
 
@@ -30,8 +31,9 @@ class CircleAvatarCustom extends StatelessWidget {
                     enabled: controller.isLoading.value,
                     child: avatarUrl != null
                         ? CachedNetworkImage(
-                            imageUrl:
-                                "$avatarUrl?v=${DateTime.now().millisecondsSinceEpoch}",
+                            imageUrl: (currentAvatarUrl ?? avatarUrl).isNotEmpty
+                                ? "${currentAvatarUrl ?? avatarUrl}?v=${DateTime.now().millisecondsSinceEpoch}"
+                                : AppImage.icon1,
                             fit: BoxFit.cover,
                             width: 140.w,
                             height: 140.h,

@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/update_profile.dart';
@@ -25,8 +26,19 @@ class ButtonsReaction extends StatelessWidget {
               child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
-                    DialogHelper.showInfoDialog(
-                        title: "title", message: "message");
+                    DialogHelper.showCustomDialog(
+                        customIcon: Icon(Icons.design_services),
+                        title: '',
+                        customContent: Column(
+                          children: [
+                            Text('service name'),
+                            TextField(),
+                            Text('design type'),
+                            TextField(),
+                            Text('design description'),
+                            TextField()
+                          ],
+                        ));
                   },
                   child: Text(
                     "طلب خدمة",
@@ -49,18 +61,22 @@ class ButtonsReaction extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          padding: EdgeInsets.only(top: 10.r),
-          width: double.infinity,
-          child: OutlinedButton(
-            style: AppStyles.secondaryButtonStyle,
-            onPressed: () {
-              Get.to(() => UpdateProfile());
-            },
-            child:
-                Text("تعديل الملف الشخصي", style: TextStyle(fontSize: 15.sp)),
-          ),
-        ),
+        CurrentUser.currentUser!.role == 'عميل'
+            ? SizedBox(
+                height: 10.h,
+              )
+            : Container(
+                padding: EdgeInsets.only(top: 10.r),
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: AppStyles.secondaryButtonStyle,
+                  onPressed: () {
+                    Get.to(() => UpdateProfile());
+                  },
+                  child: Text("تعديل الملف الشخصي",
+                      style: TextStyle(fontSize: 15.sp)),
+                ),
+              ),
       ],
     );
   }
