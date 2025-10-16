@@ -1,13 +1,18 @@
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
+import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/usecase/logout.dart';
 import '../../../../core/utils/custom_dialog_getx.dart';
@@ -32,9 +37,11 @@ class GetDataControllerGetx extends GetxController {
   final GetWorkUseCase getWorkUseCase;
   final LogoutUsecase logoutUsecase;
   final SharedPreferences sharedPreferences;
+  final Uuid uuid;
   // Designer
   final UpdateProfileUseCase updateProfileUseCase;
   final DeleteProfileUseCase deleteProfileUseCase;
+  final AddOrderUsecase addOrderUsecase;
   // Review
   final AddReviewUseCase addReviewUseCase;
   final UpdateReviewUseCase updateReviewUseCase;
@@ -67,6 +74,8 @@ class GetDataControllerGetx extends GetxController {
     this.updateReviewUseCase,
     this.updateWorkUseCase,
     this.addAvatarUsecase,
+    this.uuid,
+    this.addOrderUsecase,
   );
 
   @override
@@ -226,6 +235,28 @@ class GetDataControllerGetx extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  /// add order to designer
+  Future<void> addOrder(
+      Designer designer, String type, String description) async {
+    final order = OrderEntity(
+        id: uuid.v4(),
+        clientId: CurrentUser.currentUser!.id,
+        clientName: CurrentUser.currentUser!.name,
+        designerId: designer.id,
+        designerName: designer.name,
+        designType: type,
+        description: description,
+        status: 'pending',
+        createAt: DateTime.now());
+
+    final result = await addOrderUsecase.call(order);
+    result.fold(
+        (f) =>
+            DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
+        (u) => DialogHelper.showSuccessSnackBar(
+            title: 'ok', message: addOrderMessage));
   }
 
   /// log out methods
