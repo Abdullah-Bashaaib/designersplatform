@@ -94,7 +94,7 @@ class ClientProfileController extends GetxController {
             () => isLoading.value
                 ? CircularProgressIndicator()
                 : Row(
-                    spacing: 128.w,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                         onPressed: () async {
@@ -112,6 +112,9 @@ class ClientProfileController extends GetxController {
                         },
                         style: AppStyles.primaryButtonStyle,
                         child: Text('تأكيد'),
+                      ),
+                      SizedBox(
+                        width: 5.w,
                       ),
                       ElevatedButton(
                         onPressed: () {

@@ -19,4 +19,11 @@ class Validators {
     }
     return null;
   }
+
+  static String? global(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'هذا الحقل مطلوب';
+    }
+    return null;
+  }
 }
