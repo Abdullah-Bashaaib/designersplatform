@@ -4,6 +4,7 @@ import 'package:designers_platform/features/designer_profile/data/datasource/loc
 import 'package:designers_platform/features/designer_profile/data/models/designer_model.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
+import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/network/network_info.dart';
@@ -69,5 +70,11 @@ class DesignerRepoImp implements DesignerRepository {
     } on EmptyLocalDatabaseException {
       return Left(EmptyLocalDatabaseFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> addOrder(OrderEntity order) {
+    // TODO: implement addOrder
+    throw UnimplementedError();
   }
 }

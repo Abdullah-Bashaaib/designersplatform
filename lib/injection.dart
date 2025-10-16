@@ -28,6 +28,8 @@ import 'package:designers_platform/features/designer_profile/data/datasource/rem
 import 'package:designers_platform/features/designer_profile/data/repositories/dseigner_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
+import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/delete_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/get_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/update_profile_usecase.dart';
@@ -268,6 +270,9 @@ class Injection {
       ),
     );
 
+    Get.lazyPut<AddOrderUsecase>(
+        () => AddOrderUsecase(Get.find<DesignerRepository>()));
+
     /// GetX Controller
     Get.lazyPut<GetDataControllerGetx>(
       fenix: true,
@@ -285,7 +290,9 @@ class Injection {
           Get.find<UpdateProfileUseCase>(),
           Get.find<UpdateReviewUseCase>(),
           Get.find<UpdateWorkUseCase>(),
-          Get.find<AddAvatarUsecase>()),
+          Get.find<AddAvatarUsecase>(),
+          Get.find<Uuid>(),
+          Get.find<AddOrderUsecase>()),
     );
   }
 }
