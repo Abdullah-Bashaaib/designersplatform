@@ -84,8 +84,12 @@ class ProfileScreen extends StatelessWidget {
                     BioCustom(
                       currentBio: currentDesigner!.bio,
                     ),
-                    ButtonsReaction(),
-                    GridWorksCustom(),
+                    ButtonsReaction(
+                      currentDesigner: currentDesigner,
+                    ),
+                    GridWorksCustom(
+                      currentDesigner: currentDesigner,
+                    ),
                   ],
                 ),
               ),
