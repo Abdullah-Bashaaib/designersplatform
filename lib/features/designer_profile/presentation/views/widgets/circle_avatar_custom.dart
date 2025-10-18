@@ -30,8 +30,7 @@ class CircleAvatarCustom extends StatelessWidget {
                     enabled: controller.isLoading.value,
                     child: avatarUrl != null
                         ? CachedNetworkImage(
-                            imageUrl:
-                                "$avatarUrl?v=${DateTime.now().millisecondsSinceEpoch}",
+                            imageUrl: avatarUrl,
                             fit: BoxFit.cover,
                             width: 140.w,
                             height: 140.h,

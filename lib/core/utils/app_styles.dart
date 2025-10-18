@@ -43,9 +43,9 @@ class AppStyles {
 
   static List<BoxShadow> get heavyShadow => [
         BoxShadow(
-          color: AppColors.primaryColor.withValues(alpha: 0.16),
+          color: AppColors.primaryColor.withValues(alpha: 0.16.r),
           blurRadius: 16.r,
-          offset: const Offset(0, 6),
+          offset: Offset(0.r, 6.r),
         ),
       ];
 

@@ -22,7 +22,7 @@ class AppColors {
 
   // ألوان الحالة
   static const Color successColor = Color(0xFF00B894);
-  static const Color warningColor = Color(0xFFE17055);
+  static const Color warningColor = Color(0xFFE1CA55);
   static const Color errorColor = Color(0xFFD63031);
   static const Color infoColor = Color(0xFF0984E3);
 

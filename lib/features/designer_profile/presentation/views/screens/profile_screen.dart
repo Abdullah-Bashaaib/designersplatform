@@ -1,10 +1,10 @@
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/grid_works_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/profile_image_and_statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,29 +36,22 @@ class ProfileScreen extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Row(
-                  children: [
-                    FaIcon(
-                      Icons.no_accounts,
-                      color: Colors.redAccent,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "حذف الحساب",
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem(
                 onTap: () {
-                  controller.logout();
+                  DialogHelper.showWarningDialog(
+                      title: "تسجيل الخروج",
+                      message: "هل تريد تسجيل الخروج؟",
+                      buttonText: "نعم",
+                      onPressed: controller.logout);
                 },
                 child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text("تسجيل الخروج"),
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    "تسجيل الخروج",
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
                 ),
               )
             ],

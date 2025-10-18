@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'app_colors.dart';
@@ -31,7 +32,7 @@ class CustomDialog extends StatelessWidget {
   final Function(double)? onRatingChanged;
 
   const CustomDialog({
-    Key? key,
+    super.key,
     required this.type,
     required this.title,
     this.message,
@@ -44,15 +45,15 @@ class CustomDialog extends StatelessWidget {
     this.icon,
     this.rating,
     this.onRatingChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(20),
+      insetPadding: EdgeInsets.all(20.r),
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: BoxConstraints(maxWidth: 310.r),
         decoration: BoxDecoration(
           color: AppColorHelper.getCardColor(context),
           borderRadius: AppStyles.dialogRadius,
@@ -72,7 +73,7 @@ class CustomDialog extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(15.r),
       child: Column(
         children: [
           if (icon != null) ...[
@@ -100,27 +101,27 @@ class CustomDialog extends StatelessWidget {
 
     switch (type) {
       case DialogType.info:
-        iconData = Icons.info_outline;
+        iconData = Icons.info_rounded;
         iconColor = AppColors.infoColor;
         break;
       case DialogType.success:
-        iconData = Icons.check_circle_outline;
+        iconData = Icons.check_circle_rounded;
         iconColor = AppColors.successColor;
         break;
       case DialogType.warning:
-        iconData = Icons.warning_amber_outlined;
+        iconData = Icons.warning_rounded;
         iconColor = AppColors.warningColor;
         break;
       case DialogType.error:
-        iconData = Icons.error_outline;
+        iconData = Icons.error_rounded;
         iconColor = AppColors.errorColor;
         break;
       case DialogType.confirmation:
-        iconData = Icons.help_outline;
+        iconData = Icons.help_rounded;
         iconColor = AppColors.primaryColor;
         break;
       case DialogType.rating:
-        iconData = Icons.star_outline;
+        iconData = Icons.star_border_rounded;
         iconColor = AppColors.starColor;
         break;
       default:
@@ -145,7 +146,7 @@ class CustomDialog extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 15.r),
       child: Column(
         children: [
           if (message != null) ...[
@@ -212,7 +213,7 @@ class CustomDialog extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(15.r),
       child: Row(
         children: [
           if (secondaryButtonText != null) ...[
@@ -229,7 +230,7 @@ class CustomDialog extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 onPressed: onPrimaryPressed ?? () => Get.back(),
-                style: AppStyles.primaryButtonStyle,
+                style: AppStyles.secondaryButtonStyle,
                 child: Text(primaryButtonText!),
               ),
             ),
@@ -284,7 +285,7 @@ class DialogHelper {
   static Future<void> showWarningDialog({
     required String title,
     required String message,
-    String buttonText = 'فهمت',
+    required String buttonText,
     VoidCallback? onPressed,
   }) {
     return Get.dialog(

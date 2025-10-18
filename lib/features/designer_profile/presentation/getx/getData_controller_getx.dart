@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
@@ -211,6 +212,7 @@ class GetDataControllerGetx extends GetxController {
           designerR.update((designer) {
             designer?.avatarUrl = avatarUrl;
           });
+          CachedNetworkImage.evictFromCache(avatarUrl);
           DialogHelper.showSuccessSnackBar(
             title: "نجاح!!",
             message: "تم التعديل بنجاح!",

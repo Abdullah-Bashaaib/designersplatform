@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
@@ -94,6 +94,7 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   @override
   Future<Either<Failure, String>> addAvatar(XFile file) async {
     if (await networkInfo.isConnected) {
+      log("Connection is : ${await networkInfo.isConnected}");
       try {
         final imageUrl = await remoteDataSource.addAvatar(file);
         CurrentUser.currentUser!.avatarUrl = imageUrl;
