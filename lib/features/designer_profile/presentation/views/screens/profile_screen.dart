@@ -1,10 +1,11 @@
-import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
+import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/grid_works_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/profile_image_and_statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -12,7 +13,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../getx/getData_controller_getx.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  final Designer? currentDesigner;
+  ProfileScreen({super.key, this.currentDesigner});
 
   final usernameController = TextEditingController();
   final controller = Get.find<GetDataControllerGetx>();
@@ -24,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Obx(() {
-          final designer = controller.designerR.value;
+          final designer = currentDesigner ?? controller.designerR.value;
           return Skeletonizer(
             enabled: controller.isLoading.value,
             child: designer == null
@@ -36,22 +38,29 @@ class ProfileScreen extends StatelessWidget {
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
+                child: Row(
+                  children: [
+                    FaIcon(
+                      Icons.no_accounts,
+                      color: Colors.redAccent,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "حذف الحساب",
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
                 onTap: () {
-                  DialogHelper.showWarningDialog(
-                      title: "تسجيل الخروج",
-                      message: "هل تريد تسجيل الخروج؟",
-                      buttonText: "نعم",
-                      onPressed: controller.logout);
+                  controller.logout();
                 },
                 child: ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    color: Colors.redAccent,
-                  ),
-                  title: Text(
-                    "تسجيل الخروج",
-                    style: TextStyle(color: Colors.redAccent),
-                  ),
+                  leading: Icon(Icons.logout),
+                  title: Text("تسجيل الخروج"),
                 ),
               )
             ],
@@ -69,10 +78,18 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileImageAndStatistic(),
-                    BioCustom(),
-                    ButtonsReaction(),
-                    GridWorksCustom(),
+                    ProfileImageAndStatistic(
+                      designer: currentDesigner,
+                    ),
+                    BioCustom(
+                      currentBio: currentDesigner!.bio,
+                    ),
+                    ButtonsReaction(
+                      currentDesigner: currentDesigner,
+                    ),
+                    GridWorksCustom(
+                      currentDesigner: currentDesigner,
+                    ),
                   ],
                 ),
               ),

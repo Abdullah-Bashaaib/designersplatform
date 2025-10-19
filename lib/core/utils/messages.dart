@@ -15,3 +15,5 @@ const foundAccountMessage = 'هذا الحساب موجود';
 const passwordFalseMessage = 'البريد الالكتروني او كلمة المرور خاطئة';
 const deleteAvatarMessage = 'تم حذف صورة الملف الشخصي بنجاح';
 const updateAvatarMessage = 'تم تعديل صورة الملف الشخصي بنجاح';
+const updateUserNameMessage = 'تم تعديل الاسم بنجاح';
+const addOrderMessage = 'تم ارسال الطلب';

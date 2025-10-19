@@ -86,7 +86,7 @@ class AppStyles {
 
   static TextStyle bodyLarge = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w600,
     height: 1.5.h,
   );
 
@@ -111,6 +111,19 @@ class AppStyles {
   // أنماط الأزرار
   static ButtonStyle get primaryButtonStyle => ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.textOnPrimary,
+        elevation: 2,
+        shadowColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        shape: RoundedRectangleBorder(borderRadius: buttonRadius),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        textStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textOnPrimary,
+        ),
+      );
+  static ButtonStyle get errorButtonStyle => ElevatedButton.styleFrom(
+        backgroundColor: AppColors.errorColor,
         foregroundColor: AppColors.textOnPrimary,
         elevation: 2,
         shadowColor: AppColors.primaryColor.withValues(alpha: 0.3),

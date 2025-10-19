@@ -1,9 +1,10 @@
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/edit_client_profile.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_order.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/widget/favorites_list.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,6 @@ class ViewProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<ClientProfileController>();
-    c.getProfile();
-    print(CurrentUser.currentUser!);
 
     return Scaffold(
       appBar: AppBar(
@@ -85,65 +84,143 @@ class ViewProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Obx(() => CircleAvatar(
-                    radius: 55.r,
-                    backgroundColor: Colors.blueAccent.withOpacity(0.2),
-                    child: CircleAvatar(
+              child: Stack(
+                children: [
+                  Obx(
+                    () => CircleAvatar(
                       radius: 50.r,
                       backgroundImage: c.avatarUrl.value != ''
                           ? NetworkImage(c.avatarUrl.value!)
                           : AssetImage(AppImage.icon1),
                     ),
-                  )),
+                  ),
+                  Positioned(
+                    top: 51.h,
+                    left: 40.w,
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.camera_alt,
+                          size: 20.sp,
+                        ),
+                        onPressed: () {
+                          DialogHelper.showCustomDialog(
+                            customIcon: Icon(
+                              Icons.person,
+                              color: AppColors.primaryColor,
+                            ),
+                            title: 'صورة الملف الشخصي',
+                            customContent: Column(
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      c.addAvatar();
+                                      Get.back();
+                                    },
+                                    child: Text('تعديل الصورة')),
+                                TextButton(
+                                  onPressed: () {
+                                    c.deleteAvatar();
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'حذف الصورة',
+                                    style:
+                                        TextStyle(color: AppColors.errorColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                          // c.addAvatar();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 20.h),
-            Text('اسم المستخدم:'),
-            SizedBox(
-              height: 5.h,
-            ),
-            Obx(
-              () => Text(
-                c.userName.value.text,
-                textAlign: TextAlign.right,
-                style: TextStyle(),
+            SizedBox(height: 50.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(12.w),
+              decoration: AppStyles.cardDecoration,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'اسم المستخدم:',
+                          style: AppStyles.bodyLarge,
+                        ),
+                        SizedBox(height: 10.h),
+                        Obx(
+                          () => Text(
+                            c.user.value?.name ?? '',
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      c.updateUserName();
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.only(top: 19.h),
+                      minimumSize: Size(0, 0),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text(
+                      'تغيير',
+                      style: AppStyles.headingSmall,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
               height: 20.h,
             ),
-            Text('الايميل:'),
-            SizedBox(
-              height: 5.h,
-            ),
-            Obx(
-              () => Text(
-                c.email.value.text,
-                textAlign: TextAlign.right,
-                style: TextStyle(),
+            Container(
+              width: 400.w,
+              height: 80.h,
+              padding: EdgeInsetsGeometry.all(8.w),
+              decoration: AppStyles.cardDecoration,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('الايميل:', style: AppStyles.bodyLarge),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Obx(
+                    () => Text(
+                      c.user.value!.email,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 30.h),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.to(() => EditClientProfile());
-                },
-                style: AppStyles.primaryButtonStyle,
-                child: Text(
-                  "تعديل الملف الشخصي",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
             Divider(),
-            Text('المفضلة:'),
+            Text(
+              'المفضلة:',
+              style: AppStyles.headingSmall,
+            ),
             SizedBox(
               height: 20.h,
             ),

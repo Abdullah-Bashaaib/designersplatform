@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
-import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientRemoteDataSource {
-  Future<void> updateProfile(Client client);
+  Future<void> updateUserName(String name);
   Future<List<User>> getFavoritesList();
   Future<List<Order>> getOrders();
   Future<String> addAvatar(XFile file);
@@ -21,8 +20,15 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
 
   ClientRemoteDataSourceImp(this._supabase, this._firestore);
   @override
-  Future<void> updateProfile(Client client) {
-    throw UnimplementedError();
+  Future<void> updateUserName(String name) async {
+    try {
+      await _firestore
+          .collection('Users')
+          .doc(CurrentUser.currentUser!.id)
+          .update({'name': name});
+    } catch (e) {
+      throw ServerException(e);
+    }
   }
 
   @override

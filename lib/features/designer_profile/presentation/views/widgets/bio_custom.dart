@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BioCustom extends StatelessWidget {
+  final String? currentBio;
   BioCustom({
     super.key,
+    this.currentBio,
   });
   final controller = Get.find<GetDataControllerGetx>();
   @override
@@ -36,7 +38,7 @@ class BioCustom extends StatelessWidget {
               child: designer == null
                   ? Text("لا توجد بيانات")
                   : Text(
-                      designer.bio!,
+                      currentBio ?? designer.bio!,
                       style: AppStyles.bodyMedium,
                     ),
             );

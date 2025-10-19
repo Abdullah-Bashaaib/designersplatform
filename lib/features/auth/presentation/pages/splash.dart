@@ -2,7 +2,7 @@ import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
+import 'package:designers_platform/features/customer_profile/other_page.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       (user) {
         CurrentUser.currentUser = user;
         if (user.role == 'عميل') {
-          Get.offAll(() => const ViewProfile());
+          Get.offAll(() => const OtherPage());
         } else {
           Get.offAll(() => ProfileScreen());
         }
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(), // شاشة تحميل مؤقتة
+        child: CircularProgressIndicator(), 
       ),
     );
   }

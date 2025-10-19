@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
@@ -9,8 +7,8 @@ import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/customer_profile/data/data_source/local_data_source.dart';
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
-import 'package:designers_platform/features/customer_profile/domain/entities/order_entity.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
+import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../data_source/remote_data_source.dart';
@@ -23,11 +21,12 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   ClientProfileRepoImp(
       this.remoteDataSource, this.localDataSource, this.networkInfo);
   @override
-  Future<Either<Failure, Unit>> updateProfile(Client client) async {
+  Future<Either<Failure, Unit>> updateUserName(String name) async {
     if (await networkInfo.isConnected) {
-      try {
-        // await remoteDataSource.updateProfile(client);
-        // localDataSource.updateProfile(client);
+      try {   
+        await remoteDataSource.updateUserName(name);
+        CurrentUser.currentUser!.name = name;
+        localDataSource.saveUser(CurrentUser.currentUser!);
         return right(unit);
       } on ServerException {
         return left(ServerFailure());
@@ -94,7 +93,6 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   @override
   Future<Either<Failure, String>> addAvatar(XFile file) async {
     if (await networkInfo.isConnected) {
-      log("Connection is : ${await networkInfo.isConnected}");
       try {
         final imageUrl = await remoteDataSource.addAvatar(file);
         CurrentUser.currentUser!.avatarUrl = imageUrl;

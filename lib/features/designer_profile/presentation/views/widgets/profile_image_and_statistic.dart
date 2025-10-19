@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/circle_avatar_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/numbers_of_profile.dart';
@@ -9,7 +10,8 @@ import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileImageAndStatistic extends StatelessWidget {
-  ProfileImageAndStatistic({super.key});
+  final Designer? designer;
+  ProfileImageAndStatistic({super.key, this.designer});
   final controller = Get.find<GetDataControllerGetx>();
 
   @override
@@ -20,7 +22,9 @@ class ProfileImageAndStatistic extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            CircleAvatarCustom(),
+            CircleAvatarCustom(
+              currentAvatarUrl: designer!.avatarUrl,
+            ),
             Positioned(
               right: 110.r,
               top: 5.r,
@@ -29,7 +33,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
                     child: controller.designerR.value == null
                         ? Text("لا نوجد بيانات")
                         : Text(
-                            controller.designerR.value!.name,
+                            designer?.name ?? controller.designerR.value!.name,
                             style: AppStyles.headingSmall,
                           ),
                   )),
@@ -45,8 +49,10 @@ class ProfileImageAndStatistic extends StatelessWidget {
                       enabled: controller.isLoading.value,
                       child: NumbersOfProfile(
                         field: 'الأعمال',
-                        number:
-                            "${controller.designerR.value?.worksCount ?? 0}",
+                        number: (designer?.worksCount ??
+                                controller.designerR.value?.worksCount ??
+                                0)
+                            .toString(),
                       ),
                     ),
                   ),
@@ -56,8 +62,10 @@ class ProfileImageAndStatistic extends StatelessWidget {
                       enabled: controller.isLoading.value,
                       child: NumbersOfProfile(
                         field: 'التقييمات',
-                        number:
-                            "${controller.designerR.value?.reviewsCount ?? 0}",
+                        number: (designer?.reviewsCount ??
+                                controller.designerR.value?.reviewsCount ??
+                                0)
+                            .toString(),
                       ),
                     ),
                   ),

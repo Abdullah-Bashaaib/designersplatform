@@ -10,6 +10,7 @@ class BuildTextField extends StatefulWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final int? maxLines;
   const BuildTextField({
     super.key,
     required this.controller,
@@ -20,6 +21,7 @@ class BuildTextField extends StatefulWidget {
     this.suffixIcon,
     this.obscureText = false,
     this.validator,
+    this.maxLines,
   });
 
   @override
@@ -42,11 +44,11 @@ class _BuildTextFieldState extends State<BuildTextField> {
           controller: widget.controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
+          maxLines: widget.maxLines,
           decoration: AppStyles.getInputDecoration(
               hintText: widget.hintText ?? '',
               prefixIcon: Icon(
                 widget.prefixIcon,
-                // color: Colors.grey,
               ),
               suffixIcon: widget.suffixIcon),
           validator: widget.validator,
