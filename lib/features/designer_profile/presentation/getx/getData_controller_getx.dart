@@ -1,10 +1,9 @@
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
-import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/add_order.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
@@ -238,14 +237,16 @@ class GetDataControllerGetx extends GetxController {
   }
 
   /// add order to designer
-  Future<void> addOrder(
-      Designer designer, String type, String description) async {
+  Future<void> addOrder(Designer designer, String designName, String type,
+      String description) async {
+    isLoading.value = true;
     final order = OrderEntity(
         id: uuid.v4(),
         clientId: CurrentUser.currentUser!.id,
         clientName: CurrentUser.currentUser!.name,
         designerId: designer.id,
         designerName: designer.name,
+        designName: designName,
         designType: type,
         description: description,
         status: 'pending',
@@ -257,6 +258,8 @@ class GetDataControllerGetx extends GetxController {
             DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
         (u) => DialogHelper.showSuccessSnackBar(
             title: 'ok', message: addOrderMessage));
+
+    isLoading.value = false;
   }
 
   /// log out methods
