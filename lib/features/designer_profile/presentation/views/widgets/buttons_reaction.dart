@@ -17,6 +17,7 @@ class ButtonsReaction extends StatelessWidget {
     super.key,
     this.currentDesigner,
   });
+  final TextEditingController _name = TextEditingController();
   final TextEditingController _type = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -34,104 +35,115 @@ class ButtonsReaction extends StatelessWidget {
           children: [
             SizedBox(
               width: 175.w,
-              child: FilledButton(
-                  style: AppStyles.secondaryButtonStyle,
-                  onPressed: () {
-                    DialogHelper.showCustomDialog(
-                      customIcon: Icon(
-                        Icons.design_services_rounded,
-                        color: AppColors.primaryColor,
-                        size: 36,
-                      ),
-                      title: 'طلب خدمة',
-                      customContent: Form(
-                        key: _formKey,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 8.w, vertical: 6.h),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              /// نوع التصميم
-                              BuildTextField(
-                                controller: _type,
-                                label: 'نوع التصميم',
-                                hintText: '(بوستر، شعار، هوية بصرية...)',
-                                validator: Validators.global,
-                              ),
-                              SizedBox(height: 10.h),
-
-                              /// وصف التصميم
-                              BuildTextField(
-                                controller: _description,
-                                label: 'وصف التصميم',
-                                maxLines: 3,
-                                hintText: 'اشرح فكرتك للمصمم هنا...',
-                              ),
-
-                              SizedBox(height: 20.h),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton.icon(
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          final type = _type.text.trim();
-                                          final description =
-                                              _description.text.trim();
-                                          c.addOrder(currentDesigner!, type,
-                                              description);
-                                          Get.back();
-                                        }
-                                      },
-                                      icon: Icon(Icons.check_circle_outline),
-                                      label: Text('تأكيد'),
-                                      style:
-                                          AppStyles.primaryButtonStyle.copyWith(
-                                        padding: WidgetStateProperty.all(
-                                          EdgeInsets.symmetric(vertical: 12.h),
-                                        ),
-                                      ),
+              child: Obx(
+                () => c.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : FilledButton(
+                        style: AppStyles.secondaryButtonStyle,
+                        onPressed: () {
+                          DialogHelper.showCustomDialog(
+                            customIcon: Icon(
+                              Icons.design_services_sharp,
+                              color: AppColors.primaryColor,
+                            ),
+                            title: 'طلب خدمة',
+                            customContent: Form(
+                              key: _formKey,
+                              child: SingleChildScrollView(
+                                // ✅ هنا أضفناها
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    BuildTextField(
+                                      controller: _name,
+                                      label: 'اسم التصميم',
+                                      hintText:
+                                          '(لوحة اعلانية، تصميم خطوبة...)',
+                                      validator: Validators.global,
                                     ),
-                                  ),
-                                  SizedBox(width: 15.w),
-                                  Expanded(
-                                    child: OutlinedButton.icon(
-                                      onPressed: () => Get.back(),
-                                      icon: Icon(Icons.close_rounded,
-                                          color: AppColors.errorColor),
-                                      label: Text(
-                                        'إلغاء',
-                                        style: TextStyle(
-                                            color: AppColors.errorColor),
-                                      ),
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: AppColors.errorColor,
-                                            width: 1.2),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 12.h),
-                                      ),
+                                    SizedBox(height: 10.h),
+                                    BuildTextField(
+                                      controller: _type,
+                                      label: 'نوع التصميم',
+                                      hintText: '(بوستر، شعار، هوية بصرية...)',
+                                      validator: Validators.global,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(height: 10.h),
+                                    BuildTextField(
+                                      controller: _description,
+                                      label: 'وصف التصميم',
+                                      maxLines: 3,
+                                      hintText: 'اشرح فكرتك للمصمم هنا...',
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton.icon(
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                final name = _name.text.trim();
+                                                final type = _type.text.trim();
+                                                final description =
+                                                    _description.text.trim();
+                                                c.addOrder(currentDesigner!,
+                                                    name, type, description);
+                                                Get.back();
+                                              }
+                                            },
+                                            icon: Icon(
+                                                Icons.check_circle_outline),
+                                            label: Text('تأكيد'),
+                                            style: AppStyles.primaryButtonStyle
+                                                .copyWith(
+                                              padding: WidgetStateProperty.all(
+                                                EdgeInsets.symmetric(
+                                                    vertical: 12.h),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 15.w),
+                                        Expanded(
+                                          child: OutlinedButton.icon(
+                                            onPressed: () => Get.back(),
+                                            icon: Icon(Icons.close_rounded,
+                                                color: AppColors.errorColor),
+                                            label: Text(
+                                              'إلغاء',
+                                              style: TextStyle(
+                                                  color: AppColors.errorColor),
+                                            ),
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                                  color: AppColors.errorColor,
+                                                  width: 1.2),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r),
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 12.h),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "طلب خدمة",
+                          style: TextStyle(fontSize: 15.sp),
                         ),
                       ),
-                    );
-                  },
-                  child: Text(
-                    "طلب خدمة",
-                    style: TextStyle(fontSize: 15.sp),
-                  )),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(right: 10.r),

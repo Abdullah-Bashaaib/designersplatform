@@ -29,7 +29,10 @@ import 'package:designers_platform/features/designer_profile/data/repositories/d
 import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
-import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/add_order.dart';
+import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
+import 'package:designers_platform/features/order_management/data/repo/order_repo_imp.dart';
+import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/delete_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/get_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/update_profile_usecase.dart';
@@ -270,9 +273,6 @@ class Injection {
       ),
     );
 
-    Get.lazyPut<AddOrderUsecase>(
-        () => AddOrderUsecase(Get.find<DesignerRepository>()));
-
     /// GetX Controller
     Get.lazyPut<GetDataControllerGetx>(
       fenix: true,
@@ -294,5 +294,18 @@ class Injection {
           Get.find<Uuid>(),
           Get.find<AddOrderUsecase>()),
     );
+
+    ///========================== [ Feat: Order Management ] ==============================
+
+    /// data source
+    Get.lazyPut<OrderRemote>(
+        () => OrderRemoteImp(Get.find<FirebaseFirestore>()));
+
+    /// repo
+    Get.lazyPut<OrderRepo>(() =>
+        OrderRepoImp(Get.find<OrderRemote>(), Get.find<NetworkInfo>()));
+
+    /// Usecase
+    Get.lazyPut<AddOrderUsecase>(() => AddOrderUsecase(Get.find<OrderRepo>()));
   }
 }
