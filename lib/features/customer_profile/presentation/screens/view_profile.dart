@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
@@ -5,7 +6,7 @@ import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/view_order.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/view_order_client.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/widget/favorites_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,8 +91,8 @@ class ViewProfile extends StatelessWidget {
                     () => CircleAvatar(
                       radius: 50.r,
                       backgroundImage: c.avatarUrl.value != ''
-                          ? NetworkImage(c.avatarUrl.value!)
-                          : AssetImage(AppImage.icon1),
+                          ? CachedNetworkImageProvider(c.user.value!.avatarUrl!)
+                          : AssetImage(AppImage.icon1) as ImageProvider,
                     ),
                   ),
                   Positioned(

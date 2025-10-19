@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 
 class OrderModel extends OrderEntity {
@@ -20,20 +21,22 @@ class OrderModel extends OrderEntity {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: json['id'],
-      clientId: json['clientId'],
-      clientName: json['clientName'],
-      designerId: json['designerId'],
-      designerName: json['designerName'],
-      designName: json['designName'],
-      designType: json['designType'],
+      id: json['id'] ?? '',
+      clientId: json['clientId'] ?? '',
+      clientName: json['clientName'] ?? '',
+      designerId: json['designerId'] ?? '',
+      designerName: json['designerName'] ?? '',
+      designName: json['designName'] ?? '',
+      designType: json['designType'] ?? '',
       description: json['description'] ?? '',
       price: json['price'] ?? 0.0,
-      status: json['status'],
+      status: json['status'] ?? '',
       rate: json['rate'] ?? 0,
       imageUrl: json['imageUrl'] ?? '',
       feedback: json['feedback'] ?? '',
-      createAt: json['createAt'],
+      createAt: json['createAt'] is Timestamp
+          ? (json['createAt'] as Timestamp).toDate()
+          : json['createAt'],
     );
   }
 

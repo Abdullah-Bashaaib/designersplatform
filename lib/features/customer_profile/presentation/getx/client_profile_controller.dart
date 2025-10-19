@@ -11,7 +11,7 @@ import 'package:designers_platform/features/auth/presentation/pages/welcome_page
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
-import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
@@ -25,7 +25,6 @@ class ClientProfileController extends GetxController {
   final GetProfileUsecase getProfileUsecase;
   final GetUserUseCase getUserUseCase;
   final GetFavoritesUsecase getFavoritesUsecase;
-  final GetOrdersUsecase getOrdersUsecase;
   final AddAvatarUsecase addAvatarUsecase;
   final DeleteAvatarUsecase deleteAvatarUsecase;
   final SaveUserUsecase saveUserUsecase;
@@ -36,7 +35,6 @@ class ClientProfileController extends GetxController {
     this.getProfileUsecase,
     this.getUserUseCase,
     this.getFavoritesUsecase,
-    this.getOrdersUsecase,
     this.logoutUsecase,
     this.addAvatarUsecase,
     this.saveUserUsecase,
@@ -49,7 +47,6 @@ class ClientProfileController extends GetxController {
   var isLoading = false.obs;
   var clientProfile = Rxn<Client>();
   var favoritesList = <User>[].obs;
-  var orderList = <OrderEntity>[].obs;
   var avatarUrl = CurrentUser.currentUser!.avatarUrl.obs;
   var user = Rxn<User>();
 
@@ -140,14 +137,7 @@ class ClientProfileController extends GetxController {
     });
   }
 
-  Future<void> getOrders() async {
-    isLoading.value = true;
-    final result = await getOrdersUsecase.call();
-    result.fold((l) {}, (r) {
-      orderList.value = r;
-    });
-    isLoading.value = false;
-  }
+  
 
   void addAvatar() async {
     final ImagePicker picker = ImagePicker();

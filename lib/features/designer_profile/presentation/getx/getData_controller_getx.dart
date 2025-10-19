@@ -53,6 +53,7 @@ class GetDataControllerGetx extends GetxController {
   final AddAvatarUsecase addAvatarUsecase;
 
   RxBool isLoading = true.obs;
+  var isLoadingAddOrder = false.obs;
   var designerR = Rxn<Designer>();
   var reviews = <Review>[].obs;
   var works = <Work>[].obs;
@@ -239,7 +240,7 @@ class GetDataControllerGetx extends GetxController {
   /// add order to designer
   Future<void> addOrder(Designer designer, String designName, String type,
       String description) async {
-    isLoading.value = true;
+    isLoadingAddOrder.value = true;
     final order = OrderEntity(
         id: uuid.v4(),
         clientId: CurrentUser.currentUser!.id,
@@ -256,10 +257,10 @@ class GetDataControllerGetx extends GetxController {
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
-        (u) => DialogHelper.showSuccessSnackBar(
-            title: 'ok', message: addOrderMessage));
-
-    isLoading.value = false;
+        (u) {
+      DialogHelper.showSuccessSnackBar(title: 'ok', message: addOrderMessage);
+    });
+    isLoadingAddOrder.value = false;
   }
 
   /// log out methods
