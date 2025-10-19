@@ -1,16 +1,17 @@
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
 class ViewOrders extends StatelessWidget {
-  const ViewOrders({super.key});
+  ViewOrders({super.key});
+  final c = Get.find<OrderGetx>();
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.find<ClientProfileController>();
+    c.getOrders();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,12 +44,14 @@ class ViewOrders extends StatelessWidget {
                                 topLeft: Radius.circular(16.r),
                                 bottomLeft: Radius.circular(16.r),
                               ),
-                              child: Image.network(
-                                order.imageUrl!,
-                                width: 100.w,
-                                height: 100.h,
-                                fit: BoxFit.cover,
-                              ),
+                              child: order.imageUrl == ''
+                                  ? Text('no found')
+                                  : Image.network(
+                                      order.imageUrl!,
+                                      width: 100.w,
+                                      height: 100.h,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
 
                             SizedBox(width: 12.w),

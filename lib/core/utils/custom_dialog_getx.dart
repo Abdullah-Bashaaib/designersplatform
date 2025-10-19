@@ -395,16 +395,18 @@ class DialogHelper {
     Widget? customIcon,
   }) {
     return Get.dialog<T>(
-      CustomDialog(
-        type: DialogType.custom,
-        title: title,
-        message: message,
-        customContent: customContent,
-        primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
-        onPrimaryPressed: onPrimaryPressed,
-        onSecondaryPressed: onSecondaryPressed,
-        icon: customIcon,
+      SingleChildScrollView(
+        child: CustomDialog(
+          type: DialogType.custom,
+          title: title,
+          message: message,
+          customContent: customContent,
+          primaryButtonText: primaryButtonText,
+          secondaryButtonText: secondaryButtonText,
+          onPrimaryPressed: onPrimaryPressed,
+          onSecondaryPressed: onSecondaryPressed,
+          icon: customIcon,
+        ),
       ),
       barrierDismissible: true,
     );

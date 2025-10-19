@@ -17,7 +17,7 @@ import 'package:designers_platform/features/customer_profile/data/data_source/re
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
-import 'package:designers_platform/features/customer_profile/domain/usecases/get_orders.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
@@ -45,6 +45,7 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -148,9 +149,6 @@ class Injection {
     Get.lazyPut<GetFavoritesUsecase>(
         () => GetFavoritesUsecase(Get.find<ClientProfileRepo>()));
 
-    Get.lazyPut<GetOrdersUsecase>(
-        () => GetOrdersUsecase(Get.find<ClientProfileRepo>()));
-
     Get.lazyPut<AddAvatarUsecase>(
         () => AddAvatarUsecase(Get.find<ClientProfileRepo>()));
 
@@ -167,7 +165,6 @@ class Injection {
               Get.find<GetProfileUsecase>(),
               Get.find<GetUserUseCase>(),
               Get.find<GetFavoritesUsecase>(),
-              Get.find<GetOrdersUsecase>(),
               Get.find<LogoutUsecase>(),
               Get.find<AddAvatarUsecase>(),
               Get.find<SaveUserUsecase>(),
@@ -299,13 +296,23 @@ class Injection {
 
     /// data source
     Get.lazyPut<OrderRemote>(
-        () => OrderRemoteImp(Get.find<FirebaseFirestore>()));
+        fenix: true, () => OrderRemoteImp(Get.find<FirebaseFirestore>()));
 
     /// repo
-    Get.lazyPut<OrderRepo>(() =>
-        OrderRepoImp(Get.find<OrderRemote>(), Get.find<NetworkInfo>()));
+    Get.lazyPut<OrderRepo>(
+        fenix: true,
+        () => OrderRepoImp(Get.find<OrderRemote>(), Get.find<NetworkInfo>()));
 
     /// Usecase
     Get.lazyPut<AddOrderUsecase>(() => AddOrderUsecase(Get.find<OrderRepo>()));
+    Get.lazyPut<GetOrdersUsecase>(
+        fenix: true, () => GetOrdersUsecase(Get.find<OrderRepo>()));
+
+    /// Getx
+    Get.lazyPut<OrderGetx>(
+        fenix: true,
+        () => OrderGetx(
+              Get.find<GetOrdersUsecase>(),
+            ));
   }
 }

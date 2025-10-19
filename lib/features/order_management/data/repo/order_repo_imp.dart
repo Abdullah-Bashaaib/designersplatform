@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/failures.dart';
 import 'package:designers_platform/core/network/network_info.dart';
+import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
@@ -30,6 +31,23 @@ class OrderRepoImp implements OrderRepo {
       try {
         await orderRemote.addOrder(orderModel);
         return right(unit);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<OrderEntity>>> getOrders() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await orderRemote.getOrders();
+        if (result.isEmpty) {
+          return left(NoDataFailure(emptyOrdersMessage));
+        }
+        return right(result);
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));
       }
