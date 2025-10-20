@@ -22,9 +22,11 @@ class ProfileImageAndStatistic extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            CircleAvatarCustom(
-              currentAvatarUrl: designer!.avatarUrl,
-            ),
+            designer != null
+                ? CircleAvatarCustom(
+                    currentAvatarUrl: designer!.avatarUrl,
+                  )
+                : CircleAvatarCustom(),
             Positioned(
               right: 110.r,
               top: 5.r,
@@ -75,8 +77,10 @@ class ProfileImageAndStatistic extends StatelessWidget {
                       enabled: controller.isLoading.value,
                       child: NumbersOfProfile(
                         field: 'الطلبات',
-                        number:
-                            "${controller.designerR.value?.worksCount ?? 0}",
+                        number: (designer?.worksCount ??
+                                controller.designerR.value?.worksCount ??
+                                0)
+                            .toString(),
                       ),
                     ),
                   ),

@@ -44,7 +44,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
           controller: widget.controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
-          maxLines: widget.maxLines,
+          maxLines: widget.maxLines ?? 1,
           decoration: AppStyles.getInputDecoration(
               hintText: widget.hintText ?? '',
               prefixIcon: Icon(

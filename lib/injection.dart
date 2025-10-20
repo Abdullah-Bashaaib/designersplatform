@@ -125,38 +125,43 @@ class Injection {
     ///========================== [ Feat: Client Profile ] ==============================
     /// Data Source
     Get.lazyPut<ClientRemoteDataSource>(
+      fenix: true,
       () => ClientRemoteDataSourceImp(
           Get.find<SupabaseClient>(), Get.find<FirebaseFirestore>()),
     );
     Get.lazyPut<ClientLocalDataSource>(
+      fenix: true,
       () => ClientLocalDataSourceImp(Get.find<SharedPreferences>()),
     );
 
     /// Repo
     Get.lazyPut<ClientProfileRepo>(
+      fenix: true,
       () => ClientProfileRepoImp(Get.find<ClientRemoteDataSource>(),
           Get.find<ClientLocalDataSource>(), Get.find<NetworkInfo>()),
     );
 
     /// Usecases
     Get.lazyPut<UpdateProfileUsecase>(
+      fenix: true,
       () => UpdateProfileUsecase(Get.find<ClientProfileRepo>()),
     );
     Get.lazyPut<GetProfileUsecase>(
+      fenix: true,
       () => GetProfileUsecase(Get.find<ClientProfileRepo>()),
     );
 
     Get.lazyPut<GetFavoritesUsecase>(
-        () => GetFavoritesUsecase(Get.find<ClientProfileRepo>()));
+        fenix: true, () => GetFavoritesUsecase(Get.find<ClientProfileRepo>()));
 
     Get.lazyPut<AddAvatarUsecase>(
-        () => AddAvatarUsecase(Get.find<ClientProfileRepo>()));
+        fenix: true, () => AddAvatarUsecase(Get.find<ClientProfileRepo>()));
 
     Get.lazyPut<SaveUserUsecase>(
-        () => SaveUserUsecase(Get.find<ClientProfileRepo>()));
+        fenix: true, () => SaveUserUsecase(Get.find<ClientProfileRepo>()));
 
     Get.lazyPut<DeleteAvatarUsecase>(
-        () => DeleteAvatarUsecase(Get.find<ClientProfileRepo>()));
+        fenix: true, () => DeleteAvatarUsecase(Get.find<ClientProfileRepo>()));
 
     /// GetX
     Get.lazyPut<ClientProfileController>(

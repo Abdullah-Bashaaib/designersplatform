@@ -22,6 +22,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final designer = currentDesigner ?? controller.designerR.value;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -78,18 +80,26 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileImageAndStatistic(
-                      designer: currentDesigner,
-                    ),
-                    BioCustom(
-                      currentBio: currentDesigner!.bio,
-                    ),
-                    ButtonsReaction(
-                      currentDesigner: currentDesigner,
-                    ),
-                    GridWorksCustom(
-                      currentDesigner: currentDesigner,
-                    ),
+                    currentDesigner != null
+                        ? ProfileImageAndStatistic(
+                            designer: currentDesigner,
+                          )
+                        : ProfileImageAndStatistic(),
+                    currentDesigner != null
+                        ? BioCustom(
+                            currentBio: currentDesigner!.bio,
+                          )
+                        : BioCustom(),
+                    currentDesigner != null
+                        ? ButtonsReaction(
+                            currentDesigner: currentDesigner,
+                          )
+                        : ButtonsReaction(),
+                    currentDesigner != null
+                        ? GridWorksCustom(
+                            currentDesigner: currentDesigner,
+                          )
+                        : GridWorksCustom(),
                   ],
                 ),
               ),
