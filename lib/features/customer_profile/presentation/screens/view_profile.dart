@@ -91,7 +91,7 @@ class ViewProfile extends StatelessWidget {
                     () => CircleAvatar(
                       radius: 50.r,
                       backgroundImage: c.avatarUrl.value != ''
-                          ? CachedNetworkImageProvider(c.user.value!.avatarUrl!)
+                          ? CachedNetworkImageProvider(c.avatarUrl.value!)
                           : AssetImage(AppImage.icon1) as ImageProvider,
                     ),
                   ),
