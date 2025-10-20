@@ -73,23 +73,7 @@ class ClientProfileRepoImp implements ClientProfileRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, List<OrderEntity>>> getOrders() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await remoteDataSource.getOrders();
-        if (result.isEmpty) {
-          return left(NoDataFailure(emptyOrdersMessage));
-        }
-        return right(result.cast<OrderEntity>());
-      } on ServerException {
-        return left(ServerFailure());
-      }
-    } else {
-      return left(OfflineFailure());
-    }
-  }
-
+ 
   @override
   Future<Either<Failure, String>> addAvatar(XFile file) async {
     if (await networkInfo.isConnected) {

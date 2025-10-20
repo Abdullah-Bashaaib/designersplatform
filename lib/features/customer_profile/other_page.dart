@@ -1,3 +1,5 @@
+import 'package:designers_platform/features/order_management/presentation/pages/view_order_client.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,7 +38,16 @@ class _OtherPageState extends State<OtherPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Other'),
+        title: Row(
+          children: [
+            const Text('Other'),
+            ElevatedButton(
+                onPressed: () {
+                  Get.to(() => ViewProfile());
+                },
+                child: Icon(Icons.arrow_left))
+          ],
+        ),
       ),
       body: Skeletonizer(
         enabled: _loading, // ✨ لإضافة حركة وميض

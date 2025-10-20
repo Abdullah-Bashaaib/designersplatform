@@ -1,25 +1,20 @@
 import 'package:designers_platform/core/current_user.dart';
-import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
-import 'package:designers_platform/core/widget/build_text_field.dart';
-import 'package:designers_platform/core/widget/validators.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/update_profile.dart';
+import 'package:designers_platform/features/designer_profile/presentation/views/widgets/filled_button_add_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ButtonsReaction extends StatelessWidget {
   final Designer? currentDesigner;
-  ButtonsReaction({
+  const ButtonsReaction({
     super.key,
     this.currentDesigner,
   });
-  final TextEditingController _type = TextEditingController();
-  final TextEditingController _description = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,104 +29,13 @@ class ButtonsReaction extends StatelessWidget {
           children: [
             SizedBox(
               width: 175.w,
-              child: FilledButton(
-                  style: AppStyles.secondaryButtonStyle,
-                  onPressed: () {
-                    DialogHelper.showCustomDialog(
-                      customIcon: Icon(
-                        Icons.design_services_rounded,
-                        color: AppColors.primaryColor,
-                        size: 36,
+              child: Obx(
+                () => c.isLoadingAddOrder.value
+                    ? Center(child: CircularProgressIndicator())
+                    : FilledButtonAddOrder(
+                        currentDesigner: currentDesigner,
                       ),
-                      title: 'طلب خدمة',
-                      customContent: Form(
-                        key: _formKey,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 8.w, vertical: 6.h),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              /// نوع التصميم
-                              BuildTextField(
-                                controller: _type,
-                                label: 'نوع التصميم',
-                                hintText: '(بوستر، شعار، هوية بصرية...)',
-                                validator: Validators.global,
-                              ),
-                              SizedBox(height: 10.h),
-
-                              /// وصف التصميم
-                              BuildTextField(
-                                controller: _description,
-                                label: 'وصف التصميم',
-                                maxLines: 3,
-                                hintText: 'اشرح فكرتك للمصمم هنا...',
-                              ),
-
-                              SizedBox(height: 20.h),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton.icon(
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          final type = _type.text.trim();
-                                          final description =
-                                              _description.text.trim();
-                                          c.addOrder(currentDesigner!, type,
-                                              description);
-                                          Get.back();
-                                        }
-                                      },
-                                      icon: Icon(Icons.check_circle_outline),
-                                      label: Text('تأكيد'),
-                                      style:
-                                          AppStyles.primaryButtonStyle.copyWith(
-                                        padding: WidgetStateProperty.all(
-                                          EdgeInsets.symmetric(vertical: 12.h),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 15.w),
-                                  Expanded(
-                                    child: OutlinedButton.icon(
-                                      onPressed: () => Get.back(),
-                                      icon: Icon(Icons.close_rounded,
-                                          color: AppColors.errorColor),
-                                      label: Text(
-                                        'إلغاء',
-                                        style: TextStyle(
-                                            color: AppColors.errorColor),
-                                      ),
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: AppColors.errorColor,
-                                            width: 1.2),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 12.h),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "طلب خدمة",
-                    style: TextStyle(fontSize: 15.sp),
-                  )),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(right: 10.r),
