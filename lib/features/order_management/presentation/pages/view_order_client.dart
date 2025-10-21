@@ -1,5 +1,4 @@
 import 'package:designers_platform/core/utils/messages.dart';
-import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

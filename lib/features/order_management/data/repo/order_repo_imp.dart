@@ -21,7 +21,6 @@ class OrderRepoImp implements OrderRepo {
       clientName: order.clientName,
       designerId: order.designerId,
       designerName: order.designerName,
-      designName: order.designName,
       designType: order.designType,
       description: order.description,
       status: order.status,
