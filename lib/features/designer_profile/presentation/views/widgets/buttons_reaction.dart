@@ -24,35 +24,38 @@ class ButtonsReaction extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: 175.w,
-              child: Obx(
-                () => c.isLoadingAddOrder.value
-                    ? Center(child: CircularProgressIndicator())
-                    : FilledButtonAddOrder(
-                        currentDesigner: currentDesigner,
+        c.designerR.value!.role == 'مصمم'
+            ? SizedBox(height: 0.h)
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 175.w,
+                    child: Obx(
+                      () => c.isLoadingAddOrder.value
+                          ? Center(child: CircularProgressIndicator())
+                          : FilledButtonAddOrder(
+                              currentDesigner: currentDesigner,
+                            ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(right: 10.r),
+                    width: 175.w,
+                    child: OutlinedButton(
+                      style: AppStyles.secondaryButtonStyle,
+                      onPressed: () {
+                        DialogHelper.showInfoDialog(
+                            title: "title", message: "message");
+                      },
+                      child: Text(
+                        "تقييم المصمم",
+                        style: TextStyle(fontSize: 15.sp),
                       ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(right: 10.r),
-              width: 175.w,
-              child: OutlinedButton(
-                  style: AppStyles.secondaryButtonStyle,
-                  onPressed: () {
-                    DialogHelper.showInfoDialog(
-                        title: "title", message: "message");
-                  },
-                  child: Text(
-                    "تقييم المصمم",
-                    style: TextStyle(fontSize: 15.sp),
-                  )),
-            ),
-          ],
-        ),
         CurrentUser.currentUser!.role == 'عميل'
             ? SizedBox(
                 height: 10.h,
@@ -60,13 +63,15 @@ class ButtonsReaction extends StatelessWidget {
             : Container(
                 padding: EdgeInsets.only(top: 10.r),
                 width: double.infinity,
-                child: OutlinedButton(
+                child: FilledButton(
                   style: AppStyles.secondaryButtonStyle,
                   onPressed: () {
                     Get.to(() => UpdateProfile());
                   },
-                  child: Text("تعديل الملف الشخصي",
-                      style: TextStyle(fontSize: 15.sp)),
+                  child: Text(
+                    "تعديل الملف الشخصي",
+                    style: TextStyle(fontSize: 15.sp),
+                  ),
                 ),
               ),
       ],

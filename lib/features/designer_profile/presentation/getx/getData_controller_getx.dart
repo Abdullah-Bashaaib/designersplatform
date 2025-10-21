@@ -247,7 +247,6 @@ class GetDataControllerGetx extends GetxController {
         clientName: CurrentUser.currentUser!.name,
         designerId: designer.id,
         designerName: designer.name,
-        designName: designName,
         designType: type,
         description: description,
         status: 'pending',

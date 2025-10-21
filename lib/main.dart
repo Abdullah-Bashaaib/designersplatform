@@ -1,4 +1,5 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
 import 'package:designers_platform/firebase_options.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'features/auth/presentation/pages/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.system,
           defaultTransition: Transition.cupertino,
           transitionDuration: const Duration(milliseconds: 400),
-          home: SplashScreen(),
+          home: ViewOrder(),
         );
       },
     );
