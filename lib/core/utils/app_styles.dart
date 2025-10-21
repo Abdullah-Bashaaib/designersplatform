@@ -177,7 +177,7 @@ class AppStyles {
 
   // أنماط حقول الإدخال
   static InputDecoration getInputDecoration({
-    required String hintText,
+    String? hintText,
     String? labelText,
     Widget? prefixIcon,
     Widget? suffixIcon,
