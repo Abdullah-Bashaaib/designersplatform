@@ -1,6 +1,5 @@
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/widget/build_text_field.dart';
-import 'package:designers_platform/core/widget/custom_button.dart';
-import 'package:designers_platform/core/widget/custom_outline_button.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/core/widget/gap.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class ViewOrder extends StatefulWidget {
 
 class _ViewOrderState extends State<ViewOrder> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> allOrders = List.generate(20, (i) => "الطلب ${i + 1}");
+  List<String> allOrders = List.generate(100, (i) => "الطلب ${i + 1}");
   List<String> filteredOrders = [];
 
   @override
@@ -66,33 +65,34 @@ class _ViewOrderState extends State<ViewOrder> {
                   separatorBuilder: (context, index) => Gap(height: 8.h),
                   itemBuilder: (context, index) {
                     final order = filteredOrders[index];
-                    return Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0.r),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: CustomText(text: order),
-                              subtitle: CustomText(text: "تفاصيل الطلب"),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CustomButton(
-                                    onPressed: () {},
-                                    text: "قبول",
-                                  ),
-                                ),
-                                Gap(width: 10.w),
-                                CustomOutlineButton(
-                                  onPressed: () {},
-                                  text: "رفض",
-                                ),
-                              ],
-                            ),
-                          ],
+                    return Dismissible(
+                      background: Container(
+                        color: Colors.red,
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
                         ),
                       ),
+                      key: ValueKey<String>(order),
+                      child: ListTile(
+                        onTap: () {
+                          DialogHelper.showInfoDialog(
+                              title: "الانتقـــــال",
+                              message:
+                                  "الانتقال الى صفحة التفاصيل لقبول الطلب أو رفضه");
+                        },
+                        leading: CircleAvatar(
+                          child: CustomText(
+                            text: order.substring(2, 3),
+                          ),
+                        ),
+                        title: CustomText(text: order),
+                      ),
+                      onDismissed: (DismissDirection direction) {
+                        setState(() {
+                          allOrders.removeAt(index);
+                        });
+                      },
                     );
                   },
                 ),

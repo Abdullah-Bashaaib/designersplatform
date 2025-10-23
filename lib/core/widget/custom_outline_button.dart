@@ -7,13 +7,11 @@ import 'custom_text.dart';
 class CustomOutlineButton extends StatelessWidget {
   final void Function() onPressed;
   final String text;
-  final Color colorButton;
   final Color colorText;
   const CustomOutlineButton({
     super.key,
     required this.onPressed,
     required this.text,
-    this.colorButton = AppColors.primaryColor,
     this.colorText = AppColors.primaryColor,
   });
 
