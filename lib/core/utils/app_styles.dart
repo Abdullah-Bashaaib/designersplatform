@@ -93,6 +93,7 @@ class AppStyles {
   static TextStyle bodyMedium = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.normal,
+    fontFamily: 'iosRounded',
     height: 1.4.h,
   );
 
@@ -141,9 +142,9 @@ class AppStyles {
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
         textStyle: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-        ),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            fontFamily: "iosRounded"),
       );
 
   static ButtonStyle get ghostButtonStyle => TextButton.styleFrom(
