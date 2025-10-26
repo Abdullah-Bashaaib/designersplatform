@@ -1,17 +1,36 @@
+import 'package:designers_platform/core/utils/app_colors.dart';
+import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/utils/messages.dart';
-import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/details_order_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ViewOrders extends StatelessWidget {
   ViewOrders({super.key});
+
   final c = Get.find<OrderGetx>();
+  final dateFormat = DateFormat('dd MMM yyyy • hh:mm a');
+
+  Color _statusColor(String status) {
+    switch (status) {
+      case "مكتمل":
+        return Colors.green;
+      case "قيد الانتظار":
+        return Colors.amber;
+      case "مرفوض":
+        return Colors.redAccent;
+      default:
+        return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     c.getOrders();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,79 +41,169 @@ class ViewOrders extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: Obx(
-            () => c.orderList.isEmpty
-                ? Center(child: Text(emptyOrdersMessage))
-                : ListView.separated(
-                    itemCount: c.orderList.length,
-                    separatorBuilder: (context, index) =>
-                        SizedBox(height: 12.h),
-                    itemBuilder: (context, index) {
-                      final order = c.orderList[index];
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        elevation: 4,
-                        child: Row(
+        padding: EdgeInsets.all(16.w),
+        child: Obx(() {
+          if (c.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (c.orderList.isEmpty) {
+            return Center(
+              child: Text(
+                emptyOrdersMessage,
+                style: AppStyles.bodyLarge,
+              ),
+            );
+          }
+
+          return ListView.separated(
+            itemCount: c.orderList.length,
+            separatorBuilder: (context, index) => SizedBox(height: 14.h),
+            itemBuilder: (context, index) {
+              final order = c.orderList[index];
+
+              return Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.r),
+                    gradient: LinearGradient(
+                      colors: [Colors.white, Colors.grey.shade50],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // صورة التصميم
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: order.imageUrl == null || order.imageUrl!.isEmpty
+                            ? Container(
+                                width: 80.w,
+                                height: 80.w,
+                                color: Colors.grey.shade300,
+                                child: Icon(Icons.image_not_supported,
+                                    color: Colors.grey.shade600),
+                              )
+                            : Image.network(
+                                order.imageUrl!,
+                                width: 80.w,
+                                height: 80.w,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                      SizedBox(width: 12.w),
+
+                      // تفاصيل الطلب
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16.r),
-                                bottomLeft: Radius.circular(16.r),
+                            Text(
+                              order.designName,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor,
                               ),
-                              child: order.imageUrl == ''
-                                  ? Text('no found')
-                                  : Image.network(
-                                      order.imageUrl!,
-                                      width: 100.w,
-                                      height: 100.h,
-                                      fit: BoxFit.cover,
-                                    ),
                             ),
-
-                            SizedBox(width: 12.w),
-
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      order.designerName,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              order.designType,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Row(
+                              children: [
+                                Icon(Icons.person,
+                                    size: 16.sp,
+                                    color: AppColors.textSecondary),
+                                SizedBox(width: 4.w),
+                                Flexible(
+                                  child: Text(
+                                    order.designerName,
+                                    style: TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.textSecondary,
                                     ),
-                                    SizedBox(height: 6.h),
-                                    Text(
-                                      "معرف المصمم: ${order.designerId}",
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-
-                            // زر للعرض أو التفاصيل
-                            IconButton(
-                              onPressed: () {
-                                // TODO: Add navigation to order details page
-                              },
-                              icon: Icon(Icons.arrow_forward_ios, size: 18.sp),
+                            SizedBox(height: 8.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4.h, horizontal: 8.w),
+                                  decoration: BoxDecoration(
+                                    color: _statusColor(order.status)
+                                        .withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: Text(
+                                    order.status,
+                                    style: TextStyle(
+                                      color: _statusColor(order.status),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13.sp,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    dateFormat.format(order.createAt),
+                                    style: TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 12.sp,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      );
-                    },
+                      ),
+
+                      // زر التفاصيل
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.w),
+                        child: IconButton(
+                          onPressed: () {
+                            Get.to(() => DetailsOrderClient(
+                                  order: order,
+                                ));
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 18.sp,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-          )),
+                ),
+              );
+            },
+          );
+        }),
+      ),
     );
   }
 }

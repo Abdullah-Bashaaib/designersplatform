@@ -250,7 +250,7 @@ class GetDataControllerGetx extends GetxController {
         designName: designName,
         designType: type,
         description: description,
-        status: 'pending',
+        status: 'قيد الانتظار',
         createAt: DateTime.now());
 
     final result = await addOrderUsecase.call(order);
