@@ -1,4 +1,3 @@
-import 'package:designers_platform/features/order_management/presentation/pages/view_order_client.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
