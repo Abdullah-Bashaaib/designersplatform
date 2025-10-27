@@ -13,6 +13,8 @@ class BuildTextFieldChat extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8.0.r),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.sp), topRight: Radius.circular(20.sp)),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -24,10 +26,6 @@ class BuildTextFieldChat extends StatelessWidget {
       ),
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.add, color: AppColors.primaryColor),
-            onPressed: () {},
-          ),
           Expanded(
             child: TextField(
               decoration: InputDecoration(

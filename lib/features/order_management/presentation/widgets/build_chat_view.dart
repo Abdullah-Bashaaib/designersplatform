@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/widget/custom_card.dart';
@@ -21,8 +22,8 @@ Widget buildChatView(ChatOrderGetX controller) {
           return Align(
             alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-              padding: const EdgeInsets.all(12),
+              margin: EdgeInsets.symmetric(vertical: 5.sp, horizontal: 16.sp),
+              padding: EdgeInsets.all(12.sp),
               decoration: BoxDecoration(
                 color: isMe ? AppColors.primaryColor : Colors.grey[200],
                 borderRadius: BorderRadius.circular(16),
@@ -34,8 +35,8 @@ Widget buildChatView(ChatOrderGetX controller) {
             ),
           );
         },
-        separatorBuilder: (context, index) => const Gap(
-          height: 5,
+        separatorBuilder: (context, index) => Gap(
+          height: 5.h,
         ),
       ),
     ],
