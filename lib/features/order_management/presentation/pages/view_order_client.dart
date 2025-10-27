@@ -10,7 +10,6 @@ class ViewOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    c.getOrders();
     return Scaffold(
       appBar: AppBar(
         title: Text(
