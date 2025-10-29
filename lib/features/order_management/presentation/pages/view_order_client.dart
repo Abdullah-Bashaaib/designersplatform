@@ -67,14 +67,7 @@ class ViewOrders extends StatelessWidget {
                 ),
                 child: Container(
                   padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.r),
-                    gradient: LinearGradient(
-                      colors: [Colors.white, Colors.grey.shade50],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
+                  decoration: AppStyles.cardDecoration,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -105,19 +98,12 @@ class ViewOrders extends StatelessWidget {
                           children: [
                             Text(
                               order.designName,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
-                              ),
+                              style: AppStyles.bodyMedium,
                             ),
                             SizedBox(height: 4.h),
                             Text(
                               order.designType,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.textSecondary,
-                              ),
+                              style: AppStyles.bodySmall,
                             ),
                             SizedBox(height: 6.h),
                             Row(
@@ -129,10 +115,7 @@ class ViewOrders extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     order.designerName,
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      color: AppColors.textSecondary,
-                                    ),
+                                    style: AppStyles.bodySmall,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -146,11 +129,7 @@ class ViewOrders extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 4.h, horizontal: 8.w),
-                                  decoration: BoxDecoration(
-                                    color: _statusColor(order.status)
-                                        .withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
+                                  decoration: AppStyles.cardDecoration,
                                   child: Text(
                                     order.status,
                                     style: TextStyle(
@@ -163,10 +142,7 @@ class ViewOrders extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     dateFormat.format(order.createAt),
-                                    style: TextStyle(
-                                      color: AppColors.textSecondary,
-                                      fontSize: 12.sp,
-                                    ),
+                                    style: AppStyles.bodySmall,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.end,

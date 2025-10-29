@@ -57,4 +57,18 @@ class OrderRepoImp implements OrderRepo {
       return left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteOrder(String orderId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await orderRemote.deleteOrder(orderId);
+        return right(unit);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
+  }
 }
