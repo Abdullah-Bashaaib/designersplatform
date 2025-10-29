@@ -50,6 +50,7 @@ dependencies:
   image_picker:
   skeletonizer: ^2.1.0+1
   cached_network_image: ^3.4.1
+  equatable: ^2.0.7
   intl:
 
 dev_dependencies:
@@ -101,6 +102,10 @@ flutter:
        fonts:
          - asset: assets/font/Doran/Doran-Regular.ttf
            weight: 700
+
+     - family: iosRounded
+       fonts:
+         - asset: assets/font/iosRounded.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

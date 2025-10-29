@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
@@ -28,7 +30,10 @@ class OrderRemoteImp implements OrderRemote {
 
   @override
   Future<List<OrderModel>> getOrders() async {
+    log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser?.role}");
+
     try {
+      log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser!.id}");
       final query = await firestore
           .collection('Orders')
           .where('clientId', isEqualTo: CurrentUser.currentUser!.id)

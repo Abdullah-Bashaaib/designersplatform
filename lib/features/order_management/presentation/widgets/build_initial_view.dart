@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/widget/custom_button.dart';
+import '../../../../core/widget/custom_card.dart';
+import '../../../../core/widget/custom_outline_button.dart';
+import '../../../../core/widget/custom_text.dart';
+import '../../../../core/widget/gap.dart';
+import '../getx/chat_getx.dart';
+
+Widget buildInitialView(ChatOrderGetX controller, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const CustomCard(order: "تفاصيل الطلب هنا..."),
+        const Gap(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // زر الرفض
+            Expanded(
+              child: CustomOutlineButton(
+                  onPressed: controller.rejectOrder, text: "رفض"),
+            ),
+            Gap(
+              width: 5.w,
+            ),
+            Expanded(
+              child:
+                  CustomButton(onPressed: controller.acceptOrder, text: "قبول"),
+            )
+          ],
+        ),
+        const Gap(height: 20),
+        const CustomText(
+          text: "عند قبول الطلب، ستتمكن من بدء المحادثة.",
+          color: Colors.grey,
+        ),
+      ],
+    ),
+  );
+}

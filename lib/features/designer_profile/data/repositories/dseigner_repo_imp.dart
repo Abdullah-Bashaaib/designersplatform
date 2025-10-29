@@ -53,8 +53,9 @@ class DesignerRepoImp implements DesignerRepository {
         } on ServerException {
           return Left(ServerFailure());
         }
+      } else {
+        return Left(OfflineFailure());
       }
-      await localDataSource.updateData(designerM);
       return Right(unit);
     } on EmptyLocalDatabaseException {
       return Left(EmptyLocalDatabaseFailure());

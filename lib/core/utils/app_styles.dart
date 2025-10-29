@@ -43,9 +43,9 @@ class AppStyles {
 
   static List<BoxShadow> get heavyShadow => [
         BoxShadow(
-          color: AppColors.primaryColor.withValues(alpha: 0.16),
+          color: AppColors.primaryColor.withValues(alpha: 0.16.r),
           blurRadius: 16.r,
-          offset: const Offset(0, 6),
+          offset: Offset(0.r, 6.r),
         ),
       ];
 
@@ -93,6 +93,7 @@ class AppStyles {
   static TextStyle bodyMedium = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.normal,
+    fontFamily: 'iosRounded',
     height: 1.4.h,
   );
 
@@ -141,9 +142,9 @@ class AppStyles {
         shape: RoundedRectangleBorder(borderRadius: buttonRadius),
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
         textStyle: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-        ),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+            fontFamily: "iosRounded"),
       );
 
   static ButtonStyle get ghostButtonStyle => TextButton.styleFrom(
@@ -177,7 +178,7 @@ class AppStyles {
 
   // أنماط حقول الإدخال
   static InputDecoration getInputDecoration({
-    required String hintText,
+    String? hintText,
     String? labelText,
     Widget? prefixIcon,
     Widget? suffixIcon,

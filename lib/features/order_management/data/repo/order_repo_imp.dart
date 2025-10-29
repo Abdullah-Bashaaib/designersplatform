@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/failures.dart';
@@ -21,7 +23,6 @@ class OrderRepoImp implements OrderRepo {
       clientName: order.clientName,
       designerId: order.designerId,
       designerName: order.designerName,
-      designName: order.designName,
       designType: order.designType,
       description: order.description,
       status: order.status,
@@ -45,6 +46,7 @@ class OrderRepoImp implements OrderRepo {
       try {
         final result = await orderRemote.getOrders();
         if (result.isEmpty) {
+          log("-------------> message:there is empty data!!");
           return left(NoDataFailure(emptyOrdersMessage));
         }
         return right(result);

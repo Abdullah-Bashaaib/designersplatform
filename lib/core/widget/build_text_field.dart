@@ -1,8 +1,10 @@
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/widget/gap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuildTextField extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? hintText;
   final IconData? prefixIcon;
   final String label;
@@ -10,18 +12,22 @@ class BuildTextField extends StatefulWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final String? Function(String?)? onSaved;
+  final String? Function(String?)? onChange;
   final int? maxLines;
   const BuildTextField({
     super.key,
-    required this.controller,
-    this.hintText,
+    this.controller,
+    this.hintText = '',
     this.prefixIcon,
-    required this.label,
-    this.keyboardType,
+    this.label = '',
+    this.keyboardType = TextInputType.text,
     this.suffixIcon,
     this.obscureText = false,
     this.validator,
-    this.maxLines,
+    this.maxLines = 1,
+    this.onSaved,
+    this.onChange,
   });
 
   @override
@@ -30,7 +36,6 @@ class BuildTextField extends StatefulWidget {
 
 class _BuildTextFieldState extends State<BuildTextField> {
   TextInputType? keyboardType;
-
   Widget? suffixIcon;
 
   @override
@@ -38,15 +43,19 @@ class _BuildTextFieldState extends State<BuildTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: AppStyles.headingSmall),
-        const SizedBox(height: 8),
+        widget.label == ''
+            ? Gap(
+                height: 0.1.h,
+              )
+            : Text(widget.label, style: AppStyles.headingSmall),
+        Gap(height: 5.h),
         TextFormField(
           controller: widget.controller,
           obscureText: widget.obscureText,
           keyboardType: widget.keyboardType,
-          maxLines: widget.maxLines ?? 1,
+          maxLines: widget.maxLines,
           decoration: AppStyles.getInputDecoration(
-              hintText: widget.hintText ?? '',
+              hintText: widget.hintText,
               prefixIcon: Icon(
                 widget.prefixIcon,
               ),

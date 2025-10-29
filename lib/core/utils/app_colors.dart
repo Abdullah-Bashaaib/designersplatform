@@ -22,7 +22,7 @@ class AppColors {
 
   // ألوان الحالة
   static const Color successColor = Color(0xFF00B894);
-  static const Color warningColor = Color(0xFFE17055);
+  static const Color warningColor = Color(0xFFE1CA55);
   static const Color errorColor = Color(0xFFD63031);
   static const Color infoColor = Color(0xFF0984E3);
 
@@ -68,7 +68,7 @@ class AppThemes {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    // fontFamily: "Doran",
+    fontFamily: "iosRounded",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
 
@@ -145,7 +145,7 @@ class AppThemes {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    // fontFamily: "doran",
+    fontFamily: "iosRounded",
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.darkBackgroundColor,
     colorScheme: const ColorScheme.dark(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../widgets/hero_avatar.dart';
 
@@ -40,35 +39,15 @@ class UpdateProfile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(
+                  Row(
                     children: [
-                      Positioned(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: 10.r, bottom: 20.r, right: 10.r),
-                          width: 90.w,
-                          height: 8.h,
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: AppStyles.mediumRadius,
-                          ),
-                        ),
+                      Icon(Icons.person),
+                      SizedBox(
+                        width: 5.w,
                       ),
-                      Positioned(
-                        right: 15.r,
-                        bottom: 14.r,
-                        child: Row(
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(
-                              "الاسم",
-                              style: AppStyles.headingSmall,
-                            ),
-                          ],
-                        ),
+                      Text(
+                        "الاسم",
+                        style: AppStyles.headingSmall,
                       ),
                     ],
                   ),
@@ -83,30 +62,15 @@ class UpdateProfile extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.r),
               child: Column(
                 children: [
-                  Stack(
+                  Row(
                     children: [
-                      Positioned(
-                        top: 15.r,
-                        child: Container(
-                          width: 125.r,
-                          height: 10.r,
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: AppStyles.mediumRadius,
-                          ),
-                        ),
+                      Icon(Icons.free_breakfast),
+                      SizedBox(
+                        width: 10.r,
                       ),
-                      Row(
-                        children: [
-                          Icon(Icons.free_breakfast),
-                          SizedBox(
-                            width: 10.r,
-                          ),
-                          Text(
-                            "التخصص",
-                            style: AppStyles.headingSmall,
-                          )
-                        ],
+                      Text(
+                        "التخصص",
+                        style: AppStyles.headingSmall,
                       )
                     ],
                   ),
@@ -123,34 +87,15 @@ class UpdateProfile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(
-                    clipBehavior: Clip.none,
+                  Row(
                     children: [
-                      Positioned(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10.r, bottom: 20.r),
-                          width: 150.w,
-                          height: 8.h,
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: AppStyles.mediumRadius,
-                          ),
-                        ),
+                      Icon(Icons.info_outline_rounded),
+                      SizedBox(
+                        width: 10.w,
                       ),
-                      Positioned(
-                        bottom: 15.r,
-                        child: Row(
-                          children: [
-                            Icon(Icons.info_outline_rounded),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              "السيرة الذاتية",
-                              style: AppStyles.headingSmall,
-                            ),
-                          ],
-                        ),
+                      Text(
+                        "السيرة الذاتية",
+                        style: AppStyles.headingSmall,
                       ),
                     ],
                   ),

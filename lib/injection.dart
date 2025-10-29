@@ -29,11 +29,6 @@ import 'package:designers_platform/features/designer_profile/data/datasource/rem
 import 'package:designers_platform/features/designer_profile/data/repositories/dseigner_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
-import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
-import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
-import 'package:designers_platform/features/order_management/data/repo/order_repo_imp.dart';
-import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/delete_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/get_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/update_profile_usecase.dart';
@@ -46,6 +41,12 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
+import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
+import 'package:designers_platform/features/order_management/data/repo/order_repo_imp.dart';
+import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/chat_getx.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';

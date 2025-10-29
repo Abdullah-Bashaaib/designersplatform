@@ -4,7 +4,6 @@ class OrderEntity {
   final String clientName;
   final String designerId;
   final String designerName;
-  final String designName;
   final String designType;
   final String? description;
   final double? price;
@@ -20,7 +19,6 @@ class OrderEntity {
     required this.clientName,
     required this.designerId,
     required this.designerName,
-    required this.designName,
     required this.designType,
     this.description,
     this.price,
