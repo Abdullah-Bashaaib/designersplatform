@@ -1,5 +1,7 @@
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DetailsOrderClient extends StatelessWidget {
   final OrderEntity order;
@@ -71,19 +73,29 @@ class DetailsOrderClient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<OrderGetx>();
     final statusColor = _statusColor(context, order.status);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('تفاصيل الطلب'),
         actions: [
-          IconButton(
-            tooltip: 'حذف الطلب',
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-            onPressed: () async {},
+          Obx(
+            () => c.isLoading.value
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  )
+                : IconButton(
+                    tooltip: 'حذف الطلب',
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () async {
+                      await c.deleteOrder(order.id);
+                    },
+                  ),
           ),
         ],
       ),
@@ -176,6 +188,11 @@ class DetailsOrderClient extends StatelessWidget {
               icon: Icons.brush,
               title: 'المصمم',
               value: order.designerName,
+            ),
+            _infoTile(
+              icon: Icons.brush,
+              title: 'الاي دي',
+              value: order.designerId,
             ),
             _infoTile(
               icon: Icons.monetization_on,

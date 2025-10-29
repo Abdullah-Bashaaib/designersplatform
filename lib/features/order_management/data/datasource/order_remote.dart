@@ -6,6 +6,7 @@ import 'package:designers_platform/features/order_management/data/models/order_m
 abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
   Future<List<OrderModel>> getOrders();
+  Future<void> deleteOrder(String orderId);
 }
 
 class OrderRemoteImp implements OrderRemote {
@@ -34,6 +35,15 @@ class OrderRemoteImp implements OrderRemote {
           .get();
 
       return query.docs.map((m) => OrderModel.fromJson(m.data())).toList();
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<void> deleteOrder(String orderId) async {
+    try {
+      await firestore.collection('Orders').doc(orderId).delete();
     } catch (e) {
       throw ServerException(e);
     }

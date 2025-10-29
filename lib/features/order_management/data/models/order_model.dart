@@ -45,7 +45,7 @@ class OrderModel extends OrderEntity {
       'id': id,
       'clientId': clientId,
       'clientName': clientName,
-      'designerId,': designerId,
+      'designerId': designerId,
       'designerName': designerName,
       'designName': designName,
       'designType': designType,
