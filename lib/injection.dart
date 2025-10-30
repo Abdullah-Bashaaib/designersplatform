@@ -16,8 +16,6 @@ import 'package:designers_platform/features/customer_profile/data/data_source/re
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
@@ -44,8 +42,8 @@ import 'package:designers_platform/features/order_management/data/datasource/ord
 import 'package:designers_platform/features/order_management/data/repo/order_repo_imp.dart';
 import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
-import 'package:designers_platform/features/order_management/presentation/getx/chat_getx.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -346,10 +344,11 @@ class Injection {
 
     /// Getx
     Get.lazyPut<OrderGetx>(
-        fenix: true,
-        () => OrderGetx(
-              Get.find<GetOrdersUsecase>(),
-              Get.find<DeleteOrderUsecase>(),
-            ));
+      fenix: true,
+      () => OrderGetx(
+        Get.find<GetOrdersUsecase>(),
+        Get.find<DeleteOrderUsecase>(),
+      ),
+    );
   }
 }
