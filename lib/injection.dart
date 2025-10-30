@@ -53,9 +53,11 @@ import 'package:uuid/uuid.dart';
 
 import 'core/data/network_info_impl.dart';
 import 'core/domain/i_internet_info.dart';
+import 'core/presentation/services/data_sync_service.dart';
 import 'core/presentation/services/network_service.dart';
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
+import 'features/order_management/presentation/getx/chat_getx.dart';
 
 class Injection {
   static Future<void> init() async {
@@ -82,6 +84,9 @@ class Injection {
 
 // 3. نسجل خدمة GetX التي تشغّل اللسنر أوتوماتيكياً
     Get.lazyPut(() => NetworkService(), fenix: true);
+    // 4. (الخطوة الجديدة) ربط "منسق" البيانات
+// هذا الكود "نشط" وسيبدأ الخدمة واللسنر فوراً عند تشغيل التطبيق
+    Get.put(DataSyncService(), permanent: true);
     final uuid = Uuid();
     Get.lazyPut<Uuid>(() => uuid);
 
@@ -350,5 +355,6 @@ class Injection {
         Get.find<DeleteOrderUsecase>(),
       ),
     );
+    Get.lazyPut(() => ChatOrderGetX(), fenix: true);
   }
 }

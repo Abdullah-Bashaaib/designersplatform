@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+// ... (imports)
+
 class ViewOrder extends StatefulWidget {
   const ViewOrder({super.key});
 
@@ -21,15 +23,6 @@ class _ViewOrderState extends State<ViewOrder> {
   List<String> filteredOrders = [];
   final c = Get.find<OrderGetx>();
 
-  // void _filterOrders(String query) {
-  //   final results = allOrders
-  //       .where((order) => order.toLowerCase().contains(query.toLowerCase()))
-  //       .toList();
-  //   setState(() {
-  //     filteredOrders = results;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,102 +31,138 @@ class _ViewOrderState extends State<ViewOrder> {
         appBar: AppBar(
           title: CustomText(text: "الطلبات"),
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.wifi_find_rounded))
+            Obx(() {
+              return IconButton(
+                iconSize: 24.sp,
+                icon: c.isLoading.value
+                    ? Container(
+                        height: 24.h,
+                        width: 24.w,
+                        padding: EdgeInsets.all(3.r), // تبسيط
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimary, // استخدام الثيم
+                        ),
+                      )
+                    : Icon(Icons.refresh), // تبسيط
+                onPressed: () {
+                  if (!c.isLoading.value) {
+                    c.getOrders();
+                  }
+                },
+              );
+            }),
           ],
         ),
-        body: Obx(
-          () => c.orderList.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.not_interested_rounded,
-                        size: 200.5.sp,
-                        color: Theme.of(context).highlightColor.withValues(
-                              alpha: 0.2,
-                            ),
-                      ),
-                      CustomText(
-                        text: "لا توجـــــد طلبـــــات !",
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                )
-              : CustomScrollView(
-                  slivers: [
-                    // 🔍 مربع البحث
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10.0.r),
-                            child: BuildTextField(
-                              controller: _searchController,
-                              onChange: null,
-                              hintText: 'ابحث عن طلب...',
-                              prefixIcon: Icons.search,
-                            ),
-                          ),
-                          Gap(height: 10.h),
-                        ],
-                      ),
-                    ),
+        body: Obx(() {
+          // --- هذا هو المنطق الصحيح ---
 
-                    // 🧾 القائمة
-                    SliverList.separated(
-                      itemCount: c.orderList.length,
-                      separatorBuilder: (context, index) => Divider(
-                        thickness: 0.1,
-                        height: 0.5,
+          // 1. أولاً، تحقق من الحالة الفارغة (فقط إذا انتهى التحميل)
+          if (!c.isLoading.value && c.orderList.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.not_interested_rounded,
+                    size: 200.5.sp,
+                    color:
+                        Theme.of(context).highlightColor.withAlpha(50), // تبسيط
+                  ),
+                  CustomText(text: "لا توجـــــد طلبـــــات !", size: 20),
+                ],
+              ),
+            );
+          }
+
+          // 2. إذا كان هناك بيانات (أو لا يزال يحمل)، اعرض القائمة
+          return CustomScrollView(
+            slivers: [
+              // 🔍 مربع البحث
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10.0.r),
+                      child: BuildTextField(
+                        controller: _searchController,
+                        onChange: null,
+                        hintText: 'ابحث عن طلب...',
+                        prefixIcon: Icons.search,
                       ),
-                      itemBuilder: (context, index) {
-                        final order = c.orderList[index];
-                        return Skeletonizer(
-                          enabled: c.isLoading.value,
-                          child: Dismissible(
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              padding: EdgeInsets.symmetric(horizontal: 28),
-                              color: Colors.red,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                  ),
-                                  const CustomText(
-                                    text: "حذف",
-                                    color: Colors.white,
-                                  )
-                                ],
-                              ),
-                            ),
-                            key: ValueKey<OrderEntity>(order),
-                            child: ListTile(
-                              onTap: () {
-                                Get.to(() => ChatOrder());
-                              },
-                              leading: CircleAvatar(
-                                child: CustomText(
-                                  text: order.clientName.substring(2, 3),
-                                ),
-                              ),
-                              title: CustomText(text: order.clientName),
-                              subtitle: CustomText(
-                                  text: "تفاصيل الطلب حوالي سطر واحد"),
-                            ),
-                            onDismissed: (DismissDirection direction) {},
-                          ),
-                        );
-                      },
                     ),
+                    Gap(height: 10.h),
                   ],
                 ),
-        ),
+              ),
+
+              // 🧾 القائمة (هنا الإصلاح)
+              SliverSkeletonizer(
+                enabled:
+                    c.isLoading.value, // شغّل الـ Skeleton فقط أثناء التحميل
+                child: SliverList.separated(
+                  // إذا كان يحمل، اعرض 10 عناصر وهمية
+                  // إذا انتهى التحميل، اعرض العدد الحقيقي
+                  itemCount: c.isLoading.value ? 10 : c.orderList.length,
+                  separatorBuilder: (context, index) => Divider(
+                    thickness: 0.1,
+                    height: 0.5,
+                  ),
+                  itemBuilder: (context, index) {
+                    // --- لا نستخدم Skeletonizer هنا ---
+
+                    // إذا كان يحمل، لا تحاول الوصول لبيانات (order)
+                    if (c.isLoading.value) {
+                      return ListTile(
+                        leading: CircleAvatar(),
+                        title: CustomText(text: "اسم العميل..."),
+                        subtitle: CustomText(text: "تفاصيل الطلب..."),
+                      );
+                    }
+
+                    // --- الكود الأصلي (فقط إذا لم يكن يحمل) ---
+                    final order = c.orderList[index];
+                    return Dismissible(
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 28),
+                        color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(Icons.delete, color: Colors.white),
+                            const CustomText(text: "حذف", color: Colors.white)
+                          ],
+                        ),
+                      ),
+                      key: ValueKey<OrderEntity>(order),
+                      child: ListTile(
+                        onTap: () {
+                          Get.to(() => ChatOrder(
+                                index: index,
+                              ));
+                        },
+                        leading: CircleAvatar(
+                          child: CustomText(
+                            text: order.clientName.substring(0, 1),
+                          ),
+                        ),
+                        title: CustomText(text: order.clientName),
+                        subtitle: CustomText(
+                            text: order.description == ''
+                                ? 'لا يوجد وصف'
+                                : order.description!),
+                      ),
+                      onDismissed: (DismissDirection direction) {},
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

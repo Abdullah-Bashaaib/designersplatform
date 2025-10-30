@@ -6,15 +6,21 @@ import '../../../../core/widget/custom_card.dart';
 import '../../../../core/widget/custom_outline_button.dart';
 import '../../../../core/widget/custom_text.dart';
 import '../../../../core/widget/gap.dart';
+import '../../domain/entity/orders.dart';
 import '../getx/chat_getx.dart';
 
-Widget buildInitialView(ChatOrderGetX controller, BuildContext context) {
+Widget buildInitialView(
+    ChatOrderGetX controller, BuildContext context, OrderEntity order) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const CustomCard(order: "تفاصيل الطلب هنا..."),
+        CustomCard(
+          order: order.designType,
+          orderDescription:
+              order.description == '' ? 'لا يوجد وصف' : order.description!,
+        ),
         const Gap(height: 30),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

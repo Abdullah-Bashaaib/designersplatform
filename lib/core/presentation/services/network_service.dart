@@ -30,10 +30,9 @@ class NetworkService extends GetxService {
         DialogHelper.showSuccessSnackBar(
             title: "نجاح", message: "لديك اتصال انترنت");
       } else {
-        DialogHelper.showWarningDialog(
-            title: "تنبيه!!",
-            message: "لا يوجد لديك اتصال انترنت!",
-            buttonText: "حسنا");
+        DialogHelper.showWarningSnackBar(
+            title: "تنبيه!",
+            message: "لا يوجد لديك انترنت لذا لن تعمل بعض المميزات!");
       }
     });
   }

@@ -5,7 +5,9 @@ import 'custom_text.dart';
 
 class CustomCard extends StatelessWidget {
   final String order;
-  const CustomCard({super.key, required this.order});
+  final String orderDescription;
+  const CustomCard(
+      {super.key, required this.order, required this.orderDescription});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class CustomCard extends StatelessWidget {
               text: order,
               size: 18.sp,
             ),
-            subtitle: CustomText(text: "تفاصيل الطلب"),
+            subtitle: CustomText(text: orderDescription),
           ),
         ),
       ),
