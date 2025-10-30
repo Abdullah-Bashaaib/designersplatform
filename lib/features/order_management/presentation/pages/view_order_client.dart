@@ -97,7 +97,7 @@ class ViewOrders extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              order.designName,
+                              order.designerName,
                               style: AppStyles.bodyMedium,
                             ),
                             SizedBox(height: 4.h),

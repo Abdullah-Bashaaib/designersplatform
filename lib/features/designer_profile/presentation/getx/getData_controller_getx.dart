@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -254,10 +254,10 @@ class GetDataControllerGetx extends GetxController {
 
     final result = await addOrderUsecase.call(order);
     result.fold(
-        (f) =>
-            DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
-        (u) {
-      DialogHelper.showSuccessSnackBar(title: 'ok', message: addOrderMessage);
+        (f) => DialogHelper.showErrorSnackBar(
+            title: 'خطـــأ!', message: f.message), (u) {
+      DialogHelper.showSuccessSnackBar(
+          title: 'نجــــاح!', message: addOrderMessage);
     });
     isLoadingAddOrder.value = false;
   }

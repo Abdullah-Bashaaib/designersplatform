@@ -5,14 +5,14 @@ import 'package:designers_platform/features/designer_profile/data/models/designe
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
 
+import '../../../../core/domain/i_internet_info.dart';
 import '../../../../core/error/exception.dart';
-import '../../../../core/network/network_info.dart';
 import '../datasource/remote_data_source/designer_remote_data_source.dart';
 
 class DesignerRepoImp implements DesignerRepository {
   final DesignerLocalDataSource localDataSource;
   final DesignerRemoteDataSource remoteDataSource;
-  final NetworkInfo networkInfo;
+  final INetworkInfo networkInfo;
   DesignerRepoImp(
       this.localDataSource, this.networkInfo, this.remoteDataSource);
 

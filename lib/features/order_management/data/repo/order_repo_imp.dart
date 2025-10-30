@@ -3,16 +3,17 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/failures.dart';
-import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
 
+import '../../../../core/domain/i_internet_info.dart';
+
 class OrderRepoImp implements OrderRepo {
   final OrderRemote orderRemote;
-  final NetworkInfo networkInfo;
+  final INetworkInfo networkInfo;
 
   OrderRepoImp(this.orderRemote, this.networkInfo);
   @override
@@ -44,7 +45,7 @@ class OrderRepoImp implements OrderRepo {
   Future<Either<Failure, List<OrderEntity>>> getOrders() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await orderRemote.getOrders();
+        final result = await orderRemote.getOrders('designerId');
         if (result.isEmpty) {
           log("-------------> message:there is empty data!!");
           return left(NoDataFailure(emptyOrdersMessage));

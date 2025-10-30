@@ -135,7 +135,7 @@ class DetailsOrderClient extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    order.designName,
+                    order.designerName,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge

@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +42,21 @@ class GridWorksCustom extends StatelessWidget {
           final designer = currentDesigner ?? controller.designerR.value;
           return Skeletonizer(
             enabled: controller.isLoading.value,
-            child: designer == null
+            child: designer?.worksCount == null || designer?.worksCount == 0
                 ? Container(
-                    margin: EdgeInsets.only(top: 10.r),
-                    child: Text("لا توجد بيانات"))
+                    margin: EdgeInsets.only(top: 90.r),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.not_interested_rounded,
+                          size: 150.sp,
+                          color: Theme.of(context)
+                              .highlightColor
+                              .withValues(alpha: 0.2),
+                        ),
+                        CustomText(text: "لا توجد أعمـــال !!"),
+                      ],
+                    ))
                 : Container(
                     margin: EdgeInsets.only(top: 10.r),
                     child: GridView.builder(
@@ -56,12 +68,12 @@ class GridWorksCustom extends StatelessWidget {
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 2,
                       ),
-                      itemCount: designer.worksCount,
+                      itemCount: designer?.worksCount,
                       itemBuilder: (context, index) {
                         return Container(
                           decoration: BoxDecoration(color: Colors.grey[700]),
                           child: Image.network(
-                            designer.workList![index].imageUrl,
+                            designer!.workList![index].imageUrl,
                             fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;

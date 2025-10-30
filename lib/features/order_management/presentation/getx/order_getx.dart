@@ -8,9 +8,12 @@ import 'package:designers_platform/features/order_management/domain/usecase/dele
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/presentation/services/network_service.dart';
+
 class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
   final DeleteOrderUsecase deleteOrderUsecase;
+  final NetworkService _networkService = Get.find<NetworkService>();
 
   OrderGetx(this.getOrdersUsecase, this.deleteOrderUsecase);
 

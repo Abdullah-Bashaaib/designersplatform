@@ -4,17 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
+import 'package:shared_preferences/src/shared_preferences_legacy.dart';
 
 abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
-  Future<List<OrderModel>> getOrders();
+  Future<List<OrderModel>> getOrders(String colum);
   Future<void> deleteOrder(String orderId);
 }
 
 class OrderRemoteImp implements OrderRemote {
   final FirebaseFirestore firestore;
+  final SharedPreferences sharedPreferences;
 
-  OrderRemoteImp(this.firestore);
+  OrderRemoteImp(
+    this.firestore,
+    this.sharedPreferences,
+  );
 
   @override
   Future<void> addOrder(OrderModel orderModel) async {
@@ -29,7 +34,7 @@ class OrderRemoteImp implements OrderRemote {
   }
 
   @override
-  Future<List<OrderModel>> getOrders() async {
+  Future<List<OrderModel>> getOrders(String colum) async {
     log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser?.role}");
 
     try {
