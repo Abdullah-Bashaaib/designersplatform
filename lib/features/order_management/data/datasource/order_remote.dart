@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
+import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
-import 'package:shared_preferences/src/shared_preferences_legacy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
@@ -35,13 +36,16 @@ class OrderRemoteImp implements OrderRemote {
 
   @override
   Future<List<OrderModel>> getOrders(String colum) async {
-    log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser?.role}");
+    final userList = sharedPreferences.getString(KeySharedPref.userKey);
+    final userJson = jsonDecode(userList!);
+    log("--------> message: there is in get order firebase ID is ${userJson['role']}");
 
     try {
-      log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser!.id}");
+      log("--------> message: there is in get order firebase ID is ${userJson['id']}");
+      log("---------> message: Colum is $colum , name: ${userJson['name']}, ID: ${userJson['id']}");
       final query = await firestore
           .collection('Orders')
-          .where('clientId', isEqualTo: CurrentUser.currentUser!.id)
+          .where(colum, isEqualTo: userJson['id'])
           .get();
 
       return query.docs.map((m) => OrderModel.fromJson(m.data())).toList();

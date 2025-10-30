@@ -1,3 +1,4 @@
+import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,13 +8,17 @@ import '../../../../core/widget/custom_text.dart';
 import '../../../../core/widget/gap.dart';
 import '../getx/chat_getx.dart';
 
-Widget buildChatView(ChatOrderGetX controller) {
+Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
   return CustomScrollView(
     controller: controller.scrollController,
     // reverse: true, // ننصح بتفعيل هذا في الشات الحقيقي
     slivers: [
-      const SliverToBoxAdapter(
-        child: CustomCard(order: "نص الطلب"),
+      SliverToBoxAdapter(
+        child: CustomCard(
+          order: order.designType,
+          orderDescription:
+              order.description == '' ? 'لا يوجد وصف' : order.description!,
+        ),
       ),
       SliverList.separated(
         itemCount: controller.chatMessages.length,
