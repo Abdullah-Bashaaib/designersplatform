@@ -1,13 +1,15 @@
 import 'dart:developer';
 
-import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/presentation/services/network_service.dart';
+
 class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
+  final NetworkService _networkService = Get.find<NetworkService>();
 
   OrderGetx(this.getOrdersUsecase);
 
@@ -16,7 +18,6 @@ class OrderGetx extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    log("----------> message: Current user is ${CurrentUser.currentUser?.name}");
     getOrders();
   }
 

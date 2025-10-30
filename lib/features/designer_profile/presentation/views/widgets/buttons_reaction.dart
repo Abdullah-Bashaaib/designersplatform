@@ -24,7 +24,7 @@ class ButtonsReaction extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        c.designerR.value!.role == 'مصمم'
+        CurrentUser.currentUser!.role == 'مصمم'
             ? SizedBox(height: 0.h)
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

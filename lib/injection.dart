@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
@@ -52,15 +51,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import 'core/data/network_info_impl.dart';
+import 'core/domain/i_internet_info.dart';
+import 'core/presentation/services/network_service.dart';
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
 
 class Injection {
   static Future<void> init() async {
     /// Core
-    Get.put<NetworkInfo>(
-        NetworkInfoImp(InternetConnectionChecker.createInstance()),
-        permanent: true);
+    // Get.put<NetworkInfo>(
+    //     NetworkInfoImp(InternetConnectionChecker.createInstance()),
+    //     permanent: true);
+    // network listening
+    // --- Network Listener Service (الكود الصحيح) ---
+
+// 1. نسجل الباكج نفسه.
+//    لاحظ () بعد createInstance، لأننا نريد "نتيجة" الدالة وليس الدالة نفسها
+    Get.lazyPut<InternetConnectionChecker>(
+      () => InternetConnectionChecker.createInstance(),
+      fenix: true,
+    );
+
+// 2. نسجل "الواجهة الجديدة" (INetworkInfo) مع "التنفيذ الجديد" (NetworkInfoImpl)
+//    (تأكد من أن NetworkInfoImpl يستورد INetworkInfo)
+    Get.lazyPut<INetworkInfo>(
+      () => NetworkInfoImpl(Get.find<InternetConnectionChecker>()),
+      fenix: true,
+    );
+
+// 3. نسجل خدمة GetX التي تشغّل اللسنر أوتوماتيكياً
+    Get.lazyPut(() => NetworkService(), fenix: true);
     final uuid = Uuid();
     Get.lazyPut<Uuid>(() => uuid);
 
@@ -93,7 +114,7 @@ class Injection {
 
     /// Repository
     Get.lazyPut<AuthRepository>(
-      () => AuthRepositoryImp(Get.find<NetworkInfo>(),
+      () => AuthRepositoryImp(Get.find<INetworkInfo>(),
           Get.find<RemoteDataSource>(), Get.find<LocalData>()),
     );
 
@@ -138,7 +159,7 @@ class Injection {
     Get.lazyPut<ClientProfileRepo>(
       fenix: true,
       () => ClientProfileRepoImp(Get.find<ClientRemoteDataSource>(),
-          Get.find<ClientLocalDataSource>(), Get.find<NetworkInfo>()),
+          Get.find<ClientLocalDataSource>(), Get.find<INetworkInfo>()),
     );
 
     /// Usecases
@@ -204,7 +225,7 @@ class Injection {
     Get.lazyPut(
       () => DesignerRepoImp(
           Get.find<DesignerLocalDataSourceImpBySharedPref>(),
-          Get.find<NetworkInfo>(),
+          Get.find<INetworkInfo>(),
           Get.find<DesignerRemoteDataSourceImpByFirebase>()),
     );
     Get.lazyPut(
@@ -301,12 +322,17 @@ class Injection {
 
     /// data source
     Get.lazyPut<OrderRemote>(
-        fenix: true, () => OrderRemoteImp(Get.find<FirebaseFirestore>()));
+      fenix: true,
+      () => OrderRemoteImp(
+        Get.find<FirebaseFirestore>(),
+        Get.find<SharedPreferences>(),
+      ),
+    );
 
     /// repo
     Get.lazyPut<OrderRepo>(
         fenix: true,
-        () => OrderRepoImp(Get.find<OrderRemote>(), Get.find<NetworkInfo>()));
+        () => OrderRepoImp(Get.find<OrderRemote>(), Get.find<INetworkInfo>()));
 
     /// Usecase
     Get.lazyPut<AddOrderUsecase>(() => AddOrderUsecase(Get.find<OrderRepo>()));
