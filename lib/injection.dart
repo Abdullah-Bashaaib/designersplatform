@@ -16,6 +16,8 @@ import 'package:designers_platform/features/customer_profile/data/data_source/re
 import 'package:designers_platform/features/customer_profile/data/repositories/client_profile_repo_imp.dart';
 import 'package:designers_platform/features/customer_profile/domain/repositories/client_profile_repo.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
 import 'package:designers_platform/features/customer_profile/presentation/getx/client_profile_controller.dart';
@@ -335,20 +337,19 @@ class Injection {
         () => OrderRepoImp(Get.find<OrderRemote>(), Get.find<INetworkInfo>()));
 
     /// Usecase
-    Get.lazyPut<AddOrderUsecase>(() => AddOrderUsecase(Get.find<OrderRepo>()));
+    Get.lazyPut<AddOrderUsecase>(
+        fenix: true, () => AddOrderUsecase(Get.find<OrderRepo>()));
     Get.lazyPut<GetOrdersUsecase>(
         fenix: true, () => GetOrdersUsecase(Get.find<OrderRepo>()));
+    Get.lazyPut<DeleteOrderUsecase>(
+        fenix: true, () => DeleteOrderUsecase(Get.find<OrderRepo>()));
 
     /// Getx
     Get.lazyPut<OrderGetx>(
-      fenix: true,
-      () => OrderGetx(
-        Get.find<GetOrdersUsecase>(),
-      ),
-    );
-    Get.lazyPut<ChatOrderGetX>(
-      fenix: true,
-      () => ChatOrderGetX(),
-    );
+        fenix: true,
+        () => OrderGetx(
+              Get.find<GetOrdersUsecase>(),
+              Get.find<DeleteOrderUsecase>(),
+            ));
   }
 }
