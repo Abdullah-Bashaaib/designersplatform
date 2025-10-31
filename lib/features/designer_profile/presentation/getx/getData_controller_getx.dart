@@ -238,8 +238,8 @@ class GetDataControllerGetx extends GetxController {
   }
 
   /// add order to designer
-  Future<void> addOrder(Designer designer, String designName, String type,
-      String description) async {
+  Future<void> addOrder(
+      Designer designer, String type, String description) async {
     isLoadingAddOrder.value = true;
     final order = OrderEntity(
         id: uuid.v4(),

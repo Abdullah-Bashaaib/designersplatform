@@ -4,8 +4,8 @@ class OrderEntity {
   final String clientName;
   final String designerId;
   final String designerName;
-  final String designType;
-  final String? description;
+  String designType;
+  String? description;
   final double? price;
   final String status;
   final DateTime createAt;

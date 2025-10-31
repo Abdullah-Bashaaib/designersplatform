@@ -1,6 +1,8 @@
+import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class DetailsOrderClient extends StatelessWidget {
@@ -75,27 +77,60 @@ class DetailsOrderClient extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.find<OrderGetx>();
     final statusColor = _statusColor(context, order.status);
-
+    final Rx<OrderEntity> currentOrder = order.obs;
     return Scaffold(
       appBar: AppBar(
         title: const Text('تفاصيل الطلب'),
         actions: [
-          Obx(
-            () => c.isLoading.value
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  )
-                : IconButton(
-                    tooltip: 'حذف الطلب',
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () async {
-                      await c.deleteOrder(order.id);
-                    },
-                  ),
+          Row(
+            children: [
+              Obx(
+                () => c.isLoadingEdit.value
+                    ? Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircularProgressIndicator(),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          OrderDialog.show(
+                              title: 'تعديل الطلب',
+                              initialType: order.designType,
+                              initialDescription: order.description,
+                              onConfirm: (type, description) {
+                                c.updateOrder(order.id, type, description);
+                                currentOrder.update((val) {
+                                  val?.designType = type;
+                                  val?.description = description;
+                                });
+                              });
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          color: const Color.fromARGB(255, 255, 193, 59),
+                        ),
+                      ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Obx(
+                () => c.isLoading.value
+                    ? Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CircularProgressIndicator(),
+                      )
+                    : IconButton(
+                        tooltip: 'حذف الطلب',
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () async {
+                          await c.deleteOrder(order.id);
+                        },
+                      ),
+              ),
+            ],
           ),
         ],
       ),
@@ -146,9 +181,11 @@ class DetailsOrderClient extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      Chip(
-                        avatar: const Icon(Icons.category, size: 18),
-                        label: Text(order.designType),
+                      Obx(
+                        () => Chip(
+                          avatar: const Icon(Icons.category, size: 18),
+                          label: Text(currentOrder.value.designType),
+                        ),
                       ),
                       Chip(
                         avatar: Icon(Icons.flag_circle,
@@ -189,11 +226,11 @@ class DetailsOrderClient extends StatelessWidget {
               title: 'المصمم',
               value: order.designerName,
             ),
-            _infoTile(
-              icon: Icons.brush,
-              title: 'الاي دي',
-              value: order.designerId,
-            ),
+            // _infoTile(
+            //   icon: Icons.brush,
+            //   title: 'الاي دي',
+            //   value: order.designerId,
+            // ),
             _infoTile(
               icon: Icons.monetization_on,
               title: 'السعر',
@@ -221,15 +258,15 @@ class DetailsOrderClient extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Icon(Icons.notes, size: 20),
-                            SizedBox(width: 8),
+                            SizedBox(width: 8.w),
                             Text('الوصف',
                                 style: TextStyle(fontWeight: FontWeight.w700)),
                           ],
                         ),
                         const SizedBox(height: 8),
-                        Text(order.description!.trim()),
+                        Obx(() => Text(currentOrder.value.description!.trim())),
                       ],
                     ),
                   ),

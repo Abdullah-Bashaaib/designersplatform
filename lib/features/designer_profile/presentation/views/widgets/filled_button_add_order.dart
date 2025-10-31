@@ -1,8 +1,5 @@
-import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
-import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
-import 'package:designers_platform/core/widget/build_text_field.dart';
-import 'package:designers_platform/core/widget/validators.dart';
+import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +22,6 @@ class _FilledButtonAddOrderState extends State<FilledButtonAddOrder> {
 
   final TextEditingController _description = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   void dispose() {
     _name.dispose();
@@ -42,93 +37,12 @@ class _FilledButtonAddOrderState extends State<FilledButtonAddOrder> {
     return FilledButton(
       style: AppStyles.secondaryButtonStyle,
       onPressed: () {
-        DialogHelper.showCustomDialog(
-          customIcon: Icon(
-            Icons.design_services_sharp,
-            color: AppColors.primaryColor,
-          ),
-          title: 'طلب خدمة',
-          customContent: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BuildTextField(
-                  controller: _name,
-                  label: 'اسم التصميم',
-                  hintText: '(لوحة اعلانية، تصميم خطوبة...)',
-                  validator: Validators.global,
-                ),
-                SizedBox(height: 10.h),
-                BuildTextField(
-                  controller: _type,
-                  label: 'نوع التصميم',
-                  hintText: '(بوستر، شعار، هوية بصرية...)',
-                  validator: Validators.global,
-                ),
-                SizedBox(height: 10.h),
-                BuildTextField(
-                  controller: _description,
-                  label: 'وصف التصميم',
-                  maxLines: 3,
-                  hintText: 'اشرح فكرتك للمصمم هنا...',
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            final name = _name.text.trim();
-                            final type = _type.text.trim();
-                            final description = _description.text.trim();
-                            c.addOrder(widget.currentDesigner!, name, type,
-                                description);
-                            Get.back();
-                          }
-                        },
-                        icon: Icon(Icons.check_circle_outline),
-                        label: Text('تأكيد'),
-                        style: AppStyles.primaryButtonStyle.copyWith(
-                          padding: WidgetStateProperty.all(
-                            EdgeInsets.symmetric(vertical: 12.h),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 15.w),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          _name.text = '';
-                          _type.text = '';
-                          _description.text = '';
-                          Get.back();
-                        },
-                        icon: Icon(Icons.close_rounded,
-                            color: AppColors.errorColor),
-                        label: Text(
-                          'إلغاء',
-                          style: TextStyle(color: AppColors.errorColor),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                              color: AppColors.errorColor, width: 1.2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 12.h),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
+        OrderDialog.show(
+            title: 'طلب خدمه',
+            onConfirm: (type, description) async {
+              await c.addOrder(widget.currentDesigner!, type, description);
+            },
+            currentDesigner: widget.currentDesigner);
       },
       child: Text(
         "طلب خدمة",
