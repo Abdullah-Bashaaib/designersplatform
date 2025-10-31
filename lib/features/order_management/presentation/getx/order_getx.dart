@@ -18,6 +18,7 @@ class OrderGetx extends GetxController {
   OrderGetx(this.getOrdersUsecase, this.deleteOrderUsecase);
 
   var isLoading = false.obs;
+  var isLoadingEdit = false.obs;
   var orderList = <OrderEntity>[].obs;
   @override
   void onInit() {
@@ -36,6 +37,19 @@ class OrderGetx extends GetxController {
       orderList.value = r;
     });
     isLoading.value = false;
+  }
+
+  // Future<void>
+  updateOrder(String orderId, String type, String description)  {
+    log('message');
+    isLoadingEdit.value = true;
+    int index = orderList.indexWhere((o) => o.id == orderId);
+    if (index != 1) {
+      orderList[index].designType = type;
+      orderList[index].description = description;
+      orderList.refresh();
+    }
+    isLoadingEdit.value = false;
   }
 
   Future<void> deleteOrder(String orderId) async {

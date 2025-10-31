@@ -6,4 +6,5 @@ abstract class OrderRepo {
   Future<Either<Failure, Unit>> addOrder(OrderEntity order);
   Future<Either<Failure, List<OrderEntity>>> getOrders();
   Future<Either<Failure, Unit>> deleteOrder(String orderId);
+  Future<Either<Failure, Unit>> updateOrder(String type, String description);
 }

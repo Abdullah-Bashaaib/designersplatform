@@ -72,4 +72,9 @@ class OrderRepoImp implements OrderRepo {
       return left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> updateOrder(String type, String description) {
+    throw UnimplementedError();
+  }
 }
