@@ -10,6 +10,7 @@ abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
   Future<List<OrderModel>> getOrders(String colum);
   Future<void> deleteOrder(String orderId);
+  Future<void> updateOrder(String orderId, String type, String description);
 }
 
 class OrderRemoteImp implements OrderRemote {
@@ -54,6 +55,19 @@ class OrderRemoteImp implements OrderRemote {
   Future<void> deleteOrder(String orderId) async {
     try {
       await firestore.collection('Orders').doc(orderId).delete();
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<void> updateOrder(
+      String orderId, String type, String description) async {
+    try {
+      await firestore
+          .collection('Orders')
+          .doc(orderId)
+          .update({'designType': type, 'description': description});
     } catch (e) {
       throw ServerException(e);
     }
