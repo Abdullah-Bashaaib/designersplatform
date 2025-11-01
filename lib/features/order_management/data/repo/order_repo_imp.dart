@@ -74,7 +74,17 @@ class OrderRepoImp implements OrderRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateOrder(String type, String description) {
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> updateOrder(
+      String orderId, String type, String description) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await orderRemote.updateOrder(orderId, type, description);
+        return right(unit);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
   }
 }
