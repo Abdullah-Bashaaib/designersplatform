@@ -184,6 +184,7 @@ class AppStyles {
     Widget? suffixIcon,
   }) =>
       InputDecoration(
+        hintStyle: const TextStyle(color: Colors.grey),
         hintText: hintText,
         labelText: labelText,
         prefixIcon: prefixIcon,

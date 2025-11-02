@@ -58,7 +58,11 @@ import 'core/presentation/services/data_sync_service.dart';
 import 'core/presentation/services/network_service.dart';
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
-import 'features/order_management/presentation/getx/chat_getx.dart';
+import 'features/order_management/data/datasource/chat_remote_datasource.dart';
+import 'features/order_management/data/repo/chat_repo_impl.dart';
+import 'features/order_management/domain/repo/i_chat_repository.dart';
+import 'features/order_management/domain/usecase/chat_room/get_chat_messages_usecase.dart';
+import 'features/order_management/domain/usecase/chat_room/send_message_useCase.dart';
 
 class Injection {
   static Future<void> init() async {
@@ -359,6 +363,46 @@ class Injection {
         Get.find<UpdateOrderUsecase>(),
       ),
     );
-    Get.lazyPut(() => ChatOrderGetX(), fenix: true);
+    // Get.lazyPut(
+    //     () => ChatOrderGetX(
+    //           Get.find<SharedPreferences>(),
+    //           Get.find<GetChatMessagesUseCase>(),
+    //           Get.find<SendMessageUseCase>(),
+    //           Get.find<Uuid>(),
+    //           Get.find<OrderEntity>(),
+    //         ),
+    //     fenix: true);
+
+    // --- Chat Feature ---
+// DataSource
+    Get.lazyPut<IChatRemoteDataSource>(
+      fenix: true,
+      () => ChatRemoteDataSourceImpl(
+        Get.find<FirebaseFirestore>(),
+      ),
+    );
+
+// Repository
+    Get.lazyPut<IChatRepository>(
+      fenix: true,
+      () => ChatRepositoryImpl(
+        Get.find<IChatRemoteDataSource>(),
+      ),
+    );
+
+// UseCases
+    Get.lazyPut(
+      fenix: true,
+      () => SendMessageUseCase(
+        Get.find<IChatRepository>(),
+      ),
+    );
+    Get.lazyPut(
+      fenix: true,
+      () => GetChatMessagesUseCase(
+        Get.find<IChatRepository>(),
+      ),
+    );
+// Get.lazyPut(() => SendMessageUseCase(Get.find()));
   }
 }

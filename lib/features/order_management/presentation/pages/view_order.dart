@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-// ... (imports)
+import '../../../../core/utils/format_date.dart';
 
 class ViewOrder extends StatefulWidget {
   const ViewOrder({super.key});
@@ -57,8 +57,6 @@ class _ViewOrderState extends State<ViewOrder> {
           ],
         ),
         body: Obx(() {
-          // --- هذا هو المنطق الصحيح ---
-
           // 1. أولاً، تحقق من الحالة الفارغة (فقط إذا انتهى التحميل)
           if (!c.isLoading.value && c.orderList.isEmpty) {
             return Center(
@@ -90,7 +88,7 @@ class _ViewOrderState extends State<ViewOrder> {
                         controller: _searchController,
                         onChange: null,
                         hintText: 'ابحث عن طلب...',
-                        prefixIcon: Icons.search,
+                        suffixIcon: Icon(Icons.search),
                       ),
                     ),
                     Gap(height: 10.h),
@@ -105,7 +103,7 @@ class _ViewOrderState extends State<ViewOrder> {
                 child: SliverList.separated(
                   // إذا كان يحمل، اعرض 10 عناصر وهمية
                   // إذا انتهى التحميل، اعرض العدد الحقيقي
-                  itemCount: c.isLoading.value ? 10 : c.orderList.length,
+                  itemCount: c.isLoading.value ? 9 : c.orderList.length,
                   separatorBuilder: (context, index) => Divider(
                     thickness: 0.1,
                     height: 0.5,
@@ -118,7 +116,8 @@ class _ViewOrderState extends State<ViewOrder> {
                       return ListTile(
                         leading: CircleAvatar(),
                         title: CustomText(text: "اسم العميل..."),
-                        subtitle: CustomText(text: "تفاصيل الطلب..."),
+                        subtitle: CustomText(
+                            text: "تفاصيل الطلبkkkkkkkkkkkkkkkkkkkkkkkk..."),
                       );
                     }
 
@@ -140,9 +139,11 @@ class _ViewOrderState extends State<ViewOrder> {
                       key: ValueKey<OrderEntity>(order),
                       child: ListTile(
                         onTap: () {
-                          Get.to(() => ChatOrder(
-                                index: index,
-                              ));
+                          Get.to(
+                            () => ChatOrder(
+                              order: order,
+                            ),
+                          );
                         },
                         leading: CircleAvatar(
                           child: CustomText(
@@ -154,6 +155,9 @@ class _ViewOrderState extends State<ViewOrder> {
                             text: order.description == ''
                                 ? 'لا يوجد وصف'
                                 : order.description!),
+                        trailing: CustomText(
+                          text: formatStyleDate(order.createAt, 'ar'),
+                        ),
                       ),
                       onDismissed: (DismissDirection direction) {},
                     );

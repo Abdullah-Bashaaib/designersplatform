@@ -18,4 +18,5 @@ class KeySharedPref {
   static const String kTotalOrders = "totalOrders";
   static const String kWorksCount = "worksCount";
   static const String kBio = "bio";
+  static const String kAcceptOrder = "acceptOrder";
 }
