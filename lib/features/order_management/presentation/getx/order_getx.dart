@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:designers_platform/core/current_user.dart';
@@ -67,7 +68,6 @@ class OrderGetx extends GetxController {
   }
 
   Future<void> deleteOrder(String orderId) async {
-    print('object');
     isLoading.value = true;
     final result = await deleteOrderUsecase.call(orderId);
     result.fold(

@@ -1,3 +1,4 @@
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,8 +10,8 @@ import '../../../../core/widget/gap.dart';
 import '../../domain/entity/orders.dart';
 import '../getx/chat_getx.dart';
 
-Widget buildInitialView(
-    ChatOrderGetX controller, BuildContext context, OrderEntity order) {
+Widget buildInitialView(ChatOrderGetX controller, BuildContext context,
+    OrderEntity order, OrderGetx c) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
@@ -28,7 +29,11 @@ Widget buildInitialView(
             // زر الرفض
             Expanded(
               child: CustomOutlineButton(
-                  onPressed: controller.rejectOrder, text: "رفض"),
+                  onPressed: () {
+                    controller.rejectOrder();
+                    c.deleteOrder(order.id);
+                  },
+                  text: "رفض"),
             ),
             Gap(
               width: 5.w,

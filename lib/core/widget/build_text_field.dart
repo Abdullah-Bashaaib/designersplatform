@@ -49,18 +49,19 @@ class _BuildTextFieldState extends State<BuildTextField> {
               )
             : Text(widget.label, style: AppStyles.headingSmall),
         Gap(height: 5.h),
-        TextFormField(
-          controller: widget.controller,
-          obscureText: widget.obscureText,
-          keyboardType: widget.keyboardType,
-          maxLines: widget.maxLines,
-          decoration: AppStyles.getInputDecoration(
+        Padding(
+          padding: EdgeInsets.only(bottom: 8.r, right: 8.r, left: 8.r),
+          child: TextFormField(
+            controller: widget.controller,
+            obscureText: widget.obscureText,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.maxLines,
+            decoration: AppStyles.getInputDecoration(
               hintText: widget.hintText,
-              prefixIcon: Icon(
-                widget.prefixIcon,
-              ),
-              suffixIcon: widget.suffixIcon),
-          validator: widget.validator,
+              suffixIcon: widget.suffixIcon,
+            ),
+            validator: widget.validator,
+          ),
         ),
       ],
     );

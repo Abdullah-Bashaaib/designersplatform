@@ -23,7 +23,13 @@ Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
       SliverList.separated(
         itemCount: controller.chatMessages.length,
         itemBuilder: (context, index) {
-          bool isMe = index % 2 == 0;
+          // --- 1. احصل على كائن الرسالة أولاً ---
+          final message = controller.chatMessages[index];
+
+          // --- 2. اسأل الكنترولر "هل هذه الرسالة مني؟" ---
+          bool isMe = controller.isMessageFromMe(message);
+
+          // (باقي الكود كما هو، الآن سيعمل بشكل صحيح)
           return Align(
             alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
             child: Container(
@@ -34,7 +40,8 @@ Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: CustomText(
-                text: controller.chatMessages[index],
+                // --- 3. اعرض محتوى الرسالة ---
+                text: message.content,
                 color: isMe ? Colors.white : Colors.black87,
               ),
             ),
