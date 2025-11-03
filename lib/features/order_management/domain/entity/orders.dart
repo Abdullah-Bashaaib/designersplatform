@@ -7,7 +7,7 @@ class OrderEntity {
   String designType;
   String? description;
   final double? price;
-  final String status;
+  String status;
   final DateTime createAt;
   final String? imageUrl;
   final int? rate;
