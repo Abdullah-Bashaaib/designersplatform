@@ -212,20 +212,28 @@ class Injection {
     ///Data Source
 
     ///Data Local
-    Get.lazyPut(() => Get.find<SharedPreferences>());
     Get.lazyPut(
+      () => Get.find<SharedPreferences>(),
+    );
+    Get.lazyPut(
+      fenix: true,
       () => DesignerLocalDataSourceImpBySharedPref(
         sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
-    Get.lazyPut(() => DesignerRemoteDataSourceImpByFirebase(
-        firestore: Get.find<FirebaseFirestore>()));
+    Get.lazyPut(
+      fenix: true,
+      () => DesignerRemoteDataSourceImpByFirebase(
+        firestore: Get.find<FirebaseFirestore>(),
+      ),
+    );
     Get.lazyPut(
       () => ReviewLocalDataSourceImpBySql(
         sharedPreferences: Get.find<SharedPreferences>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => WorkLocalDataSourceImpBySql(
         sharedPreferences: Get.find<SharedPreferences>(),
       ),
@@ -233,17 +241,20 @@ class Injection {
 
     /// Repo
     Get.lazyPut(
+      fenix: true,
       () => DesignerRepoImp(
           Get.find<DesignerLocalDataSourceImpBySharedPref>(),
           Get.find<INetworkInfo>(),
           Get.find<DesignerRemoteDataSourceImpByFirebase>()),
     );
     Get.lazyPut(
+      fenix: true,
       () => ReviewRepoImp(
         Get.find<ReviewLocalDataSourceImpBySql>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => WorkRepoImp(
         Get.find<WorkLocalDataSourceImpBySql>(),
       ),
@@ -251,56 +262,67 @@ class Injection {
 
     /// UseCase
     Get.put<GetProfileUseCase>(
+      permanent: true,
       GetProfileUseCase(
         designerRepository: Get.find<DesignerRepoImp>(),
       ),
     );
     Get.put<GetReviewUseCase>(
+      permanent: true,
       GetReviewUseCase(
         reviewRepository: Get.find<ReviewRepoImp>(),
       ),
     );
     Get.put<GetWorkUseCase>(
+      permanent: true,
       GetWorkUseCase(
         workRepository: Get.find<WorkRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => UpdateProfileUseCase(
         designerRepository: Get.find<DesignerRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => DeleteProfileUseCase(
         designerRepository: Get.find<DesignerRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => AddReviewUseCase(
         reviewRepository: Get.find<ReviewRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => UpdateReviewUseCase(
         reviewRepository: Get.find<ReviewRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => DeleteReviewUseCase(
         reviewRepository: Get.find<ReviewRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => AddWorkUseCase(
         workRepository: Get.find<WorkRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => UpdateWorkUseCase(
         workRepository: Get.find<WorkRepoImp>(),
       ),
     );
     Get.lazyPut(
+      fenix: true,
       () => DeleteWorkUseCase(
         workRepository: Get.find<WorkRepoImp>(),
       ),
@@ -363,15 +385,6 @@ class Injection {
         Get.find<UpdateOrderUsecase>(),
       ),
     );
-    // Get.lazyPut(
-    //     () => ChatOrderGetX(
-    //           Get.find<SharedPreferences>(),
-    //           Get.find<GetChatMessagesUseCase>(),
-    //           Get.find<SendMessageUseCase>(),
-    //           Get.find<Uuid>(),
-    //           Get.find<OrderEntity>(),
-    //         ),
-    //     fenix: true);
 
     // --- Chat Feature ---
 // DataSource
