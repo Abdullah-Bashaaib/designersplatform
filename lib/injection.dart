@@ -110,20 +110,22 @@ class Injection {
 
     /// Usecase
     Get.lazyPut<GetUserUseCase>(
-        () => GetUserUseCase(Get.find<AuthRepository>()));
+        fenix: true, () => GetUserUseCase(Get.find<AuthRepository>()));
     Get.lazyPut<LogoutUsecase>(() => LogoutUsecase(Get.find<AuthRepository>()),
         fenix: true);
 
     ///========================== [ Feat: Auth ] ==============================
     /// Data Source
     Get.lazyPut<RemoteDataSource>(
-        () => RemoteDataSource(Get.find<FirebaseFirestore>()));
-    Get.lazyPut<LocalData>(() => LocalDataImp(Get.find<SharedPreferences>()));
+        fenix: true, () => RemoteDataSource(Get.find<FirebaseFirestore>()));
+    Get.lazyPut<LocalData>(
+        fenix: true, () => LocalDataImp(Get.find<SharedPreferences>()));
 
     // ============================================================================
 
     /// Repository
     Get.lazyPut<AuthRepository>(
+      fenix: true,
       () => AuthRepositoryImp(Get.find<INetworkInfo>(),
           Get.find<RemoteDataSource>(), Get.find<LocalData>()),
     );
@@ -131,27 +133,29 @@ class Injection {
     // ==========================================================================
 
     /// Use cases
-    Get.lazyPut<LoginUsecase>(() => LoginUsecase(Get.find<AuthRepository>()));
-    Get.lazyPut<SignUpUsecase>(() => SignUpUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<LoginUsecase>(
+        fenix: true, () => LoginUsecase(Get.find<AuthRepository>()));
+    Get.lazyPut<SignUpUsecase>(
+        fenix: true, () => SignUpUsecase(Get.find<AuthRepository>()));
 
     Get.lazyPut<DeleteAccountUsecase>(
-        () => DeleteAccountUsecase(Get.find<AuthRepository>()));
+        fenix: true, () => DeleteAccountUsecase(Get.find<AuthRepository>()));
 
     Get.lazyPut<GetUserUseCase>(
-        () => GetUserUseCase(Get.find<AuthRepository>()));
+        fenix: true, () => GetUserUseCase(Get.find<AuthRepository>()));
     Get.lazyPut<ForgetPasswordUsecase>(
-        () => ForgetPasswordUsecase(Get.find<AuthRepository>()));
+        fenix: true, () => ForgetPasswordUsecase(Get.find<AuthRepository>()));
 
     /// GetX
-    Get.put<AuthController>(
-        AuthController(
+    Get.lazyPut<AuthController>(
+        () => AuthController(
             Get.find<LoginUsecase>(),
             Get.find<SignUpUsecase>(),
             Get.find<DeleteAccountUsecase>(),
             Get.find<Uuid>(),
             Get.find<GetUserUseCase>(),
             Get.find<ForgetPasswordUsecase>()),
-        permanent: true);
+        fenix: true);
 
     ///========================== [ Feat: Client Profile ] ==============================
     /// Data Source

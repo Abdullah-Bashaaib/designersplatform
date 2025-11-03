@@ -149,7 +149,9 @@ class ViewProfile extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(12.w),
-              decoration: AppStyles.cardDecoration,
+              decoration: Theme.of(context).brightness == Brightness.light
+                  ? AppStyles.cardDecoration
+                  : AppStyles.darkCardDecoration,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -198,7 +200,9 @@ class ViewProfile extends StatelessWidget {
               width: 400.w,
               height: 80.h,
               padding: EdgeInsetsGeometry.all(8.w),
-              decoration: AppStyles.cardDecoration,
+              decoration: Theme.of(context).brightness == Brightness.light
+                  ? AppStyles.cardDecoration
+                  : AppStyles.darkCardDecoration,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

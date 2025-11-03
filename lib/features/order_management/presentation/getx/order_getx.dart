@@ -34,7 +34,14 @@ class OrderGetx extends GetxController {
 
   Future<void> getOrders() async {
     isLoading.value = true;
-    final result = await getOrdersUsecase.call();
+    String column = '';
+    if (CurrentUser.currentUser!.role == 'عميل') {
+      column = 'clientId';
+    } else {
+      column = 'designerId';
+    }
+    log(column);
+    final result = await getOrdersUsecase.call(column);
     result.fold((l) {
       DialogHelper.showErrorSnackBar(title: 'خطــــــــأ!', message: l.message);
       log(l.message);
@@ -48,7 +55,8 @@ class OrderGetx extends GetxController {
       String orderId, String type, String description) async {
     log('message');
     isLoadingEdit.value = true;
-    final result = await updateOrderUsecase.call(orderId, type, description);
+    final fields = {'designType': type, 'description': description};
+    final result = await updateOrderUsecase.call(orderId, fields);
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'خطــأ', message: f.message),

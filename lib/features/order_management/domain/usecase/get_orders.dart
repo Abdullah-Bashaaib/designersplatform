@@ -9,7 +9,7 @@ class GetOrdersUsecase {
 
   GetOrdersUsecase(this.repo);
 
-  Future<Either<Failure, List<OrderEntity>>> call() async {
-    return await repo.getOrders();
+  Future<Either<Failure, List<OrderEntity>>> call(String column) async {
+    return await repo.getOrders(column);
   }
 }

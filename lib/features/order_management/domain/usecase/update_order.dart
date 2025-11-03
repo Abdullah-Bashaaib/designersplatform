@@ -8,7 +8,7 @@ class UpdateOrderUsecase {
   UpdateOrderUsecase(this.repo);
 
   Future<Either<Failure, Unit>> call(
-      String orderId, String type, String description) async {
-    return await repo.updateOrder(orderId, type, description);
+      String orderId, Map<String, dynamic> fields) async {
+    return await repo.updateOrder(orderId, fields);
   }
 }

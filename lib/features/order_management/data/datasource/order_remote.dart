@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
@@ -9,9 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
-  Future<List<OrderModel>> getOrders(String colum);
+  Future<List<OrderModel>> getOrders(String column);
   Future<void> deleteOrder(String orderId);
-  Future<void> updateOrder(String orderId, String type, String description);
+  Future<void> updateOrder(String orderId, Map<String, dynamic> fields);
 }
 
 class OrderRemoteImp implements OrderRemote {
@@ -36,17 +37,15 @@ class OrderRemoteImp implements OrderRemote {
   }
 
   @override
-  Future<List<OrderModel>> getOrders(String colum) async {
-    final userList = sharedPreferences.getString(KeySharedPref.userKey);
-    final userJson = jsonDecode(userList!);
-    log("--------> message: there is in get order firebase ID is ${userJson['role']}");
+  Future<List<OrderModel>> getOrders(String column) async {
+    // final userList = sharedPreferences.getString(KeySharedPref.userKey);
+    // final userJson = jsonDecode(userList!);
 
     try {
-      log("--------> message: there is in get order firebase ID is ${userJson['id']}");
-      log("---------> message: Colum is $colum , name: ${userJson['name']}, ID: ${userJson['id']}");
+      log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser!.id}");
       final query = await firestore
           .collection('Orders')
-          .where(colum, isEqualTo: userJson['id'])
+          .where(column, isEqualTo: CurrentUser.currentUser!.id)
           .get();
 
       return query.docs.map((m) => OrderModel.fromJson(m.data())).toList();
@@ -65,13 +64,9 @@ class OrderRemoteImp implements OrderRemote {
   }
 
   @override
-  Future<void> updateOrder(
-      String orderId, String type, String description) async {
+  Future<void> updateOrder(String orderId, Map<String, dynamic> fields) async {
     try {
-      await firestore
-          .collection('Orders')
-          .doc(orderId)
-          .update({'designType': type, 'description': description});
+      await firestore.collection('Orders').doc(orderId).update(fields);
     } catch (e) {
       throw ServerException(e);
     }
