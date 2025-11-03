@@ -42,10 +42,10 @@ class OrderRepoImp implements OrderRepo {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getOrders() async {
+  Future<Either<Failure, List<OrderEntity>>> getOrders(String column) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await orderRemote.getOrders('designerId');
+        final result = await orderRemote.getOrders(column);
         if (result.isEmpty) {
           log("-------------> message:there is empty data!!");
           return left(NoDataFailure(emptyOrdersMessage));
@@ -75,10 +75,10 @@ class OrderRepoImp implements OrderRepo {
 
   @override
   Future<Either<Failure, Unit>> updateOrder(
-      String orderId, String type, String description) async {
+      String orderId, Map<String, dynamic> fields) async {
     if (await networkInfo.isConnected) {
       try {
-        await orderRemote.updateOrder(orderId, type, description);
+        await orderRemote.updateOrder(orderId, fields);
         return right(unit);
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));

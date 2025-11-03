@@ -7,6 +7,7 @@ import 'package:designers_platform/features/auth/domain/usecases/delete_account_
 import 'package:designers_platform/features/auth/domain/usecases/forget_password.dart';
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
 import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -57,11 +58,7 @@ class AuthController extends GetxController {
         // user.value = u;
         CurrentUser.currentUser = u;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (u.role == 'عميل') {
-            Get.offAll(() => ViewProfile());
-          } else {
-            Get.offAll(() => ProfileScreen());
-          }
+          Get.offAll(() => SplashScreen());
           // DialogHelper.showSuccessSnackBar(title: 'ok', message: 'message');
         });
       },
@@ -83,7 +80,7 @@ class AuthController extends GetxController {
       CurrentUser.currentUser = u;
       // print(CurrentUser.currentUser);
       WidgetsBinding.instance
-          .addPostFrameCallback((_) => Get.offAll(() => ViewProfile()));
+          .addPostFrameCallback((_) => Get.offAll(() => SplashScreen()));
     });
     isLoading.value = false;
   }
