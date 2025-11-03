@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/features/order_management/domain/entity/chat_room.dart';
 
+// ... (imports)
+
 class MessageModel extends Message {
   const MessageModel({
     required super.id,
@@ -9,8 +11,9 @@ class MessageModel extends Message {
     required super.content,
     required super.timestamp,
     required super.type,
-    required List<String> readBy,
+    required super.readBy, // 💡 تأكد أن super.readBy مُمرر
   });
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -18,7 +21,8 @@ class MessageModel extends Message {
       'senderId': senderId,
       'content': content,
       'timestamp': timestamp,
-      'type': type
+      'type': type.name,
+      'readBy': readBy, // <-- 💡 هذا هو السطر الذي كان مفقوداً
     };
   }
 
@@ -28,7 +32,6 @@ class MessageModel extends Message {
       chatId: map['chatId'] as String,
       senderId: map['senderId'] as String,
       content: map['content'] as String,
-      // تحويل Timestamp الخاص بـ Firebase إلى DateTime
       timestamp: (map['timestamp'] as Timestamp).toDate(),
       type: MessageType.values.firstWhere(
         (e) => e.name == map['type'],

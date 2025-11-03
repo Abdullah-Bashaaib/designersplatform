@@ -44,7 +44,7 @@ class ChatOrder extends StatelessWidget {
                     ? buildChatView(controller, order)
                     : buildInitialView(controller, context, order, c),
               ),
-              if (controller.isOrderAccepted) const BuildTextFieldChat(),
+              if (controller.isOrderAccepted) BuildTextFieldChat(),
             ],
           ),
         ),

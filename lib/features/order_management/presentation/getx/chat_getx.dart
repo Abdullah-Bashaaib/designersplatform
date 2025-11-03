@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
+import 'package:designers_platform/features/order_management/data/models/chat_room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,7 +44,6 @@ class ChatOrderGetX extends GetxController {
     // تحضير البيانات عند بدء الـ controller
     checkAccept();
     _currentUserId = CurrentUser.currentUser!.id; // (مثال)
-    log("message: Order ID is ${order.id}");
     _listenToMessages(order.id); // افترض أن ID الطلب هو ID الشات
   }
 
@@ -58,6 +58,7 @@ class ChatOrderGetX extends GetxController {
   // 3. الدوال لإدارة منطق الأعمال
   void acceptOrder() {
     _isOrderAccepted.value = true;
+    order.status = _isOrderAccepted.toString();
     preferences.setString(
       KeySharedPref.kAcceptOrder,
       _isOrderAccepted.toString(),
@@ -75,6 +76,10 @@ class ChatOrderGetX extends GetxController {
       _isOrderAccepted.value = value == 'false';
     } else {
       _isOrderAccepted.value = value == 'true';
+      order.status = 'مقبول';
+
+      /// TODO:: PUT HERE THE USECASE OF UPDATE ORDER TO UPDATE THE STATUS OF ORDER ::
+      log("message: in ChatGetX order status is ${order.status}");
     }
   }
 
@@ -89,30 +94,34 @@ class ChatOrderGetX extends GetxController {
 
   // --- 💡 دالة إرسال الرسالة ---
   Future<void> sendMessage() async {
+    log("message: Here we Gooooo");
     final content = textController.text.trim();
+    log("message: content is ${content.isEmpty}");
     if (content.isEmpty) return;
 
     final messageId = _uuid.v4();
-    final message = Message(
+    final message = MessageModel(
       id: messageId,
       chatId: order.id, // ID الشات
       senderId: _currentUserId,
       content: content,
       timestamp: DateTime.now(),
-      type: MessageType.text,
+      type: MessageType.text, readBy: [],
     );
 
     textController.clear(); // مسح الحقل فوراً
 
     try {
+      log("message: R u Here");
       // إرسال الرسالة (هذا سيقوم بتحديث الـ Stream أوتوماتيكياً)
-      _sendMessageUseCase(message.content);
+      _sendMessageUseCase(message);
       // (الـ UseCase هذا يجب أن يقوم أيضاً بتحديث "ملخص" الـ Chat entity)
     } catch (e) {
       Get.snackbar("خطأ", "فشل إرسال الرسالة");
       // (يمكن إعادة النص للحقل ليعيد المستخدم إرساله)
       textController.text = content;
     }
+    log("message: we finish");
   }
 
   bool isMessageFromMe(Message message) {
