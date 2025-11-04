@@ -11,13 +11,11 @@ import 'package:designers_platform/features/order_management/domain/usecase/get_
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/presentation/services/network_service.dart';
-
 class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
   final DeleteOrderUsecase deleteOrderUsecase;
   final UpdateOrderUsecase updateOrderUsecase;
-  final NetworkService _networkService = Get.find<NetworkService>();
+  // final NetworkService _networkService = Get.find<NetworkService>();
 
   OrderGetx(
       this.getOrdersUsecase, this.deleteOrderUsecase, this.updateOrderUsecase);
@@ -51,27 +49,49 @@ class OrderGetx extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> updateOrder(
-      String orderId, String type, String description) async {
+  Future<void> updateOrder(Map<String, dynamic> fields) async {
     log('message');
     isLoadingEdit.value = true;
-    final fields = {'designType': type, 'description': description};
+
+    // نتأكد أن الـ fields تحتوي على المعرف المطلوب
+    final orderId = fields['orderId'];
+    if (orderId == null || orderId.toString().isEmpty) {
+      DialogHelper.showErrorSnackBar(
+        title: 'خطأ',
+        message: 'لم يتم تمرير معرف الطلب!',
+      );
+      isLoadingEdit.value = false;
+      return;
+    }
+
+    // نرسل الحقول كما هي إلى الـ usecase
     final result = await updateOrderUsecase.call(orderId, fields);
+
     result.fold(
-        (f) =>
-            DialogHelper.showErrorSnackBar(title: 'خطــأ', message: f.message),
-        (r) {
-      DialogHelper.showSuccessSnackBar(
-          title: "نجـاح!", message: updateOrderMessage);
-      if (orderId.isNotEmpty) {
-        int index = orderList.indexWhere((o) => o.id == orderId);
-        if (index != 1) {
-          orderList[index].designType = type;
-          orderList[index].description = description;
-          orderList.refresh();
+      (f) => DialogHelper.showErrorSnackBar(
+        title: 'خطأ',
+        message: f.message,
+      ),
+      (r) {
+        DialogHelper.showSuccessSnackBar(
+          title: 'إنجاز!',
+          message: updateOrderMessage,
+        );
+
+        // تحديث البيانات في القائمة المحلية
+        if (orderList.isNotEmpty) {
+          int index = orderList.indexWhere((o) => o.id == orderId);
+          if (index != -1) {
+            orderList[index].designType =
+                fields['designType'] ?? orderList[index].designType;
+            orderList[index].description =
+                fields['description'] ?? orderList[index].description;
+            orderList.refresh();
+          }
         }
-      }
-    });
+      },
+    );
+
     isLoadingEdit.value = false;
   }
 
