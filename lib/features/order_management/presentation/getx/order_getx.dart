@@ -77,7 +77,6 @@ class OrderGetx extends GetxController {
           title: 'إنجاز!',
           message: updateOrderMessage,
         );
-
         // تحديث البيانات في القائمة المحلية
         if (orderList.isNotEmpty) {
           int index = orderList.indexWhere((o) => o.id == orderId);

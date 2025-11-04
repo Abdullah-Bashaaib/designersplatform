@@ -97,7 +97,12 @@ class DetailsOrderClient extends StatelessWidget {
                               initialType: order.designType,
                               initialDescription: order.description,
                               onConfirm: (type, description) {
-                                c.updateOrder(order.id, type, description);
+                                final fields = {
+                                  'orderId': order.id,
+                                  'designType': type,
+                                  'description': description
+                                };
+                                c.updateOrder(fields);
                                 currentOrder.update((val) {
                                   val?.designType = type;
                                   val?.description = description;
