@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
@@ -38,6 +39,11 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
+import 'package:designers_platform/features/home/data/datasource/remote.dart';
+import 'package:designers_platform/features/home/data/repo/home_repo_imp.dart';
+import 'package:designers_platform/features/home/domain/repo/home_repo.dart';
+import 'package:designers_platform/features/home/domain/usecases/get_designers.dart';
+import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
 import 'package:designers_platform/features/order_management/data/repo/order_repo_imp.dart';
 import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
@@ -47,6 +53,7 @@ import 'package:designers_platform/features/order_management/domain/usecase/get_
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -421,5 +428,23 @@ class Injection {
       ),
     );
 // Get.lazyPut(() => SendMessageUseCase(Get.find()));
+
+    /// =============================== [ Home ] ==================================
+    /// datasource
+    Get.lazyPut<Remote>(
+        fenix: true, () => RemoteImp(Get.find<FirebaseFirestore>()));
+
+    /// repo
+    Get.lazyPut<HomeRepo>(
+        fenix: true,
+        () => HomeRepoImp(Get.find<INetworkInfo>(), Get.find<Remote>()));
+
+    /// usecases
+    Get.lazyPut<GetDesignersUsecase>(
+        fenix: true, () => GetDesignersUsecase(Get.find<HomeRepo>()));
+
+    /// getx
+    Get.lazyPut<HomeController>(
+        fenix: true, () => HomeController(Get.find<GetDesignersUsecase>()));
   }
 }

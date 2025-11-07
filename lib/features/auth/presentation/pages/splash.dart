@@ -2,7 +2,8 @@ import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
-import 'package:designers_platform/features/customer_profile/other_page.dart';
+import 'package:designers_platform/features/home/presentation/pages/designers_list.dart';
+import 'package:designers_platform/features/home/presentation/pages/client_home_page.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       (user) {
         CurrentUser.currentUser = user;
         if (user.role == 'عميل') {
-          Get.offAll(() => const OtherPage());
+          Get.offAll(() => const ClientHomePage());
         } else {
           Get.offAll(() => ViewOrder());
         }
