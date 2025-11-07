@@ -32,7 +32,7 @@ class ViewProfile extends StatelessWidget {
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
               if (value == 'orders') {
-                Get.to(() => ViewOrders());
+                Get.to(() => ViewClientOrders());
               } else if (value == 'settings') {
                 // Get.to(() => );
               } else if (value == 'logout') {

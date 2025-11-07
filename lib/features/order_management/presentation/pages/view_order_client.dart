@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ViewOrders extends StatelessWidget {
-  ViewOrders({super.key});
+class ViewClientOrders extends StatelessWidget {
+  ViewClientOrders({super.key});
 
   final c = Get.find<OrderGetx>();
   @override
@@ -17,6 +17,7 @@ class ViewOrders extends StatelessWidget {
       appBar: AppBar(
         title: CustomText(
           text: "طلباتي",
+          style: TextStyleEnum.headingMedium,
         ),
         // Text(
         //   "طلباتي",
