@@ -50,6 +50,7 @@ class ClientHomePage extends StatelessWidget {
             /// 🔍 شريط البحث
             BuildTextField(
               hintText: 'ابحث عن مصمم أو نوع تصميم...',
+              // suffixIcon: Icon(Icons.search),
               prefixIcon: Icons.search,
             ),
             // TextField(
