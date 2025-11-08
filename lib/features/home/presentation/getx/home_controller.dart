@@ -11,13 +11,19 @@ class HomeController extends GetxController {
   var isLoading = false.obs;
   var designerList = <Designer>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
   Future<void> getDesigners() async {
     isLoading.value = true;
     final result = await getDesignersUsecase.call();
-    result.fold((f) {}, (r) {
+    result.fold((f) {
+      DialogHelper.showErrorSnackBar(title: 'خطـــأ', message: f.message);
+    }, (r) {
       designerList.value = r;
     });
-
     isLoading.value = false;
   }
 }

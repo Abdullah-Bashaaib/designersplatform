@@ -1,6 +1,8 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
+import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
+import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/home/presentation/pages/designers_list.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/view_order_client.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class ClientHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<HomeController>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -45,11 +48,16 @@ class ClientHomePage extends StatelessWidget {
             SizedBox(height: 20.h),
 
             /// 🔍 شريط البحث
-            TextField(
-                decoration: AppStyles.getInputDecoration(
+            BuildTextField(
               hintText: 'ابحث عن مصمم أو نوع تصميم...',
-              prefixIcon: const Icon(Icons.search),
-            )),
+              prefixIcon: Icons.search,
+            ),
+            // TextField(
+            //     decoration: AppStyles.getInputDecoration(
+            //   hintText: 'ابحث عن مصمم أو نوع تصميم...',
+            //   prefixIcon: const Icon(Icons.search),
+            // )
+            // ),
             SizedBox(height: 24.h),
 
             /// 🧩 البطاقات السريعة
