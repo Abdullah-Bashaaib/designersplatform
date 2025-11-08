@@ -1,5 +1,4 @@
 import 'package:designers_platform/core/widget/custom_text.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,9 @@ class DesignersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.find<HomeController>();
-    c.getDesigners();
+    if (c.designerList.isEmpty) {
+      c.getDesigners();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Row(

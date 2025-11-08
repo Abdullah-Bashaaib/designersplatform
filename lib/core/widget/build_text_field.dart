@@ -59,6 +59,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
             decoration: AppStyles.getInputDecoration(
               hintText: widget.hintText,
               suffixIcon: widget.suffixIcon,
+              prefixIcon: Icon(widget.prefixIcon),
             ),
             validator: widget.validator,
           ),
