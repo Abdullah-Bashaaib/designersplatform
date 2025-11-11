@@ -15,8 +15,7 @@ class BuildingDesignerList extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.find<HomeController>();
     final designers = c.designerList;
-    return Obx(
-      () => SizedBox(
+    return SizedBox(
         height: 150.h,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
@@ -86,7 +85,6 @@ class BuildingDesignerList extends StatelessWidget {
             );
           },
         ),
-      ),
     );
   }
 }

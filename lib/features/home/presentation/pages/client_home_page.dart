@@ -6,6 +6,7 @@ import 'package:designers_platform/features/home/presentation/getx/home_controll
 import 'package:designers_platform/features/home/presentation/pages/designers_list.dart';
 import 'package:designers_platform/features/home/presentation/widget/building_designer_list.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/view_order_client.dart';
+import 'package:designers_platform/features/search/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,20 +52,13 @@ class ClientHomePage extends StatelessWidget {
             SizedBox(height: 20.h),
 
             /// 🔍 شريط البحث
-            BuildTextField(
-              hintText: 'ابحث عن مصمم أو نوع تصميم...',
-              // suffixIcon: Icon(Icons.search),
-              prefixIcon: Icons.search,
-            ),
-            // TextField(
-            //     decoration: AppStyles.getInputDecoration(
+            // BuildTextField(
             //   hintText: 'ابحث عن مصمم أو نوع تصميم...',
-            //   prefixIcon: const Icon(Icons.search),
-            // )
+            //   prefixIcon: Icons.search,
             // ),
-            SizedBox(height: 24.h),
+            // SizedBox(height: 24.h),
 
-            /// 🧩 البطاقات السريعة
+            ///  البطاقات السريعة
             CustomText(
               text: 'خدمات سريعة',
             ),
@@ -91,9 +85,9 @@ class ClientHomePage extends StatelessWidget {
                   },
                 ),
                 BuildQuickCard(
-                  icon: Icons.local_offer_outlined,
-                  title: 'العروض',
-                  onTap: () {},
+                  icon: Icons.search,
+                  title: 'بحث',
+                  onTap: () => Get.to(() => SearchPage()),
                 ),
                 BuildQuickCard(
                   icon: Icons.favorite_border,
