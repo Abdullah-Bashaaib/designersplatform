@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +55,9 @@ class DesignersList extends StatelessWidget {
                           radius: 28,
                           backgroundColor: Colors.grey.shade300,
                           backgroundImage:
-                              !c.isLoading.value && designer?.avatarUrl != null
+                              !c.isLoading.value && designer?.avatarUrl != ''
                                   ? NetworkImage(designer!.avatarUrl!)
-                                  : null,
+                                  : AssetImage(AppImage.icon1),
                         ),
                         title: Text(
                           designer?.name ?? 'Loading Name...',
