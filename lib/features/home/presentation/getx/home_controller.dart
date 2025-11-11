@@ -13,6 +13,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
+    getDesigners();
     super.onInit();
   }
 
