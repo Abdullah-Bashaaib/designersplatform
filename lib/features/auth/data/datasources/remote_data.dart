@@ -55,6 +55,7 @@ class RemoteDataSource implements RemoteData {
         name: user.name,
         email: user.email,
         role: user.role,
+        keywords: user.keywords,
       );
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: userModel.email, password: password);

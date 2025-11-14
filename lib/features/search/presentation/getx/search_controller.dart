@@ -32,20 +32,25 @@ class SearchControl extends GetxController {
     }
   }
 
-  // 🔍 البحث عن المصممين (من Firestore أو قائمة)
+  //  البحث عن المصممين
   Future<List<Map<String, dynamic>>> searchDesigners(String q) async {
     // مثال بسيط (محلي)، يمكنك استبداله بـ Firestore
     return [
       {'name': 'أحمد', 'specialization': 'شعارات'},
       {'name': 'سارة', 'specialization': 'واجهات تطبيق'},
-    ].where((e) => e['name']!.contains(q) || e['specialization']!.contains(q)).toList();
+    ]
+        .where(
+            (e) => e['name']!.contains(q) || e['specialization']!.contains(q))
+        .toList();
   }
 
-  // 🔍 البحث عن التصاميم
+  //  البحث عن التصاميم
   Future<List<Map<String, dynamic>>> searchDesigns(String q) async {
     return [
       {'title': 'تصميم شعار ذهبي', 'category': 'شعارات'},
       {'title': 'واجهة تطبيق تسوق', 'category': 'واجهات'},
-    ].where((e) => e['title']!.contains(q) || e['category']!.contains(q)).toList();
+    ]
+        .where((e) => e['title']!.contains(q) || e['category']!.contains(q))
+        .toList();
   }
 }

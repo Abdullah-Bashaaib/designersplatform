@@ -17,7 +17,7 @@ abstract class ClientLocalDataSource {
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
   final SharedPreferences perf;
 
-  ClientLocalDataSourceImp( this.perf);
+  ClientLocalDataSourceImp(this.perf);
 
   @override
   Client? getProfile() {
@@ -39,6 +39,7 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
         email: user.email,
         role: user.role,
         avatarUrl: user.avatarUrl,
+        keywords: user.keywords,
       );
       final jsonString = jsonEncode(userModel.toMap());
       perf.setString(KeySharedPref.userKey, jsonString);

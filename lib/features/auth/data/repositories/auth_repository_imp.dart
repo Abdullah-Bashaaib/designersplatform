@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/error/firebase_error.dart';
+import 'package:designers_platform/core/utils/app_functions.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
@@ -41,10 +42,11 @@ class AuthRepositoryImp implements AuthRepository {
   Future<Either<Failure, User>> signUp(User user, String password) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = user;
-        await remoteData.signUp(user, password);
-        await localData.saveUser(user);
-        return Right(result);
+        final newKeywords = [...AppFunctions.generateKeywords(user.name)];
+        final newUser = user.copyWith(keywords: newKeywords);
+        await remoteData.signUp(newUser, password);
+        await localData.saveUser(newUser);
+        return Right(newUser);
       } on FirebaseAuthException catch (e) {
         return left(ServerFailure(FirebaseAuthErrorHandler.getErrorMessage(e)));
       } on ServerException catch (e) {

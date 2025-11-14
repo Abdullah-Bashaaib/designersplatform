@@ -26,6 +26,7 @@ class LocalDataImp implements LocalData {
       email: user.email,
       role: user.role,
       avatarUrl: user.avatarUrl,
+      keywords: user.keywords,
     );
     await perf.setString(KeySharedPref.kUserId, user.id);
     log("There id added in Sheard Pref: ${user.id}");

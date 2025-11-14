@@ -73,14 +73,14 @@ class ClientProfileController extends GetxController {
   }
 
   Future<void> updateUserName() async {
-    final _name = TextEditingController();
+    final name = TextEditingController();
     DialogHelper.showCustomDialog(
       customIcon: Icon(Icons.person),
       title: 'هل تريد تغيير اسمك؟',
       customContent: Column(
         children: [
           TextField(
-            controller: _name,
+            controller: name,
             decoration: AppStyles.getInputDecoration(
                 hintText: CurrentUser.currentUser!.name),
           ),
@@ -97,7 +97,7 @@ class ClientProfileController extends GetxController {
                         onPressed: () async {
                           isLoading.value = true;
                           final result =
-                              await updateProfileUseCase.call(_name.text);
+                              await updateProfileUseCase.call(name.text);
                           result.fold((f) => Get.snackbar('خطاء', f.message),
                               (u) {
                             user.value = CurrentUser.currentUser!;
@@ -136,8 +136,6 @@ class ClientProfileController extends GetxController {
       favoritesList.value = r;
     });
   }
-
-  
 
   void addAvatar() async {
     final ImagePicker picker = ImagePicker();
