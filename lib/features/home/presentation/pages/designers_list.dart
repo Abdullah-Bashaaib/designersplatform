@@ -26,58 +26,74 @@ class DesignersList extends StatelessWidget {
           ],
         ),
       ),
-      body: Obx(
-        () => c.designerList.isEmpty
-            ? Center(
-                child: CustomText(
-                text: 'لا يوجد مصممين',
-                style: TextStyleEnum.bodyLarge,
-              ))
-            : Skeletonizer(
-                enabled: c.isLoading.value,
-                child: ListView.builder(
-                  itemCount: c.isLoading.value ? 6 : c.designerList.length,
-                  padding: const EdgeInsets.all(12),
-                  itemBuilder: (context, i) {
-                    // في حالة التحميل نعرض عناصر وهمية
-                    final designer =
-                        c.isLoading.value ? null : c.designerList[i];
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Obx(()=> SearchBar(
+              leading: Icon(Icons.search),
+              hintText: 'ابحث عن مصمم...',
+              onChanged: (value) {},
+            ),
+            ),),
+          Expanded(
+            child: Obx(
+              () => c.designerList.isEmpty
+                  ? Center(
+                      child: CustomText(
+                      text: 'لا يوجد مصممين',
+                      style: TextStyleEnum.bodyLarge,
+                    ))
+                  : Skeletonizer(
+                      enabled: c.isLoading.value,
+                      child: ListView.builder(
+                        itemCount:
+                            c.isLoading.value ? 6 : c.designerList.length,
+                        padding: const EdgeInsets.all(12),
+                        itemBuilder: (context, i) {
+                          // في حالة التحميل نعرض عناصر وهمية
+                          final designer =
+                              c.isLoading.value ? null : c.designerList[i];
 
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              leading: CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.grey.shade300,
+                                backgroundImage: !c.isLoading.value &&
+                                        designer?.avatarUrl != ''
+                                    ? NetworkImage(designer!.avatarUrl!)
+                                    : AssetImage(AppImage.icon1),
+                              ),
+                              title: Text(
+                                designer?.name ?? 'Loading Name...',
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                designer?.email ?? 'loading@email.com',
+                              ),
+                              trailing:
+                                  const Icon(Icons.arrow_forward_ios_rounded),
+                              onTap: !c.isLoading.value
+                                  ? () => Get.to(() => ProfileScreen(
+                                        currentDesigner: designer!,
+                                      ))
+                                  : null,
+                            ),
+                          );
+                        },
                       ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        leading: CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.grey.shade300,
-                          backgroundImage:
-                              !c.isLoading.value && designer?.avatarUrl != ''
-                                  ? NetworkImage(designer!.avatarUrl!)
-                                  : AssetImage(AppImage.icon1),
-                        ),
-                        title: Text(
-                          designer?.name ?? 'Loading Name...',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          designer?.email ?? 'loading@email.com',
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                        onTap: !c.isLoading.value
-                            ? () => Get.to(() => ProfileScreen(
-                                  currentDesigner: designer!,
-                                ))
-                            : null,
-                      ),
-                    );
-                  },
-                ),
-              ),
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }

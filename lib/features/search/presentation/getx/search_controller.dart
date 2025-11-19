@@ -1,56 +1,35 @@
+import 'package:designers_platform/features/search/domain/usecase/search_designers.dart';
+import 'package:designers_platform/features/search/domain/usecase/search_designs.dart';
 import 'package:get/get.dart';
 
 class SearchControl extends GetxController {
-  var searchType = 'المصممين'.obs; // أو 'التصاميم'
+  final SearchDesignsUsecase designsUsecase;
+  final SearchDesignersUsecase designersUsecase;
+
+  SearchControl(this.designsUsecase, this.designersUsecase);
+
+  var isLoading = false.obs;
   var query = ''.obs;
-  var results = [].obs;
-
-  final List<String> searchTypes = ['المصممين', 'التصاميم'];
-
-  // عندما تتغير الكلمة
-  void onQueryChanged(String value) {
-    query.value = value;
-    _performSearch();
-  }
-
-  // عند تغيير نوع البحث
-  void onTypeChanged(String newType) {
-    searchType.value = newType;
-    _performSearch();
-  }
-
-  Future<void> _performSearch() async {
-    if (query.isEmpty) {
-      results.clear();
-      return;
-    }
-
-    if (searchType.value == 'المصممين') {
-      results.value = await searchDesigners(query.value);
-    } else if (searchType.value == 'التصاميم') {
-      results.value = await searchDesigns(query.value);
-    }
-  }
+  var resultsDesigns = [].obs;
+  var resultsDesigners = [].obs;
 
   //  البحث عن المصممين
-  Future<List<Map<String, dynamic>>> searchDesigners(String q) async {
-    // مثال بسيط (محلي)، يمكنك استبداله بـ Firestore
-    return [
-      {'name': 'أحمد', 'specialization': 'شعارات'},
-      {'name': 'سارة', 'specialization': 'واجهات تطبيق'},
-    ]
-        .where(
-            (e) => e['name']!.contains(q) || e['specialization']!.contains(q))
-        .toList();
+  Future<void> searchDesigners(String query) async {
+    isLoading.value = true;
+    final result = await designersUsecase.call(query);
+    result.fold((f) {}, (r) {
+      resultsDesigners.value = r;
+    });
+    isLoading.value = false;
   }
 
   //  البحث عن التصاميم
-  Future<List<Map<String, dynamic>>> searchDesigns(String q) async {
-    return [
-      {'title': 'تصميم شعار ذهبي', 'category': 'شعارات'},
-      {'title': 'واجهة تطبيق تسوق', 'category': 'واجهات'},
-    ]
-        .where((e) => e['title']!.contains(q) || e['category']!.contains(q))
-        .toList();
+  Future<void> searchDesigns(String query) async {
+    isLoading.value = true;
+    final result = await designsUsecase.call(query);
+    result.fold((f) {}, (r) {
+      resultsDesigns.value = r;
+    });
+    isLoading.value = false;
   }
 }

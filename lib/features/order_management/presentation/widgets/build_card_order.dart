@@ -66,7 +66,7 @@ class BuildCardOrder extends StatelessWidget {
                     children: [
                       order.status.isEmpty
                           ? SizedBox()
-                          : DesignStatus(status: order.status),
+                          : DesignStatus(order: order),
                       SizedBox(
                         width: 3.w,
                       ),

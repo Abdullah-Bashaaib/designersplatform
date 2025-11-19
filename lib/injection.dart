@@ -52,6 +52,12 @@ import 'package:designers_platform/features/order_management/domain/usecase/dele
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
+import 'package:designers_platform/features/search/data/datasurce/search_remote.dart';
+import 'package:designers_platform/features/search/data/repo/search_repo_imp.dart';
+import 'package:designers_platform/features/search/domain/repo/search_repo.dart';
+import 'package:designers_platform/features/search/domain/usecase/search_designers.dart';
+import 'package:designers_platform/features/search/domain/usecase/search_designs.dart';
+import 'package:designers_platform/features/search/presentation/getx/search_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -443,8 +449,30 @@ class Injection {
     Get.lazyPut<GetDesignersUsecase>(
         fenix: true, () => GetDesignersUsecase(Get.find<HomeRepo>()));
 
-    /// getx
+    /// getX
     Get.lazyPut<HomeController>(
         fenix: true, () => HomeController(Get.find<GetDesignersUsecase>()));
+
+    /// ================================= [ Search ] =========================================
+    /// datasource,
+    Get.lazyPut<SearchRemote>(fenix: true, () => SearchRemoteImp());
+
+    /// repo
+    Get.lazyPut<SearchRepo>(
+        fenix: true,
+        () =>
+            SearchRepoImp(Get.find<INetworkInfo>(), Get.find<SearchRemote>()));
+
+    /// usecases
+    Get.lazyPut<SearchDesignersUsecase>(
+        fenix: true, () => SearchDesignersUsecase(Get.find<SearchRepo>()));
+    Get.lazyPut<SearchDesignsUsecase>(
+        fenix: true, () => SearchDesignsUsecase(Get.find<SearchRepo>()));
+
+    ///getX
+    Get.lazyPut<SearchControl>(
+        fenix: true,
+        () => SearchControl(Get.find<SearchDesignsUsecase>(),
+            Get.find<SearchDesignersUsecase>()));
   }
 }
