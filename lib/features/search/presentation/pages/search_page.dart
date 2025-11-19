@@ -9,7 +9,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(SearchControl());
+    final c = Get.find<SearchControl>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final suggestionTags = [
@@ -49,7 +49,6 @@ class SearchPage extends StatelessWidget {
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(vertical: 14.h),
                 ),
-                onChanged: c.onQueryChanged,
               ),
             ),
 
@@ -67,9 +66,7 @@ class SearchPage extends StatelessWidget {
               runSpacing: 8.h,
               children: suggestionTags.map((tag) {
                 return GestureDetector(
-                  onTap: () {
-                    c.onQueryChanged(tag);
-                  },
+                  onTap: () {},
                   child: Chip(
                     label: Text(tag),
                     backgroundColor:
@@ -118,30 +115,16 @@ class SearchPage extends StatelessWidget {
                   );
                 }
 
-                if (c.results.isEmpty) {
+                if (c.resultsDesigns.isEmpty) {
                   return const Center(child: Text('لا توجد نتائج مطابقة'));
                 }
 
                 return ListView.separated(
-                  itemCount: c.results.length,
-                  separatorBuilder: (_, __) =>
-                      Divider(height: 16.h, thickness: 0.5),
-                  itemBuilder: (context, i) {
-                    final item = c.results[i];
-
-                    if (c.searchType.value == 'المصممين') {
-                      return ListTile(
-                        leading: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/avatar.png'),
-                        ),
-                        title: Text(item['name']),
-                        subtitle: Text(item['specialization']),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded,
-                            size: 16),
-                        onTap: () {},
-                      );
-                    } else {
+                    itemCount: c.resultsDesigns.length,
+                    separatorBuilder: (_, __) =>
+                        Divider(height: 16.h, thickness: 0.5),
+                    itemBuilder: (context, i) {
+                      final item = c.resultsDesigns[i];
                       return ListTile(
                         leading: const Icon(Icons.brush_outlined,
                             color: Colors.blue),
@@ -151,9 +134,7 @@ class SearchPage extends StatelessWidget {
                             size: 16),
                         onTap: () {},
                       );
-                    }
-                  },
-                );
+                    });
               }),
             ),
           ],
