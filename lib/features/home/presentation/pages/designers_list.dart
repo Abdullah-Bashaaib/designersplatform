@@ -30,12 +30,15 @@ class DesignersList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Obx(()=> SearchBar(
+            child:
+                // Obx(()=>
+                SearchBar(
               leading: Icon(Icons.search),
               hintText: 'ابحث عن مصمم...',
               onChanged: (value) {},
             ),
-            ),),
+            // ),
+          ),
           Expanded(
             child: Obx(
               () => c.designerList.isEmpty

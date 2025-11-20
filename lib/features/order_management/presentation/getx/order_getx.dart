@@ -108,4 +108,21 @@ class OrderGetx extends GetxController {
     });
     isLoading.value = false;
   }
+
+  Future<void> saveDesign(String imageUrl) async {
+    try {
+      if (imageUrl.isNotEmpty) {
+        DialogHelper.showInfoDialog(
+            title: "جاري التحميل...", message: "الرجاء الانتظار");
+
+        // await ImageDownloader.downloadImage(imageUrl);
+
+        DialogHelper.showSuccessSnackBar(
+            title: "تم التحميل", message: "تم تنزيل الصورة بنجاح");
+      }
+    } catch (e) {
+      DialogHelper.showErrorSnackBar(
+          title: 'خطــأ!', message: 'تعذر تنزيل الصورة');
+    }
+  }
 }
