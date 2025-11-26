@@ -13,10 +13,12 @@ class HomeRepoImp implements HomeRepo {
   HomeRepoImp(this.networkInfo, this.remote);
 
   @override
-  Future<Either<Failure, List<Designer>>> getDesigners() async {
+  Future<Either<Failure, List<Designer>>> getDesigners(
+      {int limit = 10, Designer? startAfter}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remote.getDesigners();
+        final result =
+            await remote.getDesigners(limit: limit, startAfter: startAfter);
         return right(result);
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));
