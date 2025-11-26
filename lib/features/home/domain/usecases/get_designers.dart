@@ -8,8 +8,8 @@ class GetDesignersUsecase {
 
   GetDesignersUsecase(this.homeRepo);
 
-  Future<Either<Failure, List<Designer>>> call() async {
-    return await homeRepo.getDesigners();
+  Future<Either<Failure, List<Designer>>> call(
+      {int limit = 10, Designer? startAfter}) async {
+    return await homeRepo.getDesigners(limit: limit, startAfter: startAfter);
   }
-
 }

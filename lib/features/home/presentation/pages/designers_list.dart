@@ -1,6 +1,7 @@
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
+import 'package:designers_platform/features/home/presentation/widget/design_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -50,47 +51,24 @@ class DesignersList extends StatelessWidget {
                   : Skeletonizer(
                       enabled: c.isLoading.value,
                       child: ListView.builder(
-                        itemCount:
-                            c.isLoading.value ? 6 : c.designerList.length,
+                        controller: c.scrollController,
+                        itemCount: c.isLoading.value
+                            ? 6
+                            : c.designerList.length +
+                                (c.isMoreLoading.value ? 1 : 0),
                         padding: const EdgeInsets.all(12),
                         itemBuilder: (context, i) {
-                          // في حالة التحميل نعرض عناصر وهمية
-                          final designer =
-                              c.isLoading.value ? null : c.designerList[i];
-
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              leading: CircleAvatar(
-                                radius: 28,
-                                backgroundColor: Colors.grey.shade300,
-                                backgroundImage: !c.isLoading.value &&
-                                        designer?.avatarUrl != ''
-                                    ? NetworkImage(designer!.avatarUrl!)
-                                    : AssetImage(AppImage.icon1),
-                              ),
-                              title: Text(
-                                designer?.name ?? 'Loading Name...',
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                designer?.email ?? 'loading@email.com',
-                              ),
-                              trailing:
-                                  const Icon(Icons.arrow_forward_ios_rounded),
-                              onTap: !c.isLoading.value
-                                  ? () => Get.to(() => ProfileScreen(
-                                        currentDesigner: designer!,
-                                      ))
-                                  : null,
-                            ),
-                          );
+                          if (c.isLoading.value) {
+                            return DesignCard(designer: null);
+                          }
+                          if (i < c.designerList.length) {
+                            return DesignCard(designer: c.designerList[i]);
+                          } else {
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
                         },
                       ),
                     ),
