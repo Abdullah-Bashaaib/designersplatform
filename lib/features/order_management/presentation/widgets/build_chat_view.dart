@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/widget/custom_card.dart';
-import '../../../../core/widget/custom_text.dart';
 import '../../../../core/widget/gap.dart';
 import '../getx/chat_getx.dart';
 
@@ -27,7 +26,7 @@ Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
         itemBuilder: (context, index) {
           // --- 1. احصل على كائن الرسالة أولاً ---
           final message = controller.chatMessages[index];
-          log("message: message is $message");
+          log("message: message is ${message.content}");
 
           // --- 2. اسأل الكنترولر "هل هذه الرسالة مني؟" ---
           bool isMe = controller.isMessageFromMe(message);
@@ -42,11 +41,12 @@ Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
                 color: isMe ? AppColors.primaryColor : Colors.grey[200],
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: CustomText(
-                // --- 3. اعرض محتوى الرسالة ---
-                text: message.content,
-                color: isMe ? Colors.white : Colors.black87,
-              ),
+              child: Text(
+                  // --- 3. اعرض محتوى الرسالة ---
+                  message.content,
+                  style: TextStyle(
+                    color: isMe ? Colors.white : Colors.black87,
+                  )),
             ),
           );
         },

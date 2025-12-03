@@ -54,7 +54,7 @@ class OrderGetx extends GetxController {
     isLoadingEdit.value = true;
 
     // نتأكد أن الـ fields تحتوي على المعرف المطلوب
-    final orderId = fields['orderId'];
+    final orderId = fields['id'];
     if (orderId == null || orderId.toString().isEmpty) {
       DialogHelper.showErrorSnackBar(
         title: 'خطأ',
@@ -65,7 +65,7 @@ class OrderGetx extends GetxController {
     }
 
     // نرسل الحقول كما هي إلى الـ usecase
-    final result = await updateOrderUsecase.call(orderId, fields);
+    final result = await updateOrderUsecase(orderId, fields);
 
     result.fold(
       (f) => DialogHelper.showErrorSnackBar(
