@@ -98,6 +98,7 @@ class DetailsOrderClient extends StatelessWidget {
                               initialDescription: order.description,
                               onConfirm: (type, description) {
                                 final fields = {
+                                  'orderId': order.id,
                                   'designType': type,
                                   'description': description
                                 };

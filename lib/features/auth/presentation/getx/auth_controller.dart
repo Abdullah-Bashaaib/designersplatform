@@ -68,7 +68,13 @@ class AuthController extends GetxController {
 
   Future<void> signUp(
       String name, String email, String password, String role) async {
-    User newUser = User(id: uuid.v4(), name: name, email: email, role: role);
+    User newUser = User(
+      id: uuid.v4(),
+      name: name,
+      email: email,
+      role: role,
+      keywords: [],
+    );
     isLoading.value = true;
 
     final result = await signUpUsecase.call(newUser, password);

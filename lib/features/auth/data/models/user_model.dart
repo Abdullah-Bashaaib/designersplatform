@@ -7,15 +7,18 @@ class UserModel extends User {
     required super.email,
     required super.role,
     super.avatarUrl,
+    required super.keywords,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-        id: json['id'],
-        name: json['name'],
-        email: json['email'],
-        role: json['role'],
-        avatarUrl: json['avatarUrl']);
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      role: json['role'],
+      avatarUrl: json['avatarUrl'],
+      keywords: List<String>.from(json["keywords"] ?? []),
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -25,6 +28,7 @@ class UserModel extends User {
       'email': email,
       'role': role,
       'avatarUrl': avatarUrl,
+      "keywords": keywords,
     };
   }
 
@@ -35,6 +39,7 @@ class UserModel extends User {
       email: user.email,
       role: user.role,
       avatarUrl: user.avatarUrl,
+      keywords: List<String>.from(user.keywords ?? []),
     );
   }
 }

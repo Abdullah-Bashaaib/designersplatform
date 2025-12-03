@@ -77,7 +77,6 @@ class OrderGetx extends GetxController {
           title: 'إنجاز!',
           message: updateOrderMessage,
         );
-
         // تحديث البيانات في القائمة المحلية
         if (orderList.isNotEmpty) {
           int index = orderList.indexWhere((o) => o.id == orderId);
@@ -108,5 +107,22 @@ class OrderGetx extends GetxController {
           title: 'ok', message: deleteOrderMessage);
     });
     isLoading.value = false;
+  }
+
+  Future<void> saveDesign(String imageUrl) async {
+    try {
+      if (imageUrl.isNotEmpty) {
+        DialogHelper.showInfoDialog(
+            title: "جاري التحميل...", message: "الرجاء الانتظار");
+
+        // await ImageDownloader.downloadImage(imageUrl);
+
+        DialogHelper.showSuccessSnackBar(
+            title: "تم التحميل", message: "تم تنزيل الصورة بنجاح");
+      }
+    } catch (e) {
+      DialogHelper.showErrorSnackBar(
+          title: 'خطــأ!', message: 'تعذر تنزيل الصورة');
+    }
   }
 }

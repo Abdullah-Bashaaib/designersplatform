@@ -24,7 +24,7 @@ class ClientProfileRepoImp implements ClientProfileRepo {
     if (await networkInfo.isConnected) {
       try {
         await remoteDataSource.updateUserName(name);
-        CurrentUser.currentUser!.name = name;
+        CurrentUser.currentUser?.copyWith(name: name);
         localDataSource.saveUser(CurrentUser.currentUser!);
         return right(unit);
       } on ServerException {
