@@ -62,9 +62,7 @@ class CustomText extends StatelessWidget {
       case TextStyleEnum.caption:
         return AppStyles.caption;
       default:
-        return const TextStyle(
-          fontSize: 16,
-        );
+        return const TextStyle();
     }
   }
 }

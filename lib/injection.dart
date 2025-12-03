@@ -93,7 +93,7 @@ class Injection {
 // هذا الكود "نشط" وسيبدأ الخدمة واللسنر فوراً عند تشغيل التطبيق
     Get.put(DataSyncService(), permanent: true);
     final uuid = Uuid();
-    Get.lazyPut<Uuid>(() => uuid);
+    Get.lazyPut<Uuid>(fenix: true, () => uuid);
 
     /// SharedPreferences
     final sharedPreferences = await SharedPreferences.getInstance();

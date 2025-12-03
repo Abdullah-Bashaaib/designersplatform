@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/order_management/data/models/chat_room_model.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,13 +19,14 @@ import '../../domain/usecase/chat_room/send_message_useCase.dart';
 
 class ChatOrderGetX extends GetxController {
   final SharedPreferences preferences;
+  final OrderGetx orderGetx;
   final GetChatMessagesUseCase _getMessagesUseCase;
   final SendMessageUseCase _sendMessageUseCase; // 💡
   final Uuid _uuid; // 💡
   final OrderEntity order; // لتخزين الطلب الحالي
 
   ChatOrderGetX(this.preferences, this._getMessagesUseCase,
-      this._sendMessageUseCase, this._uuid,
+      this._sendMessageUseCase, this._uuid, this.orderGetx,
       {required this.order});
   // .obs تجعل المتغير "تفاعليًا" (reactive)
   final _isOrderAccepted = false.obs;
@@ -34,6 +38,8 @@ class ChatOrderGetX extends GetxController {
 
   final scrollController = ScrollController();
   final textController = TextEditingController(); // 💡 لإدخال النص
+
+  List<Map<String, String>> orderAcceptList = [];
 
   // getter عام للوصول إلى القيمة
   bool get isOrderAccepted => _isOrderAccepted.value;
@@ -58,28 +64,49 @@ class ChatOrderGetX extends GetxController {
   // 3. الدوال لإدارة منطق الأعمال
   void acceptOrder() {
     _isOrderAccepted.value = true;
-    order.status = _isOrderAccepted.toString();
+    order.status = 'مقبول';
+    orderGetx.updateOrder({'id': order.id, 'status': order.status});
+    orderAcceptList
+        .add({'orderId': order.id, 'acceptOrder': _isOrderAccepted.toString()});
     preferences.setString(
       KeySharedPref.kAcceptOrder,
-      _isOrderAccepted.toString(),
+      jsonEncode(orderAcceptList),
     );
+    log("message: order list to string in chat getx : ${orderAcceptList.toString()}");
   }
 
   void rejectOrder() {
     Get.back(canPop: true);
   }
 
+  String acceptedOrderTest(String value) {
+    final List<Map<String, dynamic>> orderAcceptedJson =
+        List<Map<String, dynamic>>.from(jsonDecode(value));
+
+    int index = orderAcceptedJson.indexWhere((orderTest) {
+      return (orderTest['orderId'] == order.id &&
+          orderTest['acceptOrder'] == 'true');
+    });
+    log("message: order json is ${orderAcceptedJson[index]['acceptOrder']}");
+
+    return orderAcceptedJson[index]['acceptOrder'];
+  }
+
   void checkAccept() {
-    final value = preferences.getString(KeySharedPref.kAcceptOrder);
-    log("message: Accepted Value in SharedPref is \"$value\"");
-    if (value == null) {
-      _isOrderAccepted.value = value == 'false';
-    } else {
+    log("message: order list to string in chat getx : ${orderAcceptList.toString()}");
+    String? value = preferences.getString(KeySharedPref.kAcceptOrder);
+    try {
+      if (value == null) {
+        _isOrderAccepted.value = value == 'false';
+        throw Exception('لم يتم قبول الطلب');
+      }
+      value = acceptedOrderTest(value);
       _isOrderAccepted.value = value == 'true';
       order.status = 'مقبول';
-
-      /// TODO:: PUT HERE THE USECASE OF UPDATE ORDER TO UPDATE THE STATUS OF ORDER ::
-      log("message: in ChatGetX order status is ${order.status}");
+      log("message: Accepted Value in SharedPref is \"$value\"");
+    } catch (e) {
+      DialogHelper.showErrorSnackBar(
+          title: "خطأ", message: "message: ${e.toString()}");
     }
   }
 

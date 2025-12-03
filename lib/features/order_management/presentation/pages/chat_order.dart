@@ -22,14 +22,17 @@ class ChatOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ChatOrderGetX controller = Get.put(
+      permanent: true,
       ChatOrderGetX(
         order: order,
         Get.find<SharedPreferences>(),
         Get.find<GetChatMessagesUseCase>(),
         Get.find<SendMessageUseCase>(),
         Get.find<Uuid>(),
+        Get.find<OrderGetx>(),
       ),
     );
+    // c.acceptedOrderTest();
     return SafeArea(
       top: false,
       child: Scaffold(
