@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -148,18 +150,24 @@ class DetailsOrderClient extends StatelessWidget {
             if ((order.imageUrl ?? '').isNotEmpty)
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Image.network(
-                  order.imageUrl!,
+                child: CachedNetworkImage(
+                  imageUrl: order.imageUrl!,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey.shade200,
-                      child: const Center(
-                        child: Icon(Icons.broken_image_outlined,
-                            size: 48, color: Colors.grey),
+                  // أثناء التحميل
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  // إذا حدث خطأ
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.grey.shade200,
+                    child: const Center(
+                      child: Icon(
+                        Icons.broken_image_outlined,
+                        size: 48,
+                        color: Colors.grey,
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
               )
             else
@@ -204,22 +212,19 @@ class DetailsOrderClient extends StatelessWidget {
                         side: BorderSide(color: statusColor.withOpacity(0.4)),
                       ),
                       if (order.status == 'مكتمل')
-                        Chip(
-                          avatar: Icon(Icons.download,
-                              size: 18, color: AppColors.primaryColor),
-                          label: Text('تحميل'),
-                          backgroundColor: AppColors.backgroundColor,
-                          labelStyle: TextStyle(color: AppColors.primaryColor),
-                          side: BorderSide(color: AppColors.primaryColor),
+                        IconButton(
+                          onPressed: () {
+                            c.saveDesign(order.imageUrl!);
+                          },
+                          icon: Icon(Icons.download),
+                          color: AppColors.primaryColor,
                         )
                       else if (order.status == 'مقبول')
-                        Chip(
-                          avatar: Icon(Icons.chat,
-                              size: 18, color: AppColors.primaryColor),
-                          label: Text('دردشة'),
-                          backgroundColor: AppColors.backgroundColor,
-                          labelStyle: TextStyle(color: AppColors.primaryColor),
-                          side: BorderSide(color: AppColors.primaryColor),
+                        IconButton(
+                          onPressed: () =>
+                              Get.to(() => ChatOrder(order: order)),
+                          icon: Icon(Icons.chat),
+                          color: AppColors.primaryColor,
                         )
                       else
                         SizedBox(),

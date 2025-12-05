@@ -114,9 +114,7 @@ class OrderGetx extends GetxController {
       if (imageUrl.isNotEmpty) {
         DialogHelper.showInfoDialog(
             title: "جاري التحميل...", message: "الرجاء الانتظار");
-
         // await ImageDownloader.downloadImage(imageUrl);
-
         DialogHelper.showSuccessSnackBar(
             title: "تم التحميل", message: "تم تنزيل الصورة بنجاح");
       }
