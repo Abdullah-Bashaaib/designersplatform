@@ -9,7 +9,7 @@ class LoginUsecase {
 
   LoginUsecase(this.authRepository);
 
-  Future<Either<Failure, User>> call(String email, String password) async {
+  Future<Either<Failure, UserEntity>> call(String email, String password) async {
     return await authRepository.login(email, password); 
   }
   

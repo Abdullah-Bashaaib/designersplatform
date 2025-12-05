@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,30 +7,37 @@ import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientRemoteDataSource {
   Future<void> updateUserName(String name);
-  Future<List<User>> getFavoritesList();
+  Future<List<UserEntity>> getFavoritesList();
   Future<String> addAvatar(XFile file);
   Future<void> deleteAvatar();
 }
 
 class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
-  final SupabaseClient _supabase;
-  final FirebaseFirestore _firestore;
+  final SupabaseClient supabase;
 
-  ClientRemoteDataSourceImp(this._supabase, this._firestore);
+  ClientRemoteDataSourceImp(
+    this.supabase,
+  );
   @override
   Future<void> updateUserName(String name) async {
     try {
-      await _firestore
-          .collection('Users')
-          .doc(CurrentUser.currentUser!.id)
-          .update({'name': name});
+      final userId = CurrentUser.currentUser!.id;
+
+      final response =
+          await supabase.from('Users').update({'name': name}).eq('id', userId);
+
+      if (response.error != null) {
+        throw ServerException(response.error!.message);
+      }
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 
   @override
-  Future<List<User>> getFavoritesList() {
+  Future<List<UserEntity>> getFavoritesList() {
     throw UnimplementedError();
   }
 
@@ -45,16 +51,15 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
       if (CurrentUser.currentUser!.avatarUrl != null) {
         await deleteAvatar();
       }
-      await _supabase.storage.from('avatars').uploadBinary(
+      await supabase.storage.from('avatars').uploadBinary(
             imagePath,
             imageByte,
           );
-      final imageUrl =
-          _supabase.storage.from('avatars').getPublicUrl(imagePath);
+      final imageUrl = supabase.storage.from('avatars').getPublicUrl(imagePath);
       try {
-        await _firestore.collection('Users').doc(userId).update({
-          'avatarUrl': imageUrl,
-        });
+        await supabase
+            .from('Users')
+            .update({'avatarUrl': imageUrl}).eq('id', userId);
       } catch (e) {
         throw ServerException(e);
       }
@@ -70,11 +75,10 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
       try {
         final path = '${CurrentUser.currentUser!.id}/profile.png';
         print(path);
-        await _supabase.storage.from('avatars').remove([path]);
-        await _firestore
-            .collection('Users')
-            .doc(CurrentUser.currentUser!.id)
-            .update({'avatarUrl': ''});
+        await supabase.storage.from('avatars').remove([path]);
+        await supabase
+            .from('Users')
+            .update({'avatarUrl': ''}).eq('id', CurrentUser.currentUser!.id);
       } catch (e) {
         throw ServerException(e);
       }

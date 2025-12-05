@@ -1,6 +1,6 @@
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 
-class UserModel extends User {
+class UserModel extends UserEntity {
   UserModel({
     required super.id,
     required super.name,
@@ -32,7 +32,7 @@ class UserModel extends User {
     };
   }
 
-  factory UserModel.fromEntity(User user) {
+  factory UserModel.fromEntity(UserEntity user) {
     return UserModel(
       id: user.id,
       name: user.name,

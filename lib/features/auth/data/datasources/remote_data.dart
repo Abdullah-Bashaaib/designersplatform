@@ -1,55 +1,60 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
-import 'package:designers_platform/core/error/exception.dart'
-    hide FirebaseException;
+import 'package:designers_platform/core/error/exception.dart';
+import 'package:designers_platform/core/error/firebase_error.dart';
 import 'package:designers_platform/features/auth/data/models/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide User, FirebaseException;
-
-import '../../../../core/error/firebase_error.dart';
-import '../../domain/entities/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:designers_platform/features/auth/domain/entities/user.dart';
 
 abstract class RemoteData {
-  Future<User?> checkAccountInRemote(String email, String password);
-  Future<User> signUp(User user, String password);
+  Future<UserModel?> checkAccountInRemote(String email, String password);
+  Future<UserEntity> signUp(UserEntity user, String password);
   Future<void> deleteAccount();
   Future<bool> forgetPassword(String email);
 }
 
 class RemoteDataSource implements RemoteData {
-  final FirebaseFirestore _firestore;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final SupabaseClient supabase;
 
-  RemoteDataSource(this._firestore);
+  RemoteDataSource(this.supabase);
 
   @override
-  Future<User?> checkAccountInRemote(String email, String password) async {
+  Future<UserModel?> checkAccountInRemote(String email, String password) async {
     try {
-      final loginUser = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      if (!loginUser.user!.emailVerified) {
-        await loginUser.user!.sendEmailVerification();
-      }
-      final result = await _firestore
-          .collection('Users')
-          .where('email', isEqualTo: loginUser.user!.email)
-          .get();
-      if (result.docs.isEmpty) {
-        return null;
-      } else {
-        return UserModel.fromJson(result.docs.first.data());
-      }
-    } on FirebaseAuthException catch (e) {
-      throw ServerException(
-        FirebaseAuthErrorHandler.getErrorMessage(e),
+      /// تسجيل الدخول
+      final response = await supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
       );
+
+      if (response.user == null) return null;
+
+      /// جلب بيانات user من جدول users
+      final result =
+          await supabase.from('users').select().eq('email', email).single();
+
+      return UserModel.fromJson(result);
+    } on AuthException catch (e) {
+      throw ServerException(
+          SupabaseAuthErrorHandler.getErrorMessage(e.message));
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 
   @override
-  Future<User> signUp(User user, String password) async {
+  Future<UserEntity> signUp(UserEntity user, String password) async {
     try {
+      /// إنشاء الحساب في supabase auth
+      final authRes = await supabase.auth.signUp(
+        email: user.email,
+        password: password,
+      );
+
+      if (authRes.user == null) {
+        throw ServerException("تعذر إنشاء الحساب");
+      }
+
+      /// تجهيز الموديل
       UserModel userModel = UserModel(
         id: user.id,
         name: user.name,
@@ -57,58 +62,47 @@ class RemoteDataSource implements RemoteData {
         role: user.role,
         keywords: user.keywords,
       );
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: userModel.email, password: password);
-      await _firestore
-          .collection('Users')
-          .doc(userModel.id)
-          .set(userModel.toMap());
+
+      /// تخزين بيانات المستخدم داخل جدول users
+      await supabase.from('users').insert(userModel.toMap());
+
       return user;
-    } on FirebaseAuthException catch (e) {
+    } on AuthException catch (e) {
       throw ServerException(
-        FirebaseAuthErrorHandler.getErrorMessage(e),
-      );
+          SupabaseAuthErrorHandler.getErrorMessage(e.message));
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 
   @override
   Future<void> deleteAccount() async {
     try {
-      // await _firebaseAuth.;
-      await _firestore
-          .collection('Users')
-          .doc(CurrentUser.currentUser!.id)
-          .delete();
-    } on FirebaseAuthException catch (e) {
+      final userId = CurrentUser.currentUser!.id;
+
+      /// حذف من جدول users
+      await supabase.from('users').delete().eq('id', userId);
+
+      /// حذف حساب auth
+      await supabase.auth.admin.deleteUser(userId);
+    } on AuthException catch (e) {
       throw ServerException(
-        FirebaseAuthErrorHandler.getErrorMessage(e),
-      );
+          SupabaseAuthErrorHandler.getErrorMessage(e.message));
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 
   @override
   Future<bool> forgetPassword(String email) async {
     try {
-      final result = await FirebaseFirestore.instance
-          .collection('Users')
-          .where('email', isEqualTo: email)
-          .get();
-      if (result.docs.isNotEmpty) {
-        await _firebaseAuth.sendPasswordResetEmail(email: email);
-        return true;
-      } else {
-        return false;
-      }
-    } on FirebaseAuthException catch (e) {
+      await supabase.auth.resetPasswordForEmail(email);
+      return true;
+    } on AuthException catch (e) {
       throw ServerException(
-        FirebaseAuthErrorHandler.getErrorMessage(e),
-      );
+          SupabaseAuthErrorHandler.getErrorMessage(e.message));
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 }

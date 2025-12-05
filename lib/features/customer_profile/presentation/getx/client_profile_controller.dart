@@ -11,10 +11,8 @@ import 'package:designers_platform/features/auth/presentation/pages/welcome_page
 import 'package:designers_platform/features/customer_profile/domain/entities/client.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_favorites.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/get_profile.dart';
 import 'package:designers_platform/features/customer_profile/domain/usecases/update_profile_usecase.dart';
-import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -46,9 +44,9 @@ class ClientProfileController extends GetxController {
   var password = TextEditingController().obs;
   var isLoading = false.obs;
   var clientProfile = Rxn<Client>();
-  var favoritesList = <User>[].obs;
+  var favoritesList = <UserEntity>[].obs;
   var avatarUrl = CurrentUser.currentUser!.avatarUrl.obs;
-  var user = Rxn<User>();
+  var user = Rxn<UserEntity>();
 
   @override
   void onInit() {

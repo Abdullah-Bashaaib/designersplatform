@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
@@ -113,10 +112,6 @@ class Injection {
     Get.put<SharedPreferences>(sharedPreferences, permanent: true);
     // ==========================================================================
 
-    /// Firebase
-    final dbF = FirebaseFirestore.instance;
-    Get.put<FirebaseFirestore>(dbF, permanent: true);
-
     /// Supabase
     final dbS = Supabase.instance.client;
     Get.put<SupabaseClient>(dbS, permanent: true);
@@ -130,7 +125,7 @@ class Injection {
     ///========================== [ Feat: Auth ] ==============================
     /// Data Source
     Get.lazyPut<RemoteDataSource>(
-        fenix: true, () => RemoteDataSource(Get.find<FirebaseFirestore>()));
+        fenix: true, () => RemoteDataSource(Get.find<SupabaseClient>()));
     Get.lazyPut<LocalData>(
         fenix: true, () => LocalDataImp(Get.find<SharedPreferences>()));
 
@@ -174,8 +169,7 @@ class Injection {
     /// Data Source
     Get.lazyPut<ClientRemoteDataSource>(
       fenix: true,
-      () => ClientRemoteDataSourceImp(
-          Get.find<SupabaseClient>(), Get.find<FirebaseFirestore>()),
+      () => ClientRemoteDataSourceImp(Get.find<SupabaseClient>()),
     );
     Get.lazyPut<ClientLocalDataSource>(
       fenix: true,
@@ -373,8 +367,8 @@ class Injection {
     Get.lazyPut<OrderRemote>(
       fenix: true,
       () => OrderRemoteImp(
-        Get.find<FirebaseFirestore>(),
         Get.find<SharedPreferences>(),
+        Get.find<SupabaseClient>(),
       ),
     );
 
@@ -438,7 +432,7 @@ class Injection {
     /// =============================== [ Home ] ==================================
     /// datasource
     Get.lazyPut<Remote>(
-        fenix: true, () => RemoteImp(Get.find<FirebaseFirestore>()));
+        fenix: true, () => RemoteImp(Get.find<SupabaseClient>()));
 
     /// repo
     Get.lazyPut<HomeRepo>(

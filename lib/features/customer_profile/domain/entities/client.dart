@@ -3,7 +3,7 @@ import 'package:designers_platform/features/order_management/domain/entity/order
 
 class Client {
   final String userId;
-  List<User>? favorites;
+  List<UserEntity>? favorites;
   List<OrderEntity>? orders;
 
   Client({ required this.userId, this.favorites, this.orders});

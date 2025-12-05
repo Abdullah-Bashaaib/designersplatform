@@ -8,7 +8,7 @@ class GetUserUseCase {
 
   GetUserUseCase(this.authRepository);
 
-  Either<Failure, User> call() {
+  Either<Failure, UserEntity> call() {
     return authRepository.getUser();
   }
 }

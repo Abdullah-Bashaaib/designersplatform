@@ -9,7 +9,7 @@ class GetFavoritesUsecase {
 
   GetFavoritesUsecase(this.clientProfileRepo);
 
-  Future<Either<Failure, List<User>>> call() async {
+  Future<Either<Failure, List<UserEntity>>> call() async {
     return await clientProfileRepo.getFavoritesList();
   }
 }

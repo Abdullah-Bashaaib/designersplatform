@@ -9,7 +9,7 @@ class SaveUserUsecase {
 
   SaveUserUsecase(this.clientProfileRepo);
 
-  Either<Failure, Unit> call(User user) {
+  Either<Failure, Unit> call(UserEntity user) {
     return clientProfileRepo.saveUser(user);
   }
 }

@@ -1,8 +1,6 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
-import 'package:designers_platform/firebase_options.dart';
 import 'package:designers_platform/injection.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +10,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ar');
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Supabase.initialize(
       url: 'https://lkqdlophafsybtuwiqfd.supabase.co',
       anonKey:

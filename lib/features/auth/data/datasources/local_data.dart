@@ -7,8 +7,8 @@ import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalData {
-  Future<void> saveUser(User user);
-  User? getUser();
+  Future<void> saveUser(UserEntity user);
+  UserModel? getUser();
   void logout();
   bool isLoggedIn();
 }
@@ -19,7 +19,7 @@ class LocalDataImp implements LocalData {
   LocalDataImp(this.perf);
 
   @override
-  Future<void> saveUser(User user) async {
+  Future<void> saveUser(UserEntity user) async {
     UserModel userModel = UserModel(
       id: user.id,
       name: user.name,
@@ -46,7 +46,7 @@ class LocalDataImp implements LocalData {
   }
 
   @override
-  User? getUser() {
+  UserModel? getUser() {
     final jsonString = perf.getString(KeySharedPref.userKey);
     if (jsonString != null) {
       final Map<String, dynamic> userMap = jsonDecode(jsonString);

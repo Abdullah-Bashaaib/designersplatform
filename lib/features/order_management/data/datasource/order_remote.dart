@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/order_management/data/models/order_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class OrderRemote {
   Future<void> addOrder(OrderModel orderModel);
@@ -14,21 +14,18 @@ abstract class OrderRemote {
 }
 
 class OrderRemoteImp implements OrderRemote {
-  final FirebaseFirestore firestore;
   final SharedPreferences sharedPreferences;
+  final SupabaseClient supabase;
 
   OrderRemoteImp(
-    this.firestore,
     this.sharedPreferences,
+    this.supabase,
   );
 
   @override
   Future<void> addOrder(OrderModel orderModel) async {
     try {
-      await firestore
-          .collection('Orders')
-          .doc(orderModel.id)
-          .set(orderModel.toMap());
+      await supabase.from('Orders').insert([orderModel.toMap()]);
     } catch (e) {
       throw ServerException(e);
     }
@@ -41,12 +38,12 @@ class OrderRemoteImp implements OrderRemote {
 
     try {
       log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser!.id}");
-      final query = await firestore
-          .collection('Orders')
-          .where(column, isEqualTo: CurrentUser.currentUser!.id)
-          .get();
+      final response = await supabase
+          .from('Orders')
+          .select()
+          .eq(column, CurrentUser.currentUser!.id);
 
-      return query.docs.map((m) => OrderModel.fromJson(m.data())).toList();
+      return response.map((m) => OrderModel.fromJson(m)).toList();
     } catch (e) {
       throw ServerException(e);
     }
@@ -55,7 +52,7 @@ class OrderRemoteImp implements OrderRemote {
   @override
   Future<void> deleteOrder(String orderId) async {
     try {
-      await firestore.collection('Orders').doc(orderId).delete();
+      await supabase.from('Orders').delete().eq('id', orderId);
     } catch (e) {
       throw ServerException(e);
     }
@@ -64,7 +61,7 @@ class OrderRemoteImp implements OrderRemote {
   @override
   Future<void> updateOrder(String orderId, Map<String, dynamic> fields) async {
     try {
-      await firestore.collection('Orders').doc(orderId).update(fields);
+      await supabase.from('Orders').update(fields).eq('id', orderId);
     } catch (e) {
       throw ServerException(e);
     }
