@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
@@ -26,15 +27,16 @@ class ViewCompletedOrder extends StatelessWidget {
                   ? const Text("لا توجد صورة متاحة")
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        imageUrl!,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl!,
                         fit: BoxFit.contain,
-                        loadingBuilder: (context, child, loading) {
-                          if (loading == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 40,
+                        ),
                       ),
                     ),
             ),

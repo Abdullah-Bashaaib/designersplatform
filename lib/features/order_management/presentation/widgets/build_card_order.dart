@@ -32,6 +32,7 @@ class BuildCardOrder extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // صورة التصميم
+            
             DesignImage(imageUrl: order.imageUrl!),
             SizedBox(width: 12.w),
             // تفاصيل الطلب
