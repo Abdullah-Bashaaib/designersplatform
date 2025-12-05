@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
@@ -23,7 +24,7 @@ class DesignCard extends StatelessWidget {
           radius: 28,
           backgroundColor: Colors.grey.shade300,
           backgroundImage: !c.isLoading.value && designer?.avatarUrl != ''
-              ? NetworkImage(designer!.avatarUrl!)
+              ? CachedNetworkImageProvider(designer!.avatarUrl!)
               : AssetImage(AppImage.icon1),
         ),
         title: Text(

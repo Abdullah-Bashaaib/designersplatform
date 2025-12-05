@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
+import 'package:designers_platform/core/utils/app_functions.dart';
 import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
@@ -177,7 +178,8 @@ class GetDataControllerGetx extends GetxController {
 
   Future<void> updateDesigner(Designer designer) async {
     isLoading.value = true;
-
+    // final keywords = AppFunctions.generateKeywords(designer.name);
+    // designer.keywords = keywords;
     final result = await updateProfileUseCase(designer);
     result.fold((failure) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

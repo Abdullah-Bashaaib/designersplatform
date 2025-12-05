@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';

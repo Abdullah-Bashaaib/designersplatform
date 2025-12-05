@@ -1,12 +1,7 @@
-import 'package:designers_platform/core/utils/app_colors.dart';
-import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
-import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
-import '../pages/view_completed_order.dart';
 
 class DesignStatus extends StatelessWidget {
   final OrderEntity? order;
@@ -20,6 +15,8 @@ class DesignStatus extends StatelessWidget {
         return Colors.amber;
       case "مرفوض":
         return Colors.redAccent;
+      case "مقبول":
+        return Colors.blue;
       default:
         return Colors.grey;
     }
@@ -30,23 +27,23 @@ class DesignStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final status = order?.status;
 
-    if (status == 'مقبول') {
-      return IconButton(
-        onPressed: () {
-          Get.to(() => ChatOrder(order: order!));
-        },
-        icon: const Icon(Icons.chat),
-      );
-    }
+    // if (status == 'مقبول') {
+    //   return IconButton(
+    //     onPressed: () {
+    //       Get.to(() => ChatOrder(order: order!));
+    //     },
+    //     icon: const Icon(Icons.chat),
+    //   );
+    // }
 
-    if (status == 'مكتمل') {
-      return IconButton(
-        onPressed: () {
-          Get.to(() => ViewCompletedOrder(imageUrl: order!.imageUrl));
-        },
-        icon: const Icon(Icons.visibility),
-      );
-    }
+    // if (status == 'مكتمل') {
+    //   return IconButton(
+    //     onPressed: () {
+    //       Get.to(() => ViewCompletedOrder(imageUrl: order!.imageUrl));
+    //     },
+    //     icon: const Icon(Icons.visibility),
+    //   );
+    // }
     return Text(
       status ?? '',
       style: TextStyle(
