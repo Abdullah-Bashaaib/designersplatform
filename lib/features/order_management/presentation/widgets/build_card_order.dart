@@ -68,7 +68,7 @@ class BuildCardOrder extends StatelessWidget {
                           ? SizedBox()
                           : DesignStatus(order: order),
                       SizedBox(
-                        width: 3.w,
+                        width: 10.w,
                       ),
                       DesignData(createAt: order.createAt),
                     ],

@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
@@ -84,37 +85,39 @@ class DetailsOrderClient extends StatelessWidget {
         actions: [
           Row(
             children: [
-              Obx(
-                () => c.isLoadingEdit.value
-                    ? Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: CircularProgressIndicator(),
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          OrderDialog.show(
-                              title: 'تعديل الطلب',
-                              initialType: order.designType,
-                              initialDescription: order.description,
-                              onConfirm: (type, description) {
-                                final fields = {
-                                  'orderId': order.id,
-                                  'designType': type,
-                                  'description': description
-                                };
-                                c.updateOrder(fields);
-                                currentOrder.update((val) {
-                                  val?.designType = type;
-                                  val?.description = description;
-                                });
-                              });
-                        },
-                        icon: Icon(
-                          Icons.edit,
-                          color: const Color.fromARGB(255, 255, 193, 59),
-                        ),
-                      ),
-              ),
+              order.status == 'قيد الانتظار'
+                  ? Obx(
+                      () => c.isLoadingEdit.value
+                          ? Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: CircularProgressIndicator(),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                OrderDialog.show(
+                                    title: 'تعديل الطلب',
+                                    initialType: order.designType,
+                                    initialDescription: order.description,
+                                    onConfirm: (type, description) {
+                                      final fields = {
+                                        'orderId': order.id,
+                                        'designType': type,
+                                        'description': description
+                                      };
+                                      c.updateOrder(fields);
+                                      currentOrder.update((val) {
+                                        val?.designType = type;
+                                        val?.description = description;
+                                      });
+                                    });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: const Color.fromARGB(255, 255, 193, 59),
+                              ),
+                            ),
+                    )
+                  : SizedBox(),
               SizedBox(
                 width: 5,
               ),
@@ -200,6 +203,27 @@ class DetailsOrderClient extends StatelessWidget {
                         labelStyle: TextStyle(color: statusColor),
                         side: BorderSide(color: statusColor.withOpacity(0.4)),
                       ),
+                      if (order.status == 'مكتمل')
+                        Chip(
+                          avatar: Icon(Icons.download,
+                              size: 18, color: AppColors.primaryColor),
+                          label: Text('تحميل'),
+                          backgroundColor: AppColors.backgroundColor,
+                          labelStyle: TextStyle(color: AppColors.primaryColor),
+                          side: BorderSide(color: AppColors.primaryColor),
+                        )
+                      else if (order.status == 'مقبول')
+                        Chip(
+                          avatar: Icon(Icons.chat,
+                              size: 18, color: AppColors.primaryColor),
+                          label: Text('دردشة'),
+                          backgroundColor: AppColors.backgroundColor,
+                          labelStyle: TextStyle(color: AppColors.primaryColor),
+                          side: BorderSide(color: AppColors.primaryColor),
+                        )
+                      else
+                        SizedBox(),
+
                       // ActionChip(
                       //   avatar: const Icon(Icons.tag, size: 18),
                       //   label: Text('ID: ${order.id}'),

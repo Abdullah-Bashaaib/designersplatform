@@ -1,6 +1,5 @@
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
-import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/home/presentation/pages/designers_list.dart';
