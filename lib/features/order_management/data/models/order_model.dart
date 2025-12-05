@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 
 class OrderModel extends OrderEntity {
@@ -32,9 +31,7 @@ class OrderModel extends OrderEntity {
       rate: json['rate'] ?? 0,
       imageUrl: json['imageUrl'] ?? '',
       feedback: json['feedback'] ?? '',
-      createAt: json['createAt'] is Timestamp
-          ? (json['createAt'] as Timestamp).toDate()
-          : json['createAt'],
+      createAt: DateTime.parse(json['createAt'] as String),
     );
   }
 

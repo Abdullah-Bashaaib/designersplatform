@@ -7,7 +7,7 @@ import 'package:designers_platform/features/auth/data/datasources/local_data.dar
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
-import 'package:firebase_auth_platform_interface/src/firebase_auth_exception.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/domain/i_internet_info.dart';
 import '../../../../core/error/failures.dart';
@@ -20,7 +20,8 @@ class AuthRepositoryImp implements AuthRepository {
   AuthRepositoryImp(this.networkInfo, this.remoteData, this.localData);
 
   @override
-  Future<Either<Failure, User>> login(String email, String password) async {
+  Future<Either<Failure, UserEntity>> login(
+      String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteData.checkAccountInRemote(email, password);
@@ -39,7 +40,8 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> signUp(User user, String password) async {
+  Future<Either<Failure, UserEntity>> signUp(
+      UserEntity user, String password) async {
     if (await networkInfo.isConnected) {
       try {
         final newKeywords = [...AppFunctions.generateKeywords(user.name)];
@@ -47,8 +49,9 @@ class AuthRepositoryImp implements AuthRepository {
         await remoteData.signUp(newUser, password);
         await localData.saveUser(newUser);
         return Right(newUser);
-      } on FirebaseAuthException catch (e) {
-        return left(ServerFailure(FirebaseAuthErrorHandler.getErrorMessage(e)));
+      } on AuthException catch (e) {
+        return left(
+            ServerFailure(SupabaseAuthErrorHandler.getErrorMessage(e.message)));
       } on ServerException catch (e) {
         return left(ServerFailure(e.message.toString()));
       }
@@ -68,7 +71,7 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Either<Failure, User> getUser() {
+  Either<Failure, UserEntity> getUser() {
     final result = localData.getUser();
     if (result != null) {
       return right(result);

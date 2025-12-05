@@ -11,7 +11,7 @@ import '../../../auth/domain/entities/user.dart';
 
 abstract class ClientLocalDataSource {
   Client? getProfile();
-  void saveUser(User user);
+  void saveUser(UserEntity user);
 }
 
 class ClientLocalDataSourceImp implements ClientLocalDataSource {
@@ -31,7 +31,7 @@ class ClientLocalDataSourceImp implements ClientLocalDataSource {
   }
 
   @override
-  void saveUser(User user) {
+  void saveUser(UserEntity user) {
     try {
       final UserModel userModel = UserModel(
         id: user.id,

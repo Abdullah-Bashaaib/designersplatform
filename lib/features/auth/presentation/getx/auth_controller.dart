@@ -8,12 +8,10 @@ import 'package:designers_platform/features/auth/domain/usecases/forget_password
 import 'package:designers_platform/features/auth/domain/usecases/login_usecase.dart';
 import 'package:designers_platform/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
-import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../designer_profile/presentation/views/screens/profile_screen.dart';
 import '../pages/welcome_page.dart';
 
 class AuthController extends GetxController {
@@ -36,7 +34,7 @@ class AuthController extends GetxController {
   var role = Rxn<String>();
   var obscureText = true.obs;
   var avatarUrl = Rxn<String>();
-  var user = Rxn<User>();
+  var user = Rxn<UserEntity>();
   var email = Rxn<String>();
 
   @override
@@ -68,7 +66,7 @@ class AuthController extends GetxController {
 
   Future<void> signUp(
       String name, String email, String password, String role) async {
-    User newUser = User(
+    UserEntity newUser = UserEntity(
       id: uuid.v4(),
       name: name,
       email: email,

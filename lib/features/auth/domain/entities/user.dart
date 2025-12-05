@@ -1,4 +1,4 @@
-class User {
+class UserEntity {
   final String id;
   final String name;
   final String email;
@@ -6,7 +6,7 @@ class User {
   late String? avatarUrl;
   final List<String> keywords;
 
-  User({
+  UserEntity({
     required this.id,
     required this.name,
     required this.email,
@@ -15,14 +15,14 @@ class User {
     required this.keywords,
   });
 
-  User copyWith(
+  UserEntity copyWith(
       {String? id,
       String? name,
       String? email,
       String? role,
       String? avatarUrl,
       List<String>? keywords}) {
-    return User(
+    return UserEntity(
         id: id ?? this.id,
         name: name ?? this.name,
         email: email ?? this.email,

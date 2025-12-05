@@ -55,7 +55,7 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Future<Either<Failure, List<User>>> getFavoritesList() async {
+  Future<Either<Failure, List<UserEntity>>> getFavoritesList() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getFavoritesList();
@@ -89,7 +89,7 @@ class ClientProfileRepoImp implements ClientProfileRepo {
   }
 
   @override
-  Either<Failure, Unit> saveUser(User user) {
+  Either<Failure, Unit> saveUser(UserEntity user) {
     try {
       localDataSource.saveUser(user);
       return right(unit);
