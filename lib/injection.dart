@@ -1,4 +1,3 @@
-import 'package:designers_platform/core/network/network_info.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
@@ -58,7 +57,6 @@ import 'package:designers_platform/features/search/domain/usecase/search_designe
 import 'package:designers_platform/features/search/domain/usecase/search_designs.dart';
 import 'package:designers_platform/features/search/presentation/getx/search_controller.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -234,8 +232,8 @@ class Injection {
     );
     Get.lazyPut(
       fenix: true,
-      () => DesignerRemoteDataSourceImpByFirebase(
-        firestore: Get.find<FirebaseFirestore>(),
+      () => DesignerRemoteDataSourceImpBySupabase(
+        supabase: Get.find<SupabaseClient>(),
       ),
     );
     Get.lazyPut(
@@ -256,7 +254,7 @@ class Injection {
       () => DesignerRepoImp(
           Get.find<DesignerLocalDataSourceImpBySharedPref>(),
           Get.find<INetworkInfo>(),
-          Get.find<DesignerRemoteDataSourceImpByFirebase>()),
+          Get.find<DesignerRemoteDataSourceImpBySupabase>()),
     );
     Get.lazyPut(
       fenix: true,
@@ -402,7 +400,7 @@ class Injection {
     Get.lazyPut<IChatRemoteDataSource>(
       fenix: true,
       () => ChatRemoteDataSourceImpl(
-        Get.find<FirebaseFirestore>(),
+        Get.find<SupabaseClient>(),
       ),
     );
 

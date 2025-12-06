@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "Consolas, 'Courier New', monospace,JetBrains Mono Regular"
+    "editor.fontFamily": "JetBrains Mono Light",
+    "editor.fontSize": 14
 }
