@@ -1,9 +1,9 @@
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/error/exception.dart';
-import 'package:designers_platform/core/error/firebase_error.dart';
+import 'package:designers_platform/core/error/supabase_error_handler.dart';
 import 'package:designers_platform/features/auth/data/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:designers_platform/features/auth/domain/entities/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class RemoteData {
   Future<UserModel?> checkAccountInRemote(String email, String password);

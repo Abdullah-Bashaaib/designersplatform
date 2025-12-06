@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/designer_profile/data/models/designer_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class DesignerRemoteDataSource {
   Future<DesignerModel?> getData(String id);
@@ -11,50 +11,47 @@ abstract class DesignerRemoteDataSource {
   Future<Unit> deleteData(String id);
 }
 
-class DesignerRemoteDataSourceImpByFirebase
+class DesignerRemoteDataSourceImpBySupabase
     implements DesignerRemoteDataSource {
-  final FirebaseFirestore firestore;
+  final SupabaseClient supabase;
 
-  DesignerRemoteDataSourceImpByFirebase({required this.firestore});
-
-  CollectionReference get _designerRef => firestore.collection('Users');
+  DesignerRemoteDataSourceImpBySupabase({required this.supabase});
 
   @override
   Future<DesignerModel?> getData(String id) async {
     try {
-      log("------------------------------------->  in Firebase : $id");
+      log("------------------------------------->  in Supabase : $id");
 
-      final doc = await _designerRef
-          .doc(id)
-          .get(const GetOptions(source: Source.serverAndCache));
-      if (!doc.exists) return null;
-      return DesignerModel.fromJson(doc.data() as Map<String, dynamic>);
+      final data =
+          await supabase.from('users').select().eq('id', id).maybeSingle();
+      if (data == null) return null;
+      return DesignerModel.fromJson(data);
     } catch (e) {
-      log("-------------------------------------> Error in Firebase : $e");
-      throw ServerException(e);
+      log("-------------------------------------> Error in Supabase : $e");
+      throw ServerException(e.toString());
     }
   }
 
   @override
   Future<Unit> updateData(DesignerModel designer) async {
     try {
-      await _designerRef.doc(designer.id).set(
-            designer.toJson(),
-            SetOptions(merge: true),
-          );
+      await supabase
+          .from('users')
+          .update(designer.toJson())
+          .eq('id', designer.id);
       return unit;
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 
   @override
   Future<Unit> deleteData(String id) async {
     try {
-      await _designerRef.doc(id).delete();
+      await supabase.from('users').delete().eq('id', id);
       return unit;
     } catch (e) {
-      throw ServerException(e);
+      throw ServerException(e.toString());
     }
   }
 }

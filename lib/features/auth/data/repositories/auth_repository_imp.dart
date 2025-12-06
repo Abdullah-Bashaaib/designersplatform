@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:designers_platform/core/error/exception.dart';
-import 'package:designers_platform/core/error/firebase_error.dart';
+import 'package:designers_platform/core/error/supabase_error_handler.dart';
 import 'package:designers_platform/core/utils/app_functions.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
