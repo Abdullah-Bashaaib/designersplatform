@@ -24,7 +24,7 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
       final userId = CurrentUser.currentUser!.id;
 
       final response =
-          await supabase.from('Users').update({'name': name}).eq('id', userId);
+          await supabase.from('users').update({'name': name}).eq('id', userId);
 
       if (response.error != null) {
         throw ServerException(response.error!.message);
@@ -58,7 +58,7 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
       final imageUrl = supabase.storage.from('avatars').getPublicUrl(imagePath);
       try {
         await supabase
-            .from('Users')
+            .from('users')
             .update({'avatarUrl': imageUrl}).eq('id', userId);
       } catch (e) {
         throw ServerException(e);
@@ -77,7 +77,7 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
         print(path);
         await supabase.storage.from('avatars').remove([path]);
         await supabase
-            .from('Users')
+            .from('users')
             .update({'avatarUrl': ''}).eq('id', CurrentUser.currentUser!.id);
       } catch (e) {
         throw ServerException(e);

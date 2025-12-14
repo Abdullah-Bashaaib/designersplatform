@@ -25,7 +25,7 @@ class OrderRemoteImp implements OrderRemote {
   @override
   Future<void> addOrder(OrderModel orderModel) async {
     try {
-      await supabase.from('Orders').insert([orderModel.toMap()]);
+      await supabase.from('orders').insert([orderModel.toMap()]);
     } catch (e) {
       throw ServerException(e);
     }
@@ -39,7 +39,7 @@ class OrderRemoteImp implements OrderRemote {
     try {
       log("--------> message: there is in get order firebase ID is ${CurrentUser.currentUser!.id}");
       final response = await supabase
-          .from('Orders')
+          .from('orders')
           .select()
           .eq(column, CurrentUser.currentUser!.id);
 
@@ -52,7 +52,7 @@ class OrderRemoteImp implements OrderRemote {
   @override
   Future<void> deleteOrder(String orderId) async {
     try {
-      await supabase.from('Orders').delete().eq('id', orderId);
+      await supabase.from('orders').delete().eq('id', orderId);
     } catch (e) {
       throw ServerException(e);
     }
@@ -61,7 +61,7 @@ class OrderRemoteImp implements OrderRemote {
   @override
   Future<void> updateOrder(String orderId, Map<String, dynamic> fields) async {
     try {
-      await supabase.from('Orders').update(fields).eq('id', orderId);
+      await supabase.from('orders').update(fields).eq('id', orderId);
     } catch (e) {
       throw ServerException(e);
     }

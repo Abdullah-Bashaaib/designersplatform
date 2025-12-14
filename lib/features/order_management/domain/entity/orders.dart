@@ -12,6 +12,7 @@ class OrderEntity {
   final String? imageUrl;
   final int? rate;
   final String? feedback;
+  final String? adminApproval;
 
   OrderEntity({
     required this.id,
@@ -27,5 +28,6 @@ class OrderEntity {
     this.imageUrl,
     this.rate,
     this.feedback,
+    this.adminApproval,
   });
 }

@@ -77,6 +77,7 @@ class AuthController extends GetxController {
 
     final result = await signUpUsecase.call(newUser, password);
     result.fold((failure) {
+      print(failure.message);
       DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
       // print(failure.message);
     }, (u) async {

@@ -15,18 +15,20 @@ class UserEntity {
     required this.keywords,
   });
 
-  UserEntity copyWith(
-      {String? id,
-      String? name,
-      String? email,
-      String? role,
-      String? avatarUrl,
-      List<String>? keywords}) {
+  UserEntity copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? role,
+    String? avatarUrl,
+    List<String>? keywords,
+  }) {
     return UserEntity(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        email: email ?? this.email,
-        role: role ?? this.role,
-        keywords: keywords ?? this.keywords);
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      role: role ?? this.role,
+      keywords: keywords ?? this.keywords,
+    );
   }
 }
