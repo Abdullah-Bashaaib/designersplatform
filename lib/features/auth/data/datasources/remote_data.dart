@@ -44,7 +44,6 @@ class RemoteDataSource implements RemoteData {
   @override
   Future<UserEntity> signUp(UserEntity user, String password) async {
     try {
-      /// إنشاء الحساب في supabase auth
       final authRes = await supabase.auth.signUp(
         email: user.email,
         password: password,

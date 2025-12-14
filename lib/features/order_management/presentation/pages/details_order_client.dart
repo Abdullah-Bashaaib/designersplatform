@@ -211,7 +211,8 @@ class DetailsOrderClient extends StatelessWidget {
                         labelStyle: TextStyle(color: statusColor),
                         side: BorderSide(color: statusColor.withOpacity(0.4)),
                       ),
-                      if (order.status == 'مكتمل')
+                      if (order.status == 'مكتمل' &&
+                          order.adminApproval == 'true')
                         IconButton(
                           onPressed: () {
                             c.saveDesign(order.imageUrl!);

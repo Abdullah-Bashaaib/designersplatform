@@ -6,13 +6,18 @@ import 'package:get/get.dart';
 
 class DesignImage extends StatelessWidget {
   final String imageUrl;
-  const DesignImage({super.key, required this.imageUrl});
+  final String? adminApproval;
+  const DesignImage({super.key, required this.imageUrl, this.adminApproval});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Get.to(() => ViewCompletedOrder(imageUrl: imageUrl));
+        if (adminApproval == 'true') {
+          Get.to(() => ViewCompletedOrder(imageUrl: imageUrl));
+        } else {
+          return;
+        }
       },
       icon: ClipRRect(
         borderRadius: BorderRadius.circular(12.r),

@@ -15,24 +15,25 @@ class OrderModel extends OrderEntity {
     super.imageUrl,
     super.feedback,
     required super.createAt,
+    super.adminApproval,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: json['id'] ?? '',
-      clientId: json['clientId'] ?? '',
-      clientName: json['clientName'] ?? '',
-      designerId: json['designerId,'] ?? '',
-      designerName: json['designerName'] ?? '',
-      designType: json['designType'] ?? '',
-      description: json['description'] ?? '',
-      price: json['price'] ?? 0.0,
-      status: json['status'] ?? '',
-      rate: json['rate'] ?? 0,
-      imageUrl: json['imageUrl'] ?? '',
-      feedback: json['feedback'] ?? '',
-      createAt: DateTime.parse(json['createAt'] as String),
-    );
+        id: json['id'] ?? '',
+        clientId: json['clientId'] ?? '',
+        clientName: json['clientName'] ?? '',
+        designerId: json['designerId,'] ?? '',
+        designerName: json['designerName'] ?? '',
+        designType: json['designType'] ?? '',
+        description: json['description'] ?? '',
+        price: json['price'] ?? 0.0,
+        status: json['status'] ?? '',
+        rate: json['rate'] ?? 0,
+        imageUrl: json['imageUrl'] ?? '',
+        feedback: json['feedback'] ?? '',
+        createAt: DateTime.parse(json['createAt'] as String),
+        adminApproval: json['adminApproval']);
   }
 
   Map<String, dynamic> toMap() {
@@ -50,6 +51,7 @@ class OrderModel extends OrderEntity {
       'imageUrl': imageUrl ?? '',
       'feedback': feedback ?? '',
       'createAt': createAt,
+      'adminApproval': adminApproval ?? '',
     };
   }
 }
