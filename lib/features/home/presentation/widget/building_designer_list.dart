@@ -19,7 +19,7 @@ class BuildingDesignerList extends StatelessWidget {
         height: 150.h,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: 5,
+          itemCount: designers.length,
           separatorBuilder: (_, __) => SizedBox(width: 12.w),
           itemBuilder: (context, i) {
             final d = designers[i];

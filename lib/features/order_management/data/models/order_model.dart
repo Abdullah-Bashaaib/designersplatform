@@ -27,7 +27,7 @@ class OrderModel extends OrderEntity {
         designerName: json['designerName'] ?? '',
         designType: json['designType'] ?? '',
         description: json['description'] ?? '',
-        price: json['price'] ?? 0.0,
+        price: (json['price'] as num).toDouble(),
         status: json['status'] ?? '',
         rate: json['rate'] ?? 0,
         imageUrl: json['imageUrl'] ?? '',
@@ -41,7 +41,7 @@ class OrderModel extends OrderEntity {
       'id': id,
       'clientId': clientId,
       'clientName': clientName,
-      'designerId,': designerId,
+      'designerId': designerId,
       'designerName': designerName,
       'designType': designType,
       'description': description ?? '',
@@ -50,7 +50,7 @@ class OrderModel extends OrderEntity {
       'rate': rate ?? 0,
       'imageUrl': imageUrl ?? '',
       'feedback': feedback ?? '',
-      'createAt': createAt,
+      'createAt': createAt.toIso8601String(),
       'adminApproval': adminApproval ?? '',
     };
   }
