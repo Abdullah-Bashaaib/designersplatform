@@ -58,6 +58,7 @@ class RemoteDataSource implements RemoteData {
         id: user.id,
         name: user.name,
         email: user.email,
+        phoneNumber: user.phoneNumber,
         role: user.role,
         keywords: user.keywords,
       );

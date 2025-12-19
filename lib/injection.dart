@@ -73,6 +73,13 @@ import 'features/order_management/data/repo/chat_repo_impl.dart';
 import 'features/order_management/domain/repo/i_chat_repository.dart';
 import 'features/order_management/domain/usecase/chat_room/get_chat_messages_usecase.dart';
 import 'features/order_management/domain/usecase/chat_room/send_message_useCase.dart';
+import 'features/supervisor/data/datasources/supervisor_remote_datasource.dart';
+import 'features/supervisor/data/repositories/supervisor_repository_impl.dart';
+import 'features/supervisor/domain/repositories/supervisor_repository.dart';
+import 'features/supervisor/domain/usecases/approve_order.dart';
+import 'features/supervisor/domain/usecases/get_pending_orders.dart';
+import 'features/supervisor/domain/usecases/update_supervisor_profile.dart';
+import 'features/supervisor/presentation/getx/supervisor_controller.dart';
 
 class Injection {
   static Future<void> init() async {
@@ -466,5 +473,42 @@ class Injection {
         fenix: true,
         () => SearchControl(Get.find<SearchDesignsUsecase>(),
             Get.find<SearchDesignersUsecase>()));
+
+    ///========================== [ Feat: Supervisor ] ==============================
+    /// Data Source
+    Get.lazyPut<SupervisorRemoteDataSource>(
+      fenix: true,
+      () => SupervisorRemoteDataSourceImpl(Get.find<SupabaseClient>()),
+    );
+
+    /// Repository
+    Get.lazyPut<SupervisorRepository>(
+      fenix: true,
+      () => SupervisorRepositoryImpl(Get.find<SupervisorRemoteDataSource>()),
+    );
+
+    /// Use Cases
+    Get.lazyPut(
+      fenix: true,
+      () => GetPendingOrdersUseCase(Get.find<SupervisorRepository>()),
+    );
+    Get.lazyPut(
+      fenix: true,
+      () => ApproveOrderUseCase(Get.find<SupervisorRepository>()),
+    );
+    Get.lazyPut(
+      fenix: true,
+      () => UpdateSupervisorProfileUseCase(Get.find<SupervisorRepository>()),
+    );
+
+    /// GetX Controller
+    Get.lazyPut<SupervisorController>(
+      fenix: true,
+      () => SupervisorController(
+        Get.find<GetPendingOrdersUseCase>(),
+        Get.find<ApproveOrderUseCase>(),
+        Get.find<UpdateSupervisorProfileUseCase>(),
+      ),
+    );
   }
 }

@@ -227,6 +227,16 @@ class DetailsOrderClient extends StatelessWidget {
                           icon: Icon(Icons.chat),
                           color: AppColors.primaryColor,
                         )
+                      else if (order.status == 'مكتمل' &&
+                          order.adminApproval != 'true')
+                        IconButton(
+                          onPressed: () {
+                            c.sendPaymentViaWhatsApp(order.id);
+                          },
+                          icon: Icon(Icons.payment),
+                          color: AppColors.primaryColor,
+                          tooltip: 'إرسال سند الدفع عبر واتساب',
+                        )
                       else
                         SizedBox(),
 

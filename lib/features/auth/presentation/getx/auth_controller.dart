@@ -70,6 +70,7 @@ class AuthController extends GetxController {
       id: uuid.v4(),
       name: name,
       email: email,
+      phoneNumber: 0,
       role: role,
       keywords: [],
     );
