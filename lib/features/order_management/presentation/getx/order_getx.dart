@@ -10,6 +10,7 @@ import 'package:designers_platform/features/order_management/domain/usecase/dele
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
@@ -121,6 +122,42 @@ class OrderGetx extends GetxController {
     } catch (e) {
       DialogHelper.showErrorSnackBar(
           title: 'خطــأ!', message: 'تعذر تنزيل الصورة');
+    }
+  }
+
+  /// فتح واتساب لإرسال سند الدفع وتحديث adminApproval إلى false
+  Future<void> sendPaymentViaWhatsApp(
+      String orderId) async {
+    try {
+      // تحديث adminApproval إلى false
+      final fields = {
+        'id': orderId,
+        'adminApproval': 'false',
+      };
+
+      await updateOrder(fields);
+      
+
+      // فتح واتساب
+      final message = Uri.encodeComponent(
+          'مرحباً، أود إرسال سند الدفع للطلب رقم: $orderId');
+      final whatsappUrl = 'https://wa.me/$phoneNumber?text=$message';
+
+      final uri = Uri.parse(whatsappUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        DialogHelper.showErrorSnackBar(
+          title: 'خطأ',
+          message: 'لا يمكن فتح واتساب على هذا الجهاز',
+        );
+      }
+    } catch (e) {
+      log('Error in sendPaymentViaWhatsApp: $e');
+      DialogHelper.showErrorSnackBar(
+        title: 'خطأ',
+        message: 'حدث خطأ أثناء فتح واتساب',
+      );
     }
   }
 }
