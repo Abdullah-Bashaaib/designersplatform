@@ -21,21 +21,21 @@ class SupervisorRepositoryImpl implements SupervisorRepository {
   }
 
   @override
-  Future<Either<Failure, void>> approveOrder(String orderId) async {
+  Future<Either<Failure, Unit>> approveOrder(String orderId) async {
     try {
       await remoteDataSource.approveOrder(orderId);
-      return Right(null);
+      return Right(unit);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, void>> updateSupervisorProfile(
+  Future<Either<Failure, Unit>> updateSupervisorProfile(
       String userId, Map<String, dynamic> data) async {
     try {
       await remoteDataSource.updateSupervisorProfile(userId, data);
-      return Right(null);
+      return Right(unit);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }

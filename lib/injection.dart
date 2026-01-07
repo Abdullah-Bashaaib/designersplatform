@@ -48,6 +48,7 @@ import 'package:designers_platform/features/order_management/domain/repo/order_r
 import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:designers_platform/features/search/data/datasurce/search_remote.dart';
@@ -391,6 +392,8 @@ class Injection {
         fenix: true, () => DeleteOrderUsecase(Get.find<OrderRepo>()));
     Get.lazyPut<UpdateOrderUsecase>(
         fenix: true, () => UpdateOrderUsecase(Get.find<OrderRepo>()));
+    Get.lazyPut<GetSupervisorPhoneUsecase>(
+        fenix: true, () => GetSupervisorPhoneUsecase(Get.find<OrderRepo>()));
 
     /// Getx
     Get.lazyPut<OrderGetx>(
@@ -399,6 +402,7 @@ class Injection {
         Get.find<GetOrdersUsecase>(),
         Get.find<DeleteOrderUsecase>(),
         Get.find<UpdateOrderUsecase>(),
+        Get.find<GetSupervisorPhoneUsecase>(),
       ),
     );
 
@@ -508,6 +512,7 @@ class Injection {
         Get.find<GetPendingOrdersUseCase>(),
         Get.find<ApproveOrderUseCase>(),
         Get.find<UpdateSupervisorProfileUseCase>(),
+        Get.find<SaveUserUsecase>(),
       ),
     );
   }

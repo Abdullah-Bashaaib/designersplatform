@@ -8,4 +8,5 @@ abstract class OrderRepo {
   Future<Either<Failure, Unit>> deleteOrder(String orderId);
   Future<Either<Failure, Unit>> updateOrder(
       String orderId, Map<String, dynamic> fields);
+  Future<Either<Failure, int>> getSupervisorPhone();
 }

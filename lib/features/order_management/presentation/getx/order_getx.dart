@@ -8,6 +8,7 @@ import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,10 +17,11 @@ class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
   final DeleteOrderUsecase deleteOrderUsecase;
   final UpdateOrderUsecase updateOrderUsecase;
+  final GetSupervisorPhoneUsecase supervisorPhoneUsecase;
   // final NetworkService _networkService = Get.find<NetworkService>();
 
-  OrderGetx(
-      this.getOrdersUsecase, this.deleteOrderUsecase, this.updateOrderUsecase);
+  OrderGetx(this.getOrdersUsecase, this.deleteOrderUsecase,
+      this.updateOrderUsecase, this.supervisorPhoneUsecase);
 
   var isLoading = false.obs;
   var isLoadingEdit = false.obs;
@@ -126,8 +128,7 @@ class OrderGetx extends GetxController {
   }
 
   /// فتح واتساب لإرسال سند الدفع وتحديث adminApproval إلى false
-  Future<void> sendPaymentViaWhatsApp(
-      String orderId) async {
+  Future<void> sendPaymentViaWhatsApp(String orderId) async {
     try {
       // تحديث adminApproval إلى false
       final fields = {
@@ -136,8 +137,8 @@ class OrderGetx extends GetxController {
       };
 
       await updateOrder(fields);
-      
 
+      final phoneNumber = supervisorPhoneUsecase();
       // فتح واتساب
       final message = Uri.encodeComponent(
           'مرحباً، أود إرسال سند الدفع للطلب رقم: $orderId');

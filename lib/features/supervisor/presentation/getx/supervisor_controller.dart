@@ -1,5 +1,10 @@
+import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/usecase/get_user.dart';
+import 'package:designers_platform/core/usecase/save_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
+import 'package:designers_platform/features/auth/domain/entities/user.dart';
+import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/supervisor/domain/usecases/approve_order.dart';
 import 'package:designers_platform/features/supervisor/domain/usecases/get_pending_orders.dart';
@@ -11,11 +16,13 @@ class SupervisorController extends GetxController {
   final GetPendingOrdersUseCase getPendingOrdersUseCase;
   final ApproveOrderUseCase approveOrderUseCase;
   final UpdateSupervisorProfileUseCase updateSupervisorProfileUseCase;
+  final SaveUserUsecase saveUserUsecases;
 
   SupervisorController(
     this.getPendingOrdersUseCase,
     this.approveOrderUseCase,
     this.updateSupervisorProfileUseCase,
+    this.saveUserUsecases,
   );
 
   var isLoading = false.obs;
@@ -32,9 +39,20 @@ class SupervisorController extends GetxController {
     getPendingOrders();
   }
 
-  void initProfile(String name, String phone) {
-    nameController.text = name;
-    phoneController.text = phone;
+  Future<void> initProfile(String name, String phone) async {
+    final getUserUseCase = GetUserUseCase(Get.find<AuthRepository>());
+
+    final result = await getUserUseCase();
+    result.fold(
+      (failure) {
+        DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
+      },
+      (user) {
+        CurrentUser.currentUser = user;
+        nameController.text = CurrentUser.currentUser!.name;
+        phoneController.text = CurrentUser.currentUser!.phoneNumber.toString();
+      },
+    );
   }
 
   Future<void> getPendingOrders() async {
@@ -72,17 +90,21 @@ class SupervisorController extends GetxController {
     if (!updateFormKey.currentState!.validate()) return;
 
     isLoading.value = true;
-    final data = {
+    final Map<String, dynamic> data = {
       'name': nameController.text.trim(),
-      'phoneNumber': int.tryParse(phoneController.text.trim()) ?? 0,
+      'phone_number': int.tryParse(phoneController.text.trim()) ?? 0,
     };
 
     final result = await updateSupervisorProfileUseCase(userId, data);
     result.fold(
       (failure) {
         DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
+        print(failure.message);
       },
       (_) {
+        CurrentUser.currentUser!
+            .copyWith(name: data['name'], phoneNumber: data['phoneNumber']);
+        saveUserUsecases(CurrentUser.currentUser!);
         DialogHelper.showSuccessSnackBar(
             title: 'نجاح', message: 'تم تحديث الملف الشخصي بنجاح');
       },
