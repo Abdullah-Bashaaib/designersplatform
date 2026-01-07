@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designer = currentDesigner ?? controller.designerR.value;
+    // final designer = currentDesigner ?? controller.designerR.value;
 
     return Scaffold(
       appBar: AppBar(
