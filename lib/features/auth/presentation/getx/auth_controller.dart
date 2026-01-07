@@ -45,7 +45,7 @@ class AuthController extends GetxController {
 
   Future<void> login(String email, String password) async {
     isLoading.value = true;
-    final result = await loginUsecase.call(email, password);
+    final result = await loginUsecase(email, password);
     result.fold(
       (failure) {
         DialogHelper.showErrorSnackBar(

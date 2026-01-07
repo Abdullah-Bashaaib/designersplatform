@@ -2,6 +2,8 @@ import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
+import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
+import 'package:designers_platform/features/customer_profile/presentation/screens/view_profile.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/home/presentation/pages/designers_list.dart';
 import 'package:designers_platform/features/home/presentation/widget/building_designer_list.dart';
@@ -77,12 +79,13 @@ class ClientHomePage extends StatelessWidget {
                     Get.to(() => DesignersList());
                   },
                 ),
-                IconButton(
-                    onPressed: () {
-                      LogoutUsecase l = LogoutUsecase(Get.find());
-                      l();
-                    },
-                    icon: Icon(Icons.draw)),
+                BuildQuickCard(
+                  icon: Icons.person,
+                  title: 'الملف الشخصي',
+                  onTap: () {
+                    Get.to(() => ViewProfile());
+                  },
+                ),
                 BuildQuickCard(
                   icon: Icons.shopping_bag_outlined,
                   title: 'طلباتي',

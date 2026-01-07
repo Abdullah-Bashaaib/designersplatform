@@ -11,6 +11,7 @@ abstract class OrderRemote {
   Future<List<OrderModel>> getOrders(String column);
   Future<void> deleteOrder(String orderId);
   Future<void> updateOrder(String orderId, Map<String, dynamic> fields);
+  Future<int> getSupervisorPhone();
 }
 
 class OrderRemoteImp implements OrderRemote {
@@ -62,6 +63,16 @@ class OrderRemoteImp implements OrderRemote {
   Future<void> updateOrder(String orderId, Map<String, dynamic> fields) async {
     try {
       await supabase.from('orders').update(fields).eq('id', orderId);
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<int> getSupervisorPhone() async {
+    try {
+      final response = await supabase.from('users').select().eq('role', 'مدير');
+      return response.first['phone_number'];
     } catch (e) {
       throw ServerException(e);
     }

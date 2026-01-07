@@ -1,4 +1,8 @@
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/usecase/logout.dart';
+import 'package:designers_platform/features/auth/data/repositories/auth_repository_imp.dart';
+import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
+import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
 import 'package:designers_platform/features/supervisor/presentation/getx/supervisor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +35,15 @@ class _SupervisorProfilePageState extends State<SupervisorProfilePage> {
       appBar: AppBar(
         title: const Text('الملف الشخصي للمشرف'),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                LogoutUsecase l = LogoutUsecase(Get.find<AuthRepository>());
+                l();
+                Get.offAll(() => SplashScreen());
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

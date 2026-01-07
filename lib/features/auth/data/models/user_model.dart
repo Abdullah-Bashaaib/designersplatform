@@ -16,7 +16,7 @@ class UserModel extends UserEntity {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      phoneNumber: json['phone_number'],
+      phoneNumber: json['phone_number'] ?? 0,
       role: json['role'],
       avatarUrl: json['avatarUrl'],
       keywords: List<String>.from(json["keywords"] ?? []),

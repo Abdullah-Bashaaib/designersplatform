@@ -18,10 +18,6 @@ class SupervisorRemoteDataSourceImpl implements SupervisorRemoteDataSource {
   @override
   Future<List<OrderModel>> getPendingOrders() async {
     try {
-      // Query orders where adminApproval is false or null (if applicable, but likely false based on requirement)
-      // The requirement says "adminApproval false".
-      // Assuming 'adminApproval' is the column name in 'orders' table.
-      // Based on OrderModel, it expects String? adminApproval
 
       final response = await supabase.from('orders').select().eq(
           'adminApproval',
