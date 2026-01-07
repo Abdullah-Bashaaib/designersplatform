@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 
 class ViewCompletedOrder extends StatelessWidget {
   final String? imageUrl;
+  final String? adminApproval;
 
-  ViewCompletedOrder({super.key, this.imageUrl});
+  ViewCompletedOrder({super.key, this.imageUrl, this.adminApproval});
   final c = Get.find<OrderGetx>();
   @override
   Widget build(BuildContext context) {

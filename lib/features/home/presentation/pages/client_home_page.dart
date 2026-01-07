@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/utils/app_styles.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
@@ -76,6 +77,12 @@ class ClientHomePage extends StatelessWidget {
                     Get.to(() => DesignersList());
                   },
                 ),
+                IconButton(
+                    onPressed: () {
+                      LogoutUsecase l = LogoutUsecase(Get.find());
+                      l();
+                    },
+                    icon: Icon(Icons.draw)),
                 BuildQuickCard(
                   icon: Icons.shopping_bag_outlined,
                   title: 'طلباتي',

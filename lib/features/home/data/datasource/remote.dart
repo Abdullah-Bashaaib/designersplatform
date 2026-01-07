@@ -17,7 +17,7 @@ class RemoteImp implements Remote {
     try {
       // بناء الاستعلام
       var query = supabase
-          .from('Users')
+          .from('users')
           .select()
           .eq('role', 'مصمم')
           .order('id', ascending: true)

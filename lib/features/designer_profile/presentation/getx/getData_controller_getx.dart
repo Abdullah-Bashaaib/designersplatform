@@ -88,9 +88,9 @@ class GetDataControllerGetx extends GetxController {
     isLoading.value = true;
 
     await Future.wait([
-      getDataDesignerProfile(),
-      getDataReviews(),
-      getDataWorks(),
+      // getDataDesignerProfile(),
+      // getDataReviews(),
+      // getDataWorks(),
     ]);
 
     isLoading.value = false;
@@ -244,7 +244,7 @@ class GetDataControllerGetx extends GetxController {
     isLoadingAddOrder.value = true;
     final order = OrderEntity(
         id: uuid.v4(),
-        clientId: CurrentUser.currentUser!.id,
+        clientId:  CurrentUser.currentUser!.id,
         clientName: CurrentUser.currentUser!.name,
         designerId: designer.id,
         designerName: designer.name,
@@ -254,9 +254,10 @@ class GetDataControllerGetx extends GetxController {
         createAt: DateTime.now());
 
     final result = await addOrderUsecase.call(order);
-    result.fold(
-        (f) => DialogHelper.showErrorSnackBar(
-            title: 'خطـــأ!', message: f.message), (u) {
+    result.fold((f) {
+      DialogHelper.showErrorSnackBar(title: 'خطـــأ!', message: f.message);
+      print(f.message);
+    }, (u) {
       DialogHelper.showSuccessSnackBar(
           title: 'نجــــاح!', message: addOrderMessage);
     });

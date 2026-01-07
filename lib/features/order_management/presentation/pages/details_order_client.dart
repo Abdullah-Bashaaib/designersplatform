@@ -211,7 +211,8 @@ class DetailsOrderClient extends StatelessWidget {
                         labelStyle: TextStyle(color: statusColor),
                         side: BorderSide(color: statusColor.withOpacity(0.4)),
                       ),
-                      if (order.status == 'مكتمل')
+                      if (order.status == 'مكتمل' &&
+                          order.adminApproval == 'true')
                         IconButton(
                           onPressed: () {
                             c.saveDesign(order.imageUrl!);
@@ -225,6 +226,16 @@ class DetailsOrderClient extends StatelessWidget {
                               Get.to(() => ChatOrder(order: order)),
                           icon: Icon(Icons.chat),
                           color: AppColors.primaryColor,
+                        )
+                      else if (order.status == 'مكتمل' &&
+                          order.adminApproval != 'true')
+                        IconButton(
+                          onPressed: () {
+                            c.sendPaymentViaWhatsApp(order.id);
+                          },
+                          icon: Icon(Icons.payment),
+                          color: AppColors.primaryColor,
+                          tooltip: 'إرسال سند الدفع عبر واتساب',
                         )
                       else
                         SizedBox(),
