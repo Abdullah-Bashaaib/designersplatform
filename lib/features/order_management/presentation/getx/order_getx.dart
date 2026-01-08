@@ -25,6 +25,8 @@ class OrderGetx extends GetxController {
 
   var isLoading = false.obs;
   var isLoadingEdit = false.obs;
+  var isLoadingSend = false.obs;
+
   var orderList = <OrderEntity>[].obs;
   @override
   void onInit() {
@@ -42,7 +44,7 @@ class OrderGetx extends GetxController {
       column = 'designerId';
     }
     log(column);
-    final result = await getOrdersUsecase.call(column);
+    final result = await getOrdersUsecase(column);
     result.fold((l) {
       DialogHelper.showErrorSnackBar(title: 'خطــــــــأ!', message: l.message);
       log(l.message);
@@ -55,7 +57,6 @@ class OrderGetx extends GetxController {
   Future<void> updateOrder(Map<String, dynamic> fields) async {
     log('message');
     isLoadingEdit.value = true;
-
     // نتأكد أن الـ fields تحتوي على المعرف المطلوب
     final orderId = fields['id'];
     if (orderId == null || orderId.toString().isEmpty) {
@@ -66,7 +67,6 @@ class OrderGetx extends GetxController {
       isLoadingEdit.value = false;
       return;
     }
-
     // نرسل الحقول كما هي إلى الـ usecase
     final result = await updateOrderUsecase(orderId, fields);
 
@@ -127,21 +127,23 @@ class OrderGetx extends GetxController {
     }
   }
 
-  /// فتح واتساب لإرسال سند الدفع وتحديث adminApproval إلى false
-  Future<void> sendPaymentViaWhatsApp(String orderId) async {
-    try {
-      // تحديث adminApproval إلى false
-      final fields = {
-        'id': orderId,
-        'adminApproval': 'false',
-      };
+  Future<void> sendPaymentViaWhatsApp(String orderId, String designType) async {
+    isLoadingSend.value = true;
+    // تحديث adminApproval إلى false
+    final fields = {
+      'id': orderId,
+      'adminApproval': 'false',
+    };
 
-      await updateOrder(fields);
+    await updateOrder(fields);
 
-      final phoneNumber = supervisorPhoneUsecase();
-      // فتح واتساب
+    final result = await supervisorPhoneUsecase();
+    result.fold((f) {
+      DialogHelper.showErrorSnackBar(
+          title: 'خطأ', message: 'خطأ في جلب رقم المدير');
+    }, (phoneNumber) async {
       final message = Uri.encodeComponent(
-          'مرحباً، أود إرسال سند الدفع للطلب رقم: $orderId');
+          'مرحباً، أود إرسال سند الدفع لطلبي : $designType');
       final whatsappUrl = 'https://wa.me/$phoneNumber?text=$message';
 
       final uri = Uri.parse(whatsappUrl);
@@ -153,12 +155,16 @@ class OrderGetx extends GetxController {
           message: 'لا يمكن فتح واتساب على هذا الجهاز',
         );
       }
-    } catch (e) {
-      log('Error in sendPaymentViaWhatsApp: $e');
-      DialogHelper.showErrorSnackBar(
-        title: 'خطأ',
-        message: 'حدث خطأ أثناء فتح واتساب',
-      );
-    }
+    });
+    isLoadingSend.value = false;
+    // فتح واتساب
+
+    // } catch (e) {
+    //   log('Error in sendPaymentViaWhatsApp: $e');
+    //   DialogHelper.showErrorSnackBar(
+    //     title: 'خطأ',
+    //     message: 'حدث خطأ أثناء فتح واتساب',
+    //   );
+    // }
   }
 }

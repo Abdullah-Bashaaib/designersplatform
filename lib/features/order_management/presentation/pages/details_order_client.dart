@@ -185,13 +185,13 @@ class DetailsOrderClient extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    order.designerName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
+                  // Text(
+                  //   order.designerName,
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .titleLarge
+                  //       ?.copyWith(fontWeight: FontWeight.bold),
+                  // ),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
@@ -229,14 +229,18 @@ class DetailsOrderClient extends StatelessWidget {
                         )
                       else if (order.status == 'مكتمل' &&
                           order.adminApproval != 'true')
-                        IconButton(
-                          onPressed: () {
-                            c.sendPaymentViaWhatsApp(order.id);
-                          },
-                          icon: Icon(Icons.payment),
-                          color: AppColors.primaryColor,
-                          tooltip: 'إرسال سند الدفع عبر واتساب',
-                        )
+                        c.isLoadingSend.value
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  c.sendPaymentViaWhatsApp(order.id, order.designType);
+                                },
+                                icon: Icon(Icons.payment),
+                                color: AppColors.primaryColor,
+                                tooltip: 'إرسال سند الدفع عبر واتساب',
+                              )
                       else
                         SizedBox(),
 

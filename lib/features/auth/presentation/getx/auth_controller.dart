@@ -50,7 +50,7 @@ class AuthController extends GetxController {
       (failure) {
         DialogHelper.showErrorSnackBar(
             title: 'error', message: failure.message);
-        // print(failure.message);
+        print(failure.message);
       },
       (u) {
         // user.value = u;

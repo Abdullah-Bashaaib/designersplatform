@@ -89,9 +89,10 @@ class ViewProfile extends StatelessWidget {
                   Obx(
                     () => CircleAvatar(
                       radius: 50.r,
-                      backgroundImage: c.avatarUrl.value != ''
-                          ? CachedNetworkImageProvider(c.avatarUrl.value!)
-                          : AssetImage(AppImage.icon1) as ImageProvider,
+                      backgroundImage:
+                          c.avatarUrl.value != '' && c.avatarUrl.value != null
+                              ? CachedNetworkImageProvider(c.avatarUrl.value!)
+                              : AssetImage(AppImage.icon1) as ImageProvider,
                     ),
                   ),
                   Positioned(
