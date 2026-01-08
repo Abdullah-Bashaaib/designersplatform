@@ -22,10 +22,7 @@ class _SupervisorProfilePageState extends State<SupervisorProfilePage> {
     super.initState();
     // Pre-fill with current user data
     if (CurrentUser.currentUser != null) {
-      controller.initProfile(
-        CurrentUser.currentUser!.name,
-        CurrentUser.currentUser!.phoneNumber.toString(),
-      );
+      controller.initProfile();
     }
   }
 
@@ -95,19 +92,19 @@ class _SupervisorProfilePageState extends State<SupervisorProfilePage> {
               Obx(() => SizedBox(
                     width: double.infinity,
                     height: 50,
-                    child: ElevatedButton(
-                      onPressed: controller.isLoading.value
-                          ? null
-                          : () {
-                              if (CurrentUser.currentUser != null) {
-                                controller
-                                    .updateProfile(CurrentUser.currentUser!.id);
-                              }
-                            },
-                      child: controller.isLoading.value
-                          ? const CircularProgressIndicator()
-                          : const Text('حفظ التغييرات'),
-                    ),
+                    child: controller.isLoading.value
+                        ? const Center(child: CircularProgressIndicator())
+                        : ElevatedButton(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () {
+                                    if (CurrentUser.currentUser != null) {
+                                      controller.updateProfile(
+                                          CurrentUser.currentUser!.id);
+                                    }
+                                  },
+                            child: const Text('حفظ التغييرات'),
+                          ),
                   )),
             ],
           ),

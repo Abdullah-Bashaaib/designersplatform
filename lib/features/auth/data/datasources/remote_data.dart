@@ -25,12 +25,16 @@ class RemoteDataSource implements RemoteData {
         email: email,
         password: password,
       );
-
-      if (response.user == null) return null;
+      final user = response.user;
+      if (user == null) return null;
 
       /// جلب بيانات user من جدول users
-      final result =
-          await supabase.from('users').select().eq('email', email).single();
+      final result = await supabase
+          .from('users')
+          .select()
+          .eq('email', email)
+          .limit(1)
+          .single();
 
       return UserModel.fromJson(result);
     } on AuthException catch (e) {

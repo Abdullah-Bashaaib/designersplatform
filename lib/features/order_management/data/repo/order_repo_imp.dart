@@ -87,10 +87,14 @@ class OrderRepoImp implements OrderRepo {
       return left(OfflineFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, int>> getSupervisorPhone() {
-    
-    throw UnimplementedError();
+  Future<Either<Failure, int>> getSupervisorPhone() async {
+    try {
+      final result = await orderRemote.getSupervisorPhone();
+      return right(result);
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    }
   }
 }

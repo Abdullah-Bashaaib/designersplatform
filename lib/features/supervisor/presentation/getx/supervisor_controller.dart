@@ -39,18 +39,17 @@ class SupervisorController extends GetxController {
     getPendingOrders();
   }
 
-  Future<void> initProfile(String name, String phone) async {
+  void initProfile() {
     final getUserUseCase = GetUserUseCase(Get.find<AuthRepository>());
-
-    final result = await getUserUseCase();
+    final result = getUserUseCase();
     result.fold(
       (failure) {
         DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
       },
       (user) {
-        CurrentUser.currentUser = user;
-        nameController.text = CurrentUser.currentUser!.name;
-        phoneController.text = CurrentUser.currentUser!.phoneNumber.toString();
+        nameController.text = user.name;
+        phoneController.text = user.phoneNumber.toString();
+        // print(user.phoneNumber);
       },
     );
   }
@@ -99,12 +98,12 @@ class SupervisorController extends GetxController {
     result.fold(
       (failure) {
         DialogHelper.showErrorSnackBar(title: 'خطأ', message: failure.message);
-        print(failure.message);
+        // print(failure.message);
       },
       (_) {
-        CurrentUser.currentUser!
-            .copyWith(name: data['name'], phoneNumber: data['phoneNumber']);
-        saveUserUsecases(CurrentUser.currentUser!);
+        final user = CurrentUser.currentUser!
+            .copyWith(name: data['name'], phoneNumber: data['phone_number']);
+        saveUserUsecases(user);
         DialogHelper.showSuccessSnackBar(
             title: 'نجاح', message: 'تم تحديث الملف الشخصي بنجاح');
       },

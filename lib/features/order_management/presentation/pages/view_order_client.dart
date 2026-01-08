@@ -19,6 +19,13 @@ class ViewClientOrders extends StatelessWidget {
           text: "طلباتي",
           style: TextStyleEnum.headingMedium,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                c.getOrders();
+              },
+              icon: Icon(Icons.update))
+        ],
         // Text(
         //   "طلباتي",
         //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
