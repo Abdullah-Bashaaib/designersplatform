@@ -86,15 +86,16 @@ class ViewProfile extends StatelessWidget {
             Center(
               child: Stack(
                 children: [
-                  Obx(
-                    () => CircleAvatar(
+                  Obx(() {
+                    final avatar = c.avatarUrl.value;
+
+                    return CircleAvatar(
                       radius: 50.r,
-                      backgroundImage:
-                          c.avatarUrl.value != '' && c.avatarUrl.value != null
-                              ? CachedNetworkImageProvider(c.avatarUrl.value!)
-                              : AssetImage(AppImage.icon1) as ImageProvider,
-                    ),
-                  ),
+                      backgroundImage: (avatar != null && avatar.isNotEmpty)
+                          ? CachedNetworkImageProvider(avatar)
+                          : const AssetImage(AppImage.icon1),
+                    );
+                  }),
                   Positioned(
                     top: 51.h,
                     left: 40.w,

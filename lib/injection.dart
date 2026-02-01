@@ -454,7 +454,9 @@ class Injection {
 
     /// getX
     Get.lazyPut<HomeController>(
-        fenix: true, () => HomeController(Get.find<GetDesignersUsecase>()));
+        fenix: true,
+        () => HomeController(
+            Get.find<GetDesignersUsecase>(), Get.find<GetProfileUseCase>()));
 
     /// ================================= [ Search ] =========================================
     /// datasource,

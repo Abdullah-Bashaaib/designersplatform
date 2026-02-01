@@ -1,11 +1,9 @@
-import 'package:designers_platform/core/utils/app_image.dart';
 import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/home/presentation/widget/design_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 
 class DesignersList extends StatelessWidget {
   const DesignersList({super.key});
