@@ -61,9 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 40.h),
                       BuildTextField(
                         controller: _emailController,
-                        hintText: 'أدخل بريدك الإلكتروني أو رقم هاتفك',
+                        hintText: 'أدخل بريدك الإلكتروني',
                         prefixIcon: FontAwesomeIcons.envelope,
-                        label: 'البريد الإلكتروني أو رقم الهاتف',
+                        label: 'البريد الإلكتروني',
                         keyboardType: TextInputType.emailAddress,
                         validator: Validators.email,
                       ),

@@ -70,42 +70,42 @@ class GridWorksCustom extends StatelessWidget {
                       ),
                       itemCount: designer?.worksCount,
                       itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(color: Colors.grey[700]),
-                          child: Image.network(
-                            designer!.workList![index].imageUrl,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: SizedBox(
-                                  width: 30.r,
-                                  height: 30.r,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.w,
-                                    color: AppColors.primaryColor,
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            (loadingProgress
-                                                    .expectedTotalBytes ??
-                                                1)
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                AppImage.profileImage,
-                                fit: BoxFit.cover,
-                                width: 100.w,
-                                height: 100.h,
-                              );
-                            },
-                          ),
-                        );
+                        // return Container(
+                        //   decoration: BoxDecoration(color: Colors.grey[700]),
+                        //   child: Image.network(
+                        //     designer!.workList![index].imageUrl,
+                        //     fit: BoxFit.cover,
+                        //     loadingBuilder: (context, child, loadingProgress) {
+                        //       if (loadingProgress == null) return child;
+                        //       return Center(
+                        //         child: SizedBox(
+                        //           width: 30.r,
+                        //           height: 30.r,
+                        //           child: CircularProgressIndicator(
+                        //             strokeWidth: 2.w,
+                        //             color: AppColors.primaryColor,
+                        //             value: loadingProgress.expectedTotalBytes !=
+                        //                     null
+                        //                 ? loadingProgress
+                        //                         .cumulativeBytesLoaded /
+                        //                     (loadingProgress
+                        //                             .expectedTotalBytes ??
+                        //                         1)
+                        //                 : null,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //     errorBuilder: (context, error, stackTrace) {
+                        //       return Image.asset(
+                        //         AppImage.profileImage,
+                        //         fit: BoxFit.cover,
+                        //         width: 100.w,
+                        //         height: 100.h,
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                     ),
                   ),

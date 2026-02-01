@@ -4,6 +4,7 @@ import 'package:designers_platform/features/auth/domain/repositories/auth_reposi
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/features/home/presentation/pages/client_home_page.dart';
+import 'package:designers_platform/features/home/presentation/pages/designer_home.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
 import 'package:designers_platform/features/supervisor/presentation/pages/supervisor_dashboard.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         } else if (user.role == 'مدير') {
           Get.offAll(() => const SupervisorDashboardPage());
         } else {
-          Get.offAll(() => ProfileScreen());
+          Get.offAll(() => DesignerHome());
         }
       },
     );
