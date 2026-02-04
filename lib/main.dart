@@ -13,7 +13,8 @@ void main() async {
   await Supabase.initialize(
       url: 'https://lkqdlophafsybtuwiqfd.supabase.co',
       anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcWRsb3BoYWZzeWJ0dXdpcWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MDU1OTksImV4cCI6MjA3NTA4MTU5OX0.ybh93Vx7JjLb7DiqgZJJIBkwOMl-f-fc3UoLI69aRMU');
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrcWRsb3BoYWZzeWJ0dXdpcWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MDU1OTksImV4cCI6MjA3NTA4MTU5OX0.ybh93Vx7JjLb7DiqgZJJIBkwOMl-f-fc3UoLI69aRMU',
+      authOptions: FlutterAuthClientOptions(autoRefreshToken: true));
   await Injection.init();
   runApp(const MyApp());
 }

@@ -36,6 +36,10 @@ class OrderGetx extends GetxController {
   }
 
   Future<void> getOrders() async {
+    if (CurrentUser.currentUser == null) {
+      log('User not ready yet, skipping getOrders');
+      return;
+    }
     isLoading.value = true;
     String column = '';
     if (CurrentUser.currentUser!.role == 'عميل') {

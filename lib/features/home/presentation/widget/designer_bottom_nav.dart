@@ -1,13 +1,17 @@
+import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DesignerBottomNav extends StatelessWidget {
   const DesignerBottomNav({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<HomeController>();
+
     return BottomNavigationBar(
-      currentIndex: 0,
-      onTap: (index) {},
+      currentIndex: c.currentIndex.value,
+      onTap: c.changeTab,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.deepPurple,
       unselectedItemColor: Colors.grey,

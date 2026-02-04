@@ -23,13 +23,17 @@ class ChatOrderGetX extends GetxController {
   final GetChatMessagesUseCase _getMessagesUseCase;
   final SendMessageUseCase _sendMessageUseCase; // 💡
   final Uuid _uuid; // 💡
-  final OrderEntity order; // لتخزين الطلب الحالي
 
-  ChatOrderGetX(this.preferences, this._getMessagesUseCase,
-      this._sendMessageUseCase, this._uuid, this.orderGetx,
-      {required this.order});
+  ChatOrderGetX(
+    this.preferences,
+    this._getMessagesUseCase,
+    this._sendMessageUseCase,
+    this._uuid,
+    this.orderGetx,
+  );
   // .obs تجعل المتغير "تفاعليًا" (reactive)
   final _isOrderAccepted = false.obs;
+  final order = Rxn<OrderEntity>(); // لتخزين الطلب الحالي
 
   final RxList<Message> chatMessages = <Message>[].obs;
   late StreamSubscription<List<Message>> _chatSubscription;
@@ -43,6 +47,8 @@ class ChatOrderGetX extends GetxController {
 
   // getter عام للوصول إلى القيمة
   bool get isOrderAccepted => _isOrderAccepted.value;
+  var acceptedLoading = false.obs;
+  final c = Get.find<OrderGetx>();
 
   @override
   void onInit() {
@@ -50,7 +56,7 @@ class ChatOrderGetX extends GetxController {
     // تحضير البيانات عند بدء الـ controller
     checkAccept();
     _currentUserId = CurrentUser.currentUser!.id; // (مثال)
-    _listenToMessages(order.id); // افترض أن ID الطلب هو ID الشات
+    // _listenToMessages(order.value?.id ?? ''); // افترض أن ID الطلب هو ID الشات
   }
 
   @override
@@ -62,17 +68,20 @@ class ChatOrderGetX extends GetxController {
   }
 
   // 3. الدوال لإدارة منطق الأعمال
-  void acceptOrder() {
+  void acceptOrder({required String id}) {
+    acceptedLoading.value = true;
     _isOrderAccepted.value = true;
-    order.status = 'مقبول';
-    orderGetx.updateOrder({'id': order.id, 'status': order.status});
+    final status = 'مقبول';
+    orderGetx.updateOrder({'id': id, 'status': status});
     orderAcceptList
-        .add({'orderId': order.id, 'acceptOrder': _isOrderAccepted.toString()});
+        .add({'orderId': id, 'acceptOrder': _isOrderAccepted.toString()});
+    updateOrderStatus(orderId: id, newStatus: status);
     preferences.setString(
       KeySharedPref.kAcceptOrder,
       jsonEncode(orderAcceptList),
     );
     log("message: order list to string in chat getx : ${orderAcceptList.toString()}");
+    acceptedLoading.value = false;
   }
 
   void rejectOrder() {
@@ -84,7 +93,7 @@ class ChatOrderGetX extends GetxController {
         List<Map<String, dynamic>>.from(jsonDecode(value));
 
     int index = orderAcceptedJson.indexWhere((orderTest) {
-      return (orderTest['orderId'] == order.id &&
+      return (orderTest['orderId'] == order.value?.id &&
           orderTest['acceptOrder'] == 'true');
     });
     log("message: order json is ${orderAcceptedJson[index]['acceptOrder']}");
@@ -102,7 +111,7 @@ class ChatOrderGetX extends GetxController {
       }
       value = acceptedOrderTest(value);
       _isOrderAccepted.value = value == 'true';
-      order.status = 'مقبول';
+      order.value?.status = 'مقبول';
       log("message: Accepted Value in SharedPref is \"$value\"");
     } catch (e) {
       DialogHelper.showErrorSnackBar(
@@ -110,17 +119,17 @@ class ChatOrderGetX extends GetxController {
     }
   }
 
-  void _listenToMessages(String chatId) {
-    _chatSubscription = _getMessagesUseCase(chatId).listen((messages) {
-      chatMessages.assignAll(messages);
-      _scrollToBottom();
-    }, onError: (e) {
-      Get.snackbar("خطأ", "فشل تحميل الرسائل");
-    });
-  }
+  // void _listenToMessages(String chatId) {
+  //   _chatSubscription = _getMessagesUseCase(chatId).listen((messages) {
+  //     chatMessages.assignAll(messages);
+  //     _scrollToBottom();
+  //   }, onError: (e) {
+  //     Get.snackbar("خطأ", "فشل تحميل الرسائل");
+  //   });
+  // }
 
   // --- 💡 دالة إرسال الرسالة ---
-  Future<void> sendMessage() async {
+  Future<void> sendMessage({required String chatId}) async {
     log("message: Here we Gooooo");
     final content = textController.text.trim();
     log("message: content is ${content.isEmpty}");
@@ -129,7 +138,7 @@ class ChatOrderGetX extends GetxController {
     final messageId = _uuid.v4();
     final message = MessageModel(
       id: messageId,
-      chatId: order.id, // ID الشات
+      chatId: chatId, // ID الشات
       senderId: _currentUserId,
       content: content,
       timestamp: DateTime.now(),
@@ -156,4 +165,17 @@ class ChatOrderGetX extends GetxController {
   }
 
   void _scrollToBottom() {/* ... */}
+
+  void updateOrderStatus({
+    required String orderId,
+    required String newStatus,
+  }) {
+    final index = c.orderList.indexWhere((o) => o.id == orderId);
+
+    if (index == -1) return;
+
+    c.orderList[index].status = newStatus;
+
+    c.orderList.refresh(); // مهم جدًا أحيانًا
+  }
 }

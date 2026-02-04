@@ -10,7 +10,7 @@ import '../../getx/getData_controller_getx.dart';
 
 class CircleAvatarCustom extends StatelessWidget {
   final String? currentAvatarUrl;
-  CircleAvatarCustom({super.key, this.currentAvatarUrl});
+    CircleAvatarCustom({super.key, this.currentAvatarUrl});
 
   final controller = Get.find<GetDataControllerGetx>();
 

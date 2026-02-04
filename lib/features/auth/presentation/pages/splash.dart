@@ -2,10 +2,8 @@ import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/features/auth/domain/repositories/auth_repository.dart';
 import 'package:designers_platform/features/auth/presentation/pages/welcome_page.dart';
-import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/features/home/presentation/pages/client_home_page.dart';
 import 'package:designers_platform/features/home/presentation/pages/designer_home.dart';
-import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
 import 'package:designers_platform/features/supervisor/presentation/pages/supervisor_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _checkUser() {
     final getUserUseCase = GetUserUseCase(Get.find<AuthRepository>());
-
     final result = getUserUseCase();
 
     result.fold(
@@ -36,10 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(() => const WelcomePage());
       },
       (user) {
-        CurrentUser.currentUser = user;
-        if (user.role == 'عميل') {
+        CurrentUser.currentUser ??= user;
+        if (CurrentUser.currentUser?.role == 'عميل') {
           Get.offAll(() => const ClientHomePage());
-        } else if (user.role == 'مدير') {
+        } else if (CurrentUser.currentUser?.role == 'مدير') {
           Get.offAll(() => const SupervisorDashboardPage());
         } else {
           Get.offAll(() => DesignerHome());

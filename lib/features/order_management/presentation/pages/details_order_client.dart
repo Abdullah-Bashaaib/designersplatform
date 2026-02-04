@@ -235,7 +235,8 @@ class DetailsOrderClient extends StatelessWidget {
                               )
                             : IconButton(
                                 onPressed: () {
-                                  c.sendPaymentViaWhatsApp(order.id, order.designType);
+                                  c.sendPaymentViaWhatsApp(
+                                      order.id, order.designType);
                                 },
                                 icon: Icon(Icons.payment),
                                 color: AppColors.primaryColor,
