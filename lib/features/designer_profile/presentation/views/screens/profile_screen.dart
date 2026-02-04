@@ -30,11 +30,12 @@ class ProfileScreen extends StatelessWidget {
         title: Obx(() {
           final designer = currentDesigner ?? controller.designerR.value;
           return Skeletonizer(
-            enabled: controller.isLoading.value,
-            child: designer == null
-                ? Text("لا توجد بيانات")
-                : Text(designer.email.split("@")[0]),
-          );
+              enabled: controller.isLoading.value,
+              child: designer == null
+                  ? Text("لا توجد بيانات")
+                  : Text('الملف الشخصي')
+              // Text(designer.email.split("@")[0]),
+              );
         }),
         actions: [
           PopupMenuButton(

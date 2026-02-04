@@ -459,17 +459,21 @@ class DialogHelper {
     Duration duration = const Duration(seconds: 2),
     Widget? icon,
   }) {
-    Get.snackbar(
-      title,
-      message,
-      snackPosition: position,
-      backgroundColor: backgroundColor ?? AppColors.primaryColor,
-      colorText: colorText ?? AppColors.textOnPrimary,
-      duration: duration,
-      icon: icon,
-      borderRadius: 12,
-      margin: const EdgeInsets.all(16),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Get.context == null) return;
+
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: position,
+        backgroundColor: backgroundColor ?? AppColors.primaryColor,
+        colorText: colorText ?? AppColors.textOnPrimary,
+        duration: duration,
+        icon: icon,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
+      );
+    });
   }
 
   /// عرض SnackBar للنجاح

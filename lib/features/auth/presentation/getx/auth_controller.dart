@@ -112,4 +112,6 @@ class AuthController extends GetxController {
     });
     isLoading.value = false;
   }
+
+  
 }

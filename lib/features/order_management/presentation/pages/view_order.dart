@@ -139,11 +139,13 @@ class _ViewOrderState extends State<ViewOrder> {
                       key: ValueKey<OrderEntity>(order),
                       child: ListTile(
                         onTap: () {
-                          Get.to(
-                            () => ChatOrder(
-                              order: order,
-                            ),
-                          );
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Get.to(
+                              () => ChatOrder(
+                                order: order,
+                              ),
+                            );
+                          });
                         },
                         leading: CircleAvatar(
                           child: CustomText(
