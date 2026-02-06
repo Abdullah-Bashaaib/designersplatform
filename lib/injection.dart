@@ -89,6 +89,7 @@ import 'features/supervisor/presentation/getx/supervisor_controller.dart';
 class Injection {
   static Future<void> init() async {
     CurrentUser.currentUser = await AppFunctions.checkUser();
+
     /// Core
     // Get.put<NetworkInfo>(
     //     NetworkInfoImp(InternetConnectionChecker.createInstance()),
@@ -425,6 +426,7 @@ class Injection {
       fenix: true,
       () => ChatRepositoryImpl(
         Get.find<IChatRemoteDataSource>(),
+        Get.find<INetworkInfo>(),
       ),
     );
 

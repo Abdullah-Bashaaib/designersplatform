@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/features/order_management/data/models/chat_room_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -31,6 +32,7 @@ class ChatRemoteDataSourceImpl implements IChatRemoteDataSource {
     } catch (e) {
       DialogHelper.showErrorSnackBar(
           title: "خطأ", message: "message: ${e.toString()}");
+      throw ServerException(e.toString());
     }
   }
 }
