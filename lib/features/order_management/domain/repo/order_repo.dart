@@ -9,4 +9,5 @@ abstract class OrderRepo {
   Future<Either<Failure, Unit>> updateOrder(
       String orderId, Map<String, dynamic> fields);
   Future<Either<Failure, int>> getSupervisorPhone();
+  Future<Either<Failure, String>> getOrderStatus(String orderId);
 }

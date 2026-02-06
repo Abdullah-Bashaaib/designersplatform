@@ -47,6 +47,7 @@ import 'package:designers_platform/features/order_management/data/repo/order_rep
 import 'package:designers_platform/features/order_management/domain/repo/order_repo.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/add_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
+import 'package:designers_platform/features/order_management/domain/usecase/get_order_status_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
@@ -394,6 +395,8 @@ class Injection {
         fenix: true, () => UpdateOrderUsecase(Get.find<OrderRepo>()));
     Get.lazyPut<GetSupervisorPhoneUsecase>(
         fenix: true, () => GetSupervisorPhoneUsecase(Get.find<OrderRepo>()));
+    Get.lazyPut<GetOrderStatusUseCase>(
+        fenix: true, () => GetOrderStatusUseCase(Get.find<OrderRepo>()));
 
     /// Getx
     Get.lazyPut<OrderGetx>(

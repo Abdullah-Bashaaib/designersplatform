@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
-import 'package:designers_platform/core/utils/key_app.dart';
 import 'package:designers_platform/features/order_management/data/models/chat_room_model.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +14,24 @@ import '../../domain/entity/chat_room.dart';
 import '../../domain/entity/orders.dart';
 import '../../domain/usecase/chat_room/get_chat_messages_usecase.dart';
 import '../../domain/usecase/chat_room/send_message_useCase.dart';
+import '../../domain/usecase/get_order_status_usecase.dart';
 
 class ChatOrderGetX extends GetxController {
   final SharedPreferences preferences;
   final OrderGetx orderGetx;
   final GetChatMessagesUseCase _getMessagesUseCase;
   final SendMessageUseCase _sendMessageUseCase; // 💡
+  final GetOrderStatusUseCase _getOrderStatusUseCase; // 🆕
   final Uuid _uuid; // 💡
   final OrderEntity order; // لتخزين الطلب الحالي
 
-  ChatOrderGetX(this.preferences, this._getMessagesUseCase,
-      this._sendMessageUseCase, this._uuid, this.orderGetx,
+  ChatOrderGetX(
+      this.preferences,
+      this._getMessagesUseCase,
+      this._sendMessageUseCase,
+      this._uuid,
+      this.orderGetx,
+      this._getOrderStatusUseCase,
       {required this.order});
   // .obs تجعل المتغير "تفاعليًا" (reactive)
   final _isOrderAccepted = false.obs;
@@ -38,8 +43,6 @@ class ChatOrderGetX extends GetxController {
 
   final scrollController = ScrollController();
   final textController = TextEditingController(); // 💡 لإدخال النص
-
-  List<Map<String, String>> orderAcceptList = [];
 
   // getter عام للوصول إلى القيمة
   bool get isOrderAccepted => _isOrderAccepted.value;
@@ -66,48 +69,38 @@ class ChatOrderGetX extends GetxController {
     _isOrderAccepted.value = true;
     order.status = 'مقبول';
     orderGetx.updateOrder({'id': order.id, 'status': order.status});
-    orderAcceptList
-        .add({'orderId': order.id, 'acceptOrder': _isOrderAccepted.toString()});
-    preferences.setString(
-      KeySharedPref.kAcceptOrder,
-      jsonEncode(orderAcceptList),
-    );
-    log("message: order list to string in chat getx : ${orderAcceptList.toString()}");
+    log("message: Order accepted and updated in Supabase");
   }
 
   void rejectOrder() {
     Get.back(canPop: true);
   }
 
-  String acceptedOrderTest(String value) {
-    final List<Map<String, dynamic>> orderAcceptedJson =
-        List<Map<String, dynamic>>.from(jsonDecode(value));
+  /// التحقق من حالة الطلب من Supabase مباشرة
+  Future<void> checkOrderStatusFromSupabase() async {
+    final result = await _getOrderStatusUseCase(order.id);
 
-    int index = orderAcceptedJson.indexWhere((orderTest) {
-      return (orderTest['orderId'] == order.id &&
-          orderTest['acceptOrder'] == 'true');
-    });
-    log("message: order json is ${orderAcceptedJson[index]['acceptOrder']}");
-
-    return orderAcceptedJson[index]['acceptOrder'];
+    result.fold(
+      (failure) {
+        log("Error checking order status: ${failure.message}");
+        DialogHelper.showErrorSnackBar(
+          title: "خطأ",
+          message: "فشل في التحقق من حالة الطلب: ${failure.message}",
+        );
+        _isOrderAccepted.value = false;
+      },
+      (status) {
+        log("Order status from Supabase: $status");
+        _isOrderAccepted.value = status == 'مقبول';
+        order.status = status;
+      },
+    );
   }
 
+  /// للتوافق مع الإصدارات السابقة - استخدم checkOrderStatusFromSupabase بدلاً منها
+  @Deprecated('Use checkOrderStatusFromSupabase instead')
   void checkAccept() {
-    log("message: order list to string in chat getx : ${orderAcceptList.toString()}");
-    String? value = preferences.getString(KeySharedPref.kAcceptOrder);
-    try {
-      if (value == null) {
-        _isOrderAccepted.value = value == 'false';
-        throw Exception('لم يتم قبول الطلب');
-      }
-      value = acceptedOrderTest(value);
-      _isOrderAccepted.value = value == 'true';
-      order.status = 'مقبول';
-      log("message: Accepted Value in SharedPref is \"$value\"");
-    } catch (e) {
-      DialogHelper.showErrorSnackBar(
-          title: "خطأ", message: "message: ${e.toString()}");
-    }
+    checkOrderStatusFromSupabase();
   }
 
   void _listenToMessages(String chatId) {

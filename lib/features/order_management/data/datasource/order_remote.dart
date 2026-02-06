@@ -12,6 +12,7 @@ abstract class OrderRemote {
   Future<void> deleteOrder(String orderId);
   Future<void> updateOrder(String orderId, Map<String, dynamic> fields);
   Future<int> getSupervisorPhone();
+  Future<String> getOrderStatus(String orderId);
 }
 
 class OrderRemoteImp implements OrderRemote {
@@ -73,6 +74,21 @@ class OrderRemoteImp implements OrderRemote {
     try {
       final response = await supabase.from('users').select().eq('role', 'مدير');
       return response.first['phone_number'];
+    } catch (e) {
+      throw ServerException(e);
+    }
+  }
+
+  @override
+  Future<String> getOrderStatus(String orderId) async {
+    try {
+      final response = await supabase
+          .from('orders')
+          .select('status')
+          .eq('id', orderId)
+          .single();
+
+      return response['status'] as String;
     } catch (e) {
       throw ServerException(e);
     }
