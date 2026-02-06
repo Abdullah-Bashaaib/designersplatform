@@ -97,4 +97,18 @@ class OrderRepoImp implements OrderRepo {
       return left(ServerFailure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> getOrderStatus(String orderId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final status = await orderRemote.getOrderStatus(orderId);
+        return right(status);
+      } on ServerException catch (e) {
+        return left(ServerFailure(e.message.toString()));
+      }
+    } else {
+      return left(OfflineFailure());
+    }
+  }
 }
