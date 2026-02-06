@@ -56,7 +56,7 @@ class ClientProfileController extends GetxController {
 
   void getProfile() {
     isLoading.value = true;
-    final result = getUserUseCase.call();
+    final result = getUserUseCase();
     result.fold(
         (f) =>
             DialogHelper.showErrorSnackBar(title: 'error', message: f.message),
@@ -65,6 +65,7 @@ class ClientProfileController extends GetxController {
       user.value = c;
       userName.value.text = c.name;
       email.value.text = c.email;
+      avatarUrl.value = c.avatarUrl;
       // print('===== ${c.name} =====');
     });
     isLoading.value = false;
@@ -96,14 +97,20 @@ class ClientProfileController extends GetxController {
                           isLoading.value = true;
                           final result =
                               await updateProfileUseCase.call(name.text);
-                          result.fold((f) => Get.snackbar('خطاء', f.message),
-                              (u) {
-                            user.value = CurrentUser.currentUser!;
+                          result.fold((f) {
+                            isLoading.value = false;
+                            Get.snackbar('خطاء', f.message);
+                          }, (u) {
+                            isLoading.value = false;
+                            user.value = CurrentUser.currentUser!
+                                .copyWith(name: name.text);
+                            if (Get.isDialogOpen == true) {
+                              Get.back();
+                            }
+
                             DialogHelper.showSuccessSnackBar(
                                 title: 'ok', message: updateUserNameMessage);
                           });
-                          isLoading.value = false;
-                          Get.back();
                         },
                         style: AppStyles.primaryButtonStyle,
                         child: Text('تأكيد'),

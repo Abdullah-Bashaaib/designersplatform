@@ -6,7 +6,8 @@ import '../../../../core/widget/build_text_field.dart';
 import '../getx/chat_getx.dart';
 
 class BuildTextFieldChat extends StatelessWidget {
-  BuildTextFieldChat({super.key});
+  final String chatId;
+  BuildTextFieldChat({super.key, required this.chatId});
   final controller = Get.find<ChatOrderGetX>();
 
   @override
@@ -18,7 +19,7 @@ class BuildTextFieldChat extends StatelessWidget {
       keyboardType: TextInputType.text,
       suffixIcon: IconButton(
         icon: const Icon(Icons.send, color: AppColors.primaryColor),
-        onPressed: controller.sendMessage,
+        onPressed: () => controller.sendMessage(chatId: chatId),
       ),
     );
   }

@@ -1,8 +1,10 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/usecase/add_avatar.dart';
 import 'package:designers_platform/core/usecase/delete_avatar.dart';
 import 'package:designers_platform/core/usecase/get_user.dart';
 import 'package:designers_platform/core/usecase/logout.dart';
 import 'package:designers_platform/core/usecase/save_user.dart';
+import 'package:designers_platform/core/utils/app_functions.dart';
 import 'package:designers_platform/features/auth/data/datasources/local_data.dart';
 import 'package:designers_platform/features/auth/data/datasources/remote_data.dart';
 import 'package:designers_platform/features/auth/domain/usecases/delete_account_usecase.dart';
@@ -40,6 +42,7 @@ import 'package:designers_platform/features/designer_profile/presentation/getx/g
 import 'package:designers_platform/features/home/data/datasource/remote.dart';
 import 'package:designers_platform/features/home/data/repo/home_repo_imp.dart';
 import 'package:designers_platform/features/home/domain/repo/home_repo.dart';
+import 'package:designers_platform/features/home/domain/usecases/get_activate_order_usecase.dart';
 import 'package:designers_platform/features/home/domain/usecases/get_designers.dart';
 import 'package:designers_platform/features/home/presentation/getx/home_controller.dart';
 import 'package:designers_platform/features/order_management/data/datasource/order_remote.dart';
@@ -51,6 +54,7 @@ import 'package:designers_platform/features/order_management/domain/usecase/get_
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/chat_getx.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:designers_platform/features/search/data/datasurce/search_remote.dart';
 import 'package:designers_platform/features/search/data/repo/search_repo_imp.dart';
@@ -85,6 +89,8 @@ import 'features/supervisor/presentation/getx/supervisor_controller.dart';
 
 class Injection {
   static Future<void> init() async {
+    CurrentUser.currentUser = await AppFunctions.checkUser();
+
     /// Core
     // Get.put<NetworkInfo>(
     //     NetworkInfoImp(InternetConnectionChecker.createInstance()),
@@ -423,6 +429,7 @@ class Injection {
       fenix: true,
       () => ChatRepositoryImpl(
         Get.find<IChatRemoteDataSource>(),
+        Get.find<INetworkInfo>(),
       ),
     );
 
@@ -437,6 +444,17 @@ class Injection {
       fenix: true,
       () => GetChatMessagesUseCase(
         Get.find<IChatRepository>(),
+      ),
+    );
+
+    Get.put(
+      permanent: true,
+      ChatOrderGetX(
+        Get.find<SharedPreferences>(),
+        Get.find<GetChatMessagesUseCase>(),
+        Get.find<SendMessageUseCase>(),
+        Get.find<Uuid>(),
+        Get.find<OrderGetx>(),
       ),
     );
 // Get.lazyPut(() => SendMessageUseCase(Get.find()));
@@ -454,10 +472,16 @@ class Injection {
     /// usecases
     Get.lazyPut<GetDesignersUsecase>(
         fenix: true, () => GetDesignersUsecase(Get.find<HomeRepo>()));
+    Get.lazyPut<GetActivateOrderUsecase>(
+        fenix: true, () => GetActivateOrderUsecase(Get.find<HomeRepo>()));
 
     /// getX
     Get.lazyPut<HomeController>(
-        fenix: true, () => HomeController(Get.find<GetDesignersUsecase>()));
+        fenix: true,
+        () => HomeController(
+            Get.find<GetDesignersUsecase>(),
+            Get.find<GetProfileUseCase>(),
+            Get.find<GetActivateOrderUsecase>()));
 
     /// ================================= [ Search ] =========================================
     /// datasource,

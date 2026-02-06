@@ -9,7 +9,6 @@ import 'package:equatable/equatable.dart';
 
 enum MessageType {
   text,
-
   system, // رسالة من النظام (مثل "تم قبول الطلب")
 }
 

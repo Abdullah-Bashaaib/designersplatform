@@ -88,7 +88,7 @@ class GetDataControllerGetx extends GetxController {
     isLoading.value = true;
 
     await Future.wait([
-      // getDataDesignerProfile(),
+      getDataDesignerProfile(),
       // getDataReviews(),
       // getDataWorks(),
     ]);

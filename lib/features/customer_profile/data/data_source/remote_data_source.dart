@@ -22,15 +22,11 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
   Future<void> updateUserName(String name) async {
     try {
       final userId = CurrentUser.currentUser!.id;
-
-      final response =
-          await supabase.from('users').update({'name': name}).eq('id', userId);
-
-      if (response.error != null) {
-        throw ServerException(response.error!.message);
-      }
-    } on AuthException catch (e) {
-      throw ServerException(e.message);
+      await supabase
+          .from('users')
+          .update({'name': name})
+          .eq('id', userId)
+          .select();
     } catch (e) {
       throw ServerException(e.toString());
     }

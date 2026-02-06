@@ -13,12 +13,22 @@ class ViewClientOrders extends StatelessWidget {
   final c = Get.find<OrderGetx>();
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      c.getOrders();
+    });
     return Scaffold(
       appBar: AppBar(
         title: CustomText(
           text: "طلباتي",
           style: TextStyleEnum.headingMedium,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                c.getOrders();
+              },
+              icon: Icon(Icons.update))
+        ],
         // Text(
         //   "طلباتي",
         //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),

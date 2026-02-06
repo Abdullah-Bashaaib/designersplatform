@@ -67,11 +67,17 @@ class ViewProfile extends StatelessWidget {
                   value: 'logout',
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      const Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                      ),
                       SizedBox(
                         width: 10.w,
                       ),
-                      Text('تسجيل الخروج')
+                      const Text(
+                        'تسجيل الخروج',
+                        style: TextStyle(color: Colors.red),
+                      )
                     ],
                   ))
             ],
@@ -86,14 +92,16 @@ class ViewProfile extends StatelessWidget {
             Center(
               child: Stack(
                 children: [
-                  Obx(
-                    () => CircleAvatar(
+                  Obx(() {
+                    final avatar = c.avatarUrl.value;
+
+                    return CircleAvatar(
                       radius: 50.r,
-                      backgroundImage: c.avatarUrl.value != ''
-                          ? CachedNetworkImageProvider(c.avatarUrl.value!)
-                          : AssetImage(AppImage.icon1) as ImageProvider,
-                    ),
-                  ),
+                      backgroundImage: (avatar != null && avatar.isNotEmpty)
+                          ? CachedNetworkImageProvider(avatar)
+                          : const AssetImage(AppImage.icon1),
+                    );
+                  }),
                   Positioned(
                     top: 51.h,
                     left: 40.w,

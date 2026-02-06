@@ -12,22 +12,22 @@ class WorkModel extends Work {
   factory WorkModel.fromJson(Map<String, dynamic> json) {
     return WorkModel(
       id: json['id'],
-      designerId: json['designerId'],
-      imageUrl: json['imageUrl'],
+      designerId: json['designer_id'],
+      imageUrl: json['image_url'],
       description: json['description'],
-      createdAt: json['createdAt'],
-      likesCount: json['likesCount'],
+      createdAt: json['created_at'],
+      likesCount: json['likes_count'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'designerId': designerId,
-      'imageUrl': imageUrl,
+      'designer_id': designerId,
+      'image_url': imageUrl,
       'description': description,
-      'createdAt': createdAt,
-      'likesCount': likesCount,
+      'created_at': createdAt,
+      'likes_count': likesCount,
     };
   }
 }

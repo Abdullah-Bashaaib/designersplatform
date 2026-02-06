@@ -98,16 +98,15 @@ class ClientHomePage extends StatelessWidget {
                   title: 'بحث',
                   onTap: () => Get.to(() => SearchPage()),
                 ),
-                BuildQuickCard(
-                  icon: Icons.favorite_border,
-                  title: 'المفضلة',
-                  onTap: () {},
-                ),
+                // BuildQuickCard(
+                //   icon: Icons.favorite_border,
+                //   title: 'المفضلة',
+                //   onTap: () {},
+                // ),
               ],
             ),
             SizedBox(height: 30.h),
 
-            /// 🧑‍🎨 أفضل المصممين
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
