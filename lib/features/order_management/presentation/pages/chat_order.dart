@@ -34,7 +34,7 @@ class ChatOrder extends StatelessWidget {
                         order: order,
                       ),
               ),
-              if (controller.isOrderAccepted)
+              if (order.status == 'مقبول')
                 BuildTextFieldChat(
                   chatId: order.id,
                 ),

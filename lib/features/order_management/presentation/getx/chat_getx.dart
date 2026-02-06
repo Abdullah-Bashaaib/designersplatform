@@ -38,7 +38,7 @@ class ChatOrderGetX extends GetxController {
   final RxList<Message> chatMessages = <Message>[].obs;
   late StreamSubscription<List<Message>> _chatSubscription;
 
-  late String _currentUserId;
+  // late String _currentUserId;
 
   final scrollController = ScrollController();
   final textController = TextEditingController(); // 💡 لإدخال النص
@@ -55,7 +55,9 @@ class ChatOrderGetX extends GetxController {
     super.onInit();
     // تحضير البيانات عند بدء الـ controller
     checkAccept();
-    _currentUserId = CurrentUser.currentUser!.id; // (مثال)
+    // if (CurrentUser.currentUser!.id != null) {
+    //   _currentUserId = CurrentUser.currentUser!.id; // (مثال)
+    // }
     // _listenToMessages(order.value?.id ?? ''); // افترض أن ID الطلب هو ID الشات
   }
 
@@ -139,7 +141,7 @@ class ChatOrderGetX extends GetxController {
     final message = MessageModel(
       id: messageId,
       chatId: chatId, // ID الشات
-      senderId: _currentUserId,
+      senderId: CurrentUser.currentUser!.id,
       content: content,
       timestamp: DateTime.now(),
       type: MessageType.text, readBy: [],
@@ -150,7 +152,15 @@ class ChatOrderGetX extends GetxController {
     try {
       log("message: R u Here");
       // إرسال الرسالة (هذا سيقوم بتحديث الـ Stream أوتوماتيكياً)
-      _sendMessageUseCase(message);
+      final result = await _sendMessageUseCase(message);
+      result.fold(
+        (l) {
+          print(l.message);
+        },
+        (r) {
+          print('ok');
+        },
+      );
       // (الـ UseCase هذا يجب أن يقوم أيضاً بتحديث "ملخص" الـ Chat entity)
     } catch (e) {
       Get.snackbar("خطأ", "فشل إرسال الرسالة");
@@ -161,7 +171,7 @@ class ChatOrderGetX extends GetxController {
   }
 
   bool isMessageFromMe(Message message) {
-    return message.senderId == _currentUserId;
+    return message.senderId == CurrentUser.currentUser!.id;
   }
 
   void _scrollToBottom() {/* ... */}

@@ -67,11 +67,17 @@ class ViewProfile extends StatelessWidget {
                   value: 'logout',
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      const Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                      ),
                       SizedBox(
                         width: 10.w,
                       ),
-                      Text('تسجيل الخروج')
+                      const Text(
+                        'تسجيل الخروج',
+                        style: TextStyle(color: Colors.red),
+                      )
                     ],
                   ))
             ],
