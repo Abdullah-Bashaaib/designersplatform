@@ -451,7 +451,6 @@ class Injection {
       permanent: true,
       ChatOrderGetX(
         Get.find<SharedPreferences>(),
-        Get.find<GetChatMessagesUseCase>(),
         Get.find<SendMessageUseCase>(),
         Get.find<Uuid>(),
         Get.find<OrderGetx>(),

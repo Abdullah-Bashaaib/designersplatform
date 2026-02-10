@@ -1,48 +1,63 @@
-import 'package:designers_platform/features/order_management/domain/entity/chat_room.dart';
+import '../../domain/entity/chat_room.dart';
 
-// ... (imports)
-
-class MessageModel extends Message {
-  const MessageModel({
+class ChatRoomModel extends ChatRoom {
+  ChatRoomModel({
     required super.id,
-    required super.chatId,
-    required super.senderId,
-    required super.content,
-    required super.timestamp,
-    required super.type,
-    required super.readBy,
+    required super.orderId,
+    required super.clientId,
+    required super.designerId,
+    required super.isClosed,
+    required super.createdAt,
+    super.closedAt,
+    super.lastReadAtByClient,
+    super.lastReadAtByDesigner,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'chat_id':
-          chatId, // Supabase usually uses snake_case, but I should stick to map key conventions if I can't confirm. However, in `ChatRemoteDataSource` I saw `.eq('chat_id', chatId)`. So the database column is `chat_id`. The existing `toJson` used `chatId`. If the DB expects `chat_id`, I should change it. Let's assume snake_case for Supabase columns.
-      'sender_id': senderId,
-      'content': content,
-      'timestamp': timestamp.toIso8601String(),
-      'type': type.name,
-      'read_by': readBy,
-    };
-  }
+  factory ChatRoomModel.fromJson(Map<String, dynamic> json) => ChatRoomModel(
+        id: json['id'],
+        orderId: json['order_id'],
+        clientId: json['client_id'],
+        designerId: json['designer_id'],
+        isClosed: json['is_closed'],
+        createdAt: DateTime.parse(json['created_at']),
+        closedAt: json['closed_at'] != null
+            ? DateTime.parse(json['closed_at'])
+            : null,
+        lastReadAtByClient: json['last_read_at_by_client'] != null
+            ? DateTime.parse(json['last_read_at_by_client'])
+            : null,
+        lastReadAtByDesigner: json['last_read_at_by_designer'] != null
+            ? DateTime.parse(json['last_read_at_by_designer'])
+            : null,
+      );
 
-  factory MessageModel.fromJson(Map<String, dynamic> map) {
-    return MessageModel(
-      id: map['id']?.toString() ?? '',
-      chatId: map['chat_id']?.toString() ??
-          map['chatId']?.toString() ??
-          '', // Safe fallback
-      senderId:
-          map['sender_id']?.toString() ?? map['senderId']?.toString() ?? '',
-      content: map['content']?.toString() ?? '',
-      timestamp: map['timestamp'] != null
-          ? DateTime.parse(map['timestamp'])
-          : DateTime.now(),
-      type: MessageType.values.firstWhere(
-        (e) => e.name == map['type'],
-        orElse: () => MessageType.text,
-      ),
-      readBy: List<String>.from(map['read_by'] ?? map['readBy'] ?? []),
-    );
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'order_id': orderId,
+        'client_id': clientId,
+        'designer_id': designerId,
+        'is_closed': isClosed,
+        'created_at': createdAt.toIso8601String(),
+        'closed_at': closedAt?.toIso8601String(),
+        'last_read_at_by_client': lastReadAtByClient?.toIso8601String(),
+        'last_read_at_by_designer': lastReadAtByDesigner?.toIso8601String(),
+      };
+}
+
+class ChatMessageModel extends ChatMessage {
+  ChatMessageModel(
+      {required super.id,
+      required super.chatRoomId,
+      required super.senderId,
+      required super.content,
+      required super.createdAt});
+
+  factory ChatMessageModel.fromJson(Map<String, dynamic> json) =>
+      ChatMessageModel(
+        id: json["id"],
+        chatRoomId: json["chat_room_id"],
+        senderId: json["sender_id"],
+        content: json["content"],
+        createdAt: DateTime.parse(json["created_at"]),
+      );
 }

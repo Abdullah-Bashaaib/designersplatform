@@ -1,11 +1,15 @@
+import 'package:designers_platform/core/routes/app_routes.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'features/order_management/presentation/bindings/chat_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +42,13 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.system,
           defaultTransition: Transition.cupertino,
           transitionDuration: const Duration(milliseconds: 400),
+          getPages: [
+            GetPage(
+              name: AppRoutes.chat,
+              page: () => ChatOrder(order: order),
+              binding: ChatBinding(),
+            )
+          ],
           home: SplashScreen(),
         );
       },

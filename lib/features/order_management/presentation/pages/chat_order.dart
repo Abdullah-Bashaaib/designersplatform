@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
-import 'package:designers_platform/features/order_management/domain/usecase/get_order_status_usecase.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ class ChatOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('message----[Here ChatOrder Page][${order.status}]----');
     // c.acceptedOrderTest();
     return SafeArea(
       top: false,

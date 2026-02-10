@@ -10,6 +10,8 @@ import '../../../../core/widget/gap.dart';
 import '../getx/chat_getx.dart';
 
 Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
+  log('== Here BuildChatView == chat message : ${controller.chatMessages.length} ==');
+  final chatMessages = controller.chatMessages;
   return CustomScrollView(
     controller: controller.scrollController,
     // reverse: true, // ننصح بتفعيل هذا في الشات الحقيقي
@@ -22,8 +24,17 @@ Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
         ),
       ),
       SliverList.separated(
-        itemCount: controller.chatMessages.length,
+        itemCount: chatMessages.isEmpty ? 1 : chatMessages.length,
         itemBuilder: (context, index) {
+          if (chatMessages.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 250.h),
+                child: Text('لا توجد رسائل بعد'),
+              ),
+            );
+          }
+          log('==Here==');
           // --- 1. احصل على كائن الرسالة أولاً ---
           final message = controller.chatMessages[index];
           log("message: message is ${message.content}");
