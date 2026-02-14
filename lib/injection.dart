@@ -24,6 +24,7 @@ import 'package:designers_platform/features/designer_profile/data/datasource/loc
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/review_local_data_source.dart';
 import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/work_local_data_source.dart';
 import 'package:designers_platform/features/designer_profile/data/datasource/remote_data_source/designer_remote_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/remote_data_source/review_remote.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/dseigner_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/review_repo_imp.dart';
 import 'package:designers_platform/features/designer_profile/data/repositories/work_repo_imp.dart';
@@ -39,6 +40,7 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/wor
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/get_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/work_usecase/update_work_use_case.dart';
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
+import 'package:designers_platform/features/designer_profile/presentation/getx/review_getx.dart';
 import 'package:designers_platform/features/home/data/datasource/remote.dart';
 import 'package:designers_platform/features/home/data/repo/home_repo_imp.dart';
 import 'package:designers_platform/features/home/domain/repo/home_repo.dart';
@@ -234,6 +236,10 @@ class Injection {
 
     ///========================== [ Feat: Designer Profile ] ==============================
     ///Data Source
+    Get.lazyPut<ReviewRemote>(
+      fenix: true,
+      () => ReviewRemoteImp(Get.find<SupabaseClient>()),
+    );
 
     ///Data Local
     Get.lazyPut(
@@ -275,6 +281,8 @@ class Injection {
       fenix: true,
       () => ReviewRepoImp(
         Get.find<ReviewLocalDataSourceImpBySql>(),
+        Get.find<ReviewRemote>(),
+        Get.find<INetworkInfo>(),
       ),
     );
     Get.lazyPut(
@@ -412,6 +420,9 @@ class Injection {
         Get.find<DeleteOrderUsecase>(),
         Get.find<UpdateOrderUsecase>(),
         Get.find<GetSupervisorPhoneUsecase>(),
+        Get.find<AddReviewUseCase>(),
+        Get.find<Uuid>(),
+        Get.find<GetReviewUseCase>(),
       ),
     );
 
@@ -457,6 +468,8 @@ class Injection {
         Get.find<OrderGetx>(),
       ),
     );
+
+    Get.lazyPut(fenix: true, () => ReviewGetx());
 // Get.lazyPut(() => SendMessageUseCase(Get.find()));
 
     /// =============================== [ Home ] ==================================

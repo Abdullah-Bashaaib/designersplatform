@@ -11,9 +11,7 @@ class OrderModel extends OrderEntity {
     super.description,
     super.price,
     required super.status,
-    super.rate,
     super.imageUrl,
-    super.feedback,
     required super.createAt,
     super.adminApproval,
   });
@@ -23,15 +21,13 @@ class OrderModel extends OrderEntity {
         id: json['id'] ?? '',
         clientId: json['clientId'] ?? '',
         clientName: json['clientName'] ?? '',
-        designerId: json['designerId,'] ?? '',
+        designerId: json['designerId'] ?? '',
         designerName: json['designerName'] ?? '',
         designType: json['designType'] ?? '',
         description: json['description'] ?? '',
         price: (json['price'] as num).toDouble(),
         status: json['status'] ?? '',
-        rate: json['rate'] ?? 0,
         imageUrl: json['imageUrl'] ?? '',
-        feedback: json['feedback'] ?? '',
         createAt: DateTime.parse(json['createAt'] as String),
         adminApproval: json['adminApproval']);
   }
@@ -47,9 +43,7 @@ class OrderModel extends OrderEntity {
       'description': description ?? '',
       'price': price ?? 0.0,
       'status': status,
-      'rate': rate ?? 0,
       'imageUrl': imageUrl ?? '',
-      'feedback': feedback ?? '',
       'createAt': createAt.toIso8601String(),
       'adminApproval': adminApproval ?? '',
     };
