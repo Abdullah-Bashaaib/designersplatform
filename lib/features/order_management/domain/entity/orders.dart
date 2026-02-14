@@ -10,8 +10,6 @@ class OrderEntity {
   String status;
   final DateTime createAt;
   final String? imageUrl;
-  final int? rate;
-  final String? feedback;
   final String? adminApproval;
 
   OrderEntity({
@@ -26,8 +24,6 @@ class OrderEntity {
     required this.status,
     required this.createAt,
     this.imageUrl,
-    this.rate,
-    this.feedback,
     this.adminApproval,
   });
 }

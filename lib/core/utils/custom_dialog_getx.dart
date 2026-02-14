@@ -1,3 +1,5 @@
+import 'package:designers_platform/core/widget/build_text_field.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -187,7 +189,7 @@ class CustomDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(5, (index) {
             return GestureDetector(
-              onTap: () => onRatingChanged?.call((index + 1).toDouble()),
+              onTap: () => onRatingChanged?.call((index + 1)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Icon(
@@ -231,7 +233,10 @@ class CustomDialog extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: onPrimaryPressed ?? () => Get.back(),
                 style: AppStyles.secondaryButtonStyle,
-                child: Text(primaryButtonText!),
+                child: Text(
+                  primaryButtonText!,
+                  style: TextStyle(fontSize: 15.sp),
+                ),
               ),
             ),
           ],
@@ -350,30 +355,48 @@ class DialogHelper {
 
   /// عرض حوار التقييم
   static Future<double?> showRatingDialog({
+    required String designerId,
+    required String orderId,
     required String title,
     String? message,
-    double initialRating = 0,
+    double initialRating = 0.0,
     String submitText = 'إرسال التقييم',
     String cancelText = 'إلغاء',
   }) {
-    double currentRating = initialRating;
+    final c = Get.find<OrderGetx>();
+
+    // ضبط القيمة الابتدائية
+    c.currentRating.value = initialRating;
 
     return Get.dialog<double>(
-      StatefulBuilder(
-        builder: (context, setState) => CustomDialog(
+      Obx(
+        () => CustomDialog(
           type: DialogType.rating,
           title: title,
           message: message,
-          rating: currentRating,
+          customContent: Column(
+            children: [
+              Text(
+                'ملاحظات',
+                style: AppStyles.bodyLarge,
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              BuildTextField(
+                controller: c.feedback.value,
+              )
+            ],
+          ),
+          rating: c.currentRating.value, // 👈 هنا نستخدم Rx
           onRatingChanged: (rating) {
-            setState(() {
-              currentRating = rating;
-            });
+            c.currentRating.value = rating; // 👈 تحديث Rx
           },
           primaryButtonText: submitText,
           secondaryButtonText: cancelText,
           onPrimaryPressed: () {
-            Get.back(result: currentRating);
+            c.addReview(designerId, orderId);
+            Get.back(result: c.currentRating.value);
           },
           onSecondaryPressed: () {
             Get.back();

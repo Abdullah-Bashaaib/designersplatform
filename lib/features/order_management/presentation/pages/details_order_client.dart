@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
+import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
+import 'package:designers_platform/core/widget/custom_button.dart';
 import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
@@ -10,8 +12,14 @@ import 'package:get/get.dart';
 
 class DetailsOrderClient extends StatelessWidget {
   final OrderEntity order;
+  final double rate;
+  final String feedback;
 
-  const DetailsOrderClient({super.key, required this.order});
+  const DetailsOrderClient(
+      {super.key,
+      required this.order,
+      required this.rate,
+      required this.feedback});
 
   String _formatDate(DateTime dt) {
     final d = dt.toLocal();
@@ -48,7 +56,7 @@ class DetailsOrderClient extends StatelessWidget {
     }
   }
 
-  List<Widget> _buildStars(int? rate) {
+  List<Widget> _buildStars(double? rate) {
     final r = (rate ?? 0).clamp(0, 5);
     return List.generate(
       5,
@@ -129,16 +137,18 @@ class DetailsOrderClient extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                         child: CircularProgressIndicator(),
                       )
-                    : IconButton(
-                        tooltip: 'حذف الطلب',
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () async {
-                          await c.deleteOrder(order.id);
-                        },
-                      ),
+                    : order.status == 'قيد الانتظار'
+                        ? IconButton(
+                            tooltip: 'حذف الطلب',
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () async {
+                              await c.deleteOrder(order.id);
+                            },
+                          )
+                        : SizedBox(),
               ),
             ],
           ),
@@ -324,48 +334,65 @@ class DetailsOrderClient extends StatelessWidget {
               ),
 
             // التقييم والتعليق
-            if (order.rate != null || (order.feedback ?? '').trim().isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                child: Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Icon(Icons.reviews, size: 20),
-                            SizedBox(width: 8),
-                            Text('التقييم',
-                                style: TextStyle(fontWeight: FontWeight.w700)),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            ..._buildStars(order.rate),
-                            const SizedBox(width: 8),
-                            Text(order.rate?.toString() ?? 'غير مُقيّم'),
-                          ],
-                        ),
-                        if ((order.feedback ?? '').trim().isNotEmpty) ...[
-                          const SizedBox(height: 12),
-                          const Text('ملاحظات:',
-                              style: TextStyle(fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 6),
-                          Text(order.feedback!.trim()),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              child: Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.grey.shade300),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.reviews, size: 20),
+                          SizedBox(width: 8),
+                          Text('التقييم',
+                              style: TextStyle(fontWeight: FontWeight.w700)),
                         ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ..._buildStars(rate),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(rate.toString())),
+                          // SizedBox(
+                          //   width: 90.w,
+                          // ),
+                          rate == 0.0 && order.status == 'مكتمل'
+                              ? Expanded(
+                                  child: CustomButton(
+                                      onPressed: () {
+                                        DialogHelper.showRatingDialog(
+                                            orderId: order.id,
+                                            designerId: order.designerId,
+                                            title: 'كيف ترى عمل المصمم');
+                                        // print(order.designerId);
+                                      },
+                                      text: 'تقييم'),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      if ((feedback).trim().isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        const Text('ملاحظات:',
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 6),
+                        Text(feedback.trim()),
                       ],
-                    ),
+                    ],
                   ),
                 ),
               ),
+            ),
 
             const SizedBox(height: 24),
           ],

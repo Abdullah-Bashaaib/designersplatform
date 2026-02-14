@@ -20,24 +20,29 @@ class DesignerRepoImp implements DesignerRepository {
   Future<Either<Failure, Designer>> getDesigner(String id) async {
     if (await networkInfo.isConnected) {
       try {
-        final designer = await remoteDataSource.getData(id);
-        if (designer == null) {
-          try {
-            final designer = await localDataSource.getData(id);
-            return Right(designer!);
-          } on EmptyLocalDatabaseException {
-            return Left(EmptyLocalDatabaseFailure());
-          }
+        final remoteDesigner = await remoteDataSource.getData(id);
+
+        if (remoteDesigner != null) {
+          return Right(remoteDesigner);
         }
-        return Right(designer);
+
+        final localDesigner = await localDataSource.getData(id);
+
+        if (localDesigner != null) {
+          return Right(localDesigner);
+        } else {
+          return Left(EmptyLocalDatabaseFailure());
+        }
       } on ServerException {
         return Left(ServerFailure());
       }
     }
-    try {
-      final designer = await localDataSource.getData(id);
-      return Right(designer!);
-    } on EmptyLocalDatabaseException {
+
+    final localDesigner = await localDataSource.getData(id);
+
+    if (localDesigner != null) {
+      return Right(localDesigner);
+    } else {
       return Left(EmptyLocalDatabaseFailure());
     }
   }
