@@ -5,34 +5,57 @@ import 'dart:developer';
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
+import 'package:designers_platform/features/designer_profile/domain/entities/review.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/add_review_use_case.dart';
+import 'package:designers_platform/features/designer_profile/domain/usecases/review_usecase/get_review_use_case.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/delete_order.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderGetx extends GetxController {
   final GetOrdersUsecase getOrdersUsecase;
   final DeleteOrderUsecase deleteOrderUsecase;
   final UpdateOrderUsecase updateOrderUsecase;
   final GetSupervisorPhoneUsecase supervisorPhoneUsecase;
+  final AddReviewUseCase addReviewUseCase;
+  final GetReviewUseCase getReviewUseCase;
+  final Uuid uuid;
   // final NetworkService _networkService = Get.find<NetworkService>();
 
-  OrderGetx(this.getOrdersUsecase, this.deleteOrderUsecase,
-      this.updateOrderUsecase, this.supervisorPhoneUsecase);
+  OrderGetx(
+    this.getOrdersUsecase,
+    this.deleteOrderUsecase,
+    this.updateOrderUsecase,
+    this.supervisorPhoneUsecase,
+    this.addReviewUseCase,
+    this.uuid,
+    this.getReviewUseCase,
+  );
 
   var isLoading = false.obs;
   var isLoadingEdit = false.obs;
   var isLoadingSend = false.obs;
+  var isLoadingFeedback = false.obs;
+
+  var currentRating = 0.0.obs;
+  var feedback = TextEditingController().obs;
 
   var orderList = <OrderEntity>[].obs;
+  var reviewsList = <Review>[].obs;
+  var reviewsByOrderId = <String, Review>{}.obs;
+
   @override
   void onInit() {
     super.onInit();
     log("----------> message: Current user is ${CurrentUser.currentUser?.name}");
     getOrders();
+    getReviews();
   }
 
   Future<void> getOrders() async {
@@ -170,5 +193,61 @@ class OrderGetx extends GetxController {
     //     message: 'حدث خطأ أثناء فتح واتساب',
     //   );
     // }
+  }
+
+  Future<void> addReview(String designerId, String orderId) async {
+    isLoadingFeedback.value = true;
+    final review = Review(
+        id: uuid.v4(),
+        clientId: CurrentUser.currentUser!.id,
+        designerId: designerId,
+        nameClint: CurrentUser.currentUser!.name,
+        orderId: orderId,
+        feedback: feedback.value.text,
+        timeReview: DateTime.now(),
+        valueReview: currentRating.value);
+    final result = await addReviewUseCase(review: review);
+    result.fold(
+      (l) {
+        // print(l.message);
+        DialogHelper.showErrorSnackBar(title: 'خطا', message: l.message);
+      },
+      (r) {
+        DialogHelper.showSuccessSnackBar(
+            title: 'نجاح', message: "تم التقييم بنجاح");
+        reviewsByOrderId[orderId] = review;
+        reviewsByOrderId.refresh();
+        feedback.close();
+      },
+    );
+    isLoadingFeedback.value = false;
+  }
+
+  Future<void> getReviews() async {
+    final result = await getReviewUseCase();
+    result.fold(
+      (l) {
+        DialogHelper.showErrorSnackBar(title: 'خطا', message: globalError);
+      },
+      (r) {
+        reviewsList.assignAll(r);
+        reviewsByOrderId.assignAll({
+          for (final review in reviewsList) review.orderId: review,
+        });
+        print(r.length);
+      },
+    );
+  }
+
+  double? getRate(String orderId) {
+    return reviewsByOrderId[orderId]?.valueReview ?? 0.0;
+  }
+
+  String? getFeedback(String orderId) {
+    return reviewsByOrderId[orderId]?.feedback ?? '';
+  }
+
+  int? getReviewsCount() {
+    return reviewsByOrderId.length;
   }
 }

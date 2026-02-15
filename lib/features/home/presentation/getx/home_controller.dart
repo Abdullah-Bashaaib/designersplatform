@@ -22,7 +22,7 @@ class HomeController extends GetxController {
 
   var isLoading = false.obs;
   var isMoreLoading = false.obs;
-  var designerList = <Designer>[].obs;
+  var designerList = <Designer>{}.obs;
   ScrollController scrollController = ScrollController();
   var user = CurrentUser.currentUser.obs;
   var designer = Rxn<Designer>();
@@ -87,7 +87,7 @@ class HomeController extends GetxController {
     result.fold((f) {
       DialogHelper.showErrorSnackBar(title: 'خطـــأ', message: f.message);
     }, (r) {
-      designerList.value = r;
+      designerList.assignAll(r);
     });
     isLoading.value = false;
   }

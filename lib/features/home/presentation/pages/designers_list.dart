@@ -60,7 +60,8 @@ class DesignersList extends StatelessWidget {
                             return DesignCard(designer: null);
                           }
                           if (i < c.designerList.length) {
-                            return DesignCard(designer: c.designerList[i]);
+                            return DesignCard(
+                                designer: c.designerList.elementAt(i));
                           } else {
                             return const Padding(
                               padding: EdgeInsets.all(16.0),

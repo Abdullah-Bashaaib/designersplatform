@@ -32,7 +32,7 @@ class DesignCard extends StatelessWidget {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          designer?.email ?? 'loading@email.com',
+          designer?.specialization ?? 'loading@email.com',
         ),
         trailing: const Icon(Icons.arrow_forward_ios_rounded),
         onTap: !c.isLoading.value

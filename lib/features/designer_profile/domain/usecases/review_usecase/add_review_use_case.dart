@@ -8,7 +8,7 @@ class AddReviewUseCase {
 
   AddReviewUseCase({required this.reviewRepository});
 
-  Future<Either<Failure, Unit>> call(Review review) async {
+  Future<Either<Failure, Unit>> call({required Review review}) async {
     return await reviewRepository.addReview(review);
   }
 }
