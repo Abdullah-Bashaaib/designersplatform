@@ -3,10 +3,11 @@ import 'package:designers_platform/core/utils/app_colors.dart';
 import 'package:designers_platform/core/widget/order_dialog.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
-import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/routes/app_routes.dart';
 
 class DetailsOrderClient extends StatelessWidget {
   final OrderEntity order;
@@ -102,7 +103,7 @@ class DetailsOrderClient extends StatelessWidget {
                                     initialDescription: order.description,
                                     onConfirm: (type, description) {
                                       final fields = {
-                                        'orderId': order.id,
+                                        'id': order.id,
                                         'designType': type,
                                         'description': description
                                       };
@@ -207,9 +208,9 @@ class DetailsOrderClient extends StatelessWidget {
                         avatar: Icon(Icons.flag_circle,
                             size: 18, color: statusColor),
                         label: Text(order.status),
-                        backgroundColor: statusColor.withOpacity(0.12),
+                        backgroundColor: statusColor.withValues(alpha: 0.12),
                         labelStyle: TextStyle(color: statusColor),
-                        side: BorderSide(color: statusColor.withOpacity(0.4)),
+                        side: BorderSide(color: statusColor.withValues(alpha: 0.4)),
                       ),
                       if (order.status == 'مكتمل' &&
                           order.adminApproval == 'true')
@@ -222,8 +223,10 @@ class DetailsOrderClient extends StatelessWidget {
                         )
                       else if (order.status == 'مقبول')
                         IconButton(
-                          onPressed: () =>
-                              Get.to(() => ChatOrder(order: order)),
+                          onPressed: () => Get.toNamed(
+                            AppRoutes.chat,
+                            arguments: order,
+                          ),
                           icon: Icon(Icons.chat),
                           color: AppColors.primaryColor,
                         )

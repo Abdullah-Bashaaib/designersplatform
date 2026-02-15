@@ -23,7 +23,7 @@ class OrderModel extends OrderEntity {
         id: json['id'] ?? '',
         clientId: json['clientId'] ?? '',
         clientName: json['clientName'] ?? '',
-        designerId: json['designerId,'] ?? '',
+        designerId: json['designerId'] ?? '',
         designerName: json['designerName'] ?? '',
         designType: json['designType'] ?? '',
         description: json['description'] ?? '',

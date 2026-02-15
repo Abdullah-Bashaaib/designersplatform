@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../data/datasource/chat_remote_datasource.dart';
 import '../../data/repo/chat_repo_impl.dart';
+import '../../domain/repo/i_chat_repository.dart';
 import '../../domain/usecase/chat_room/close_chat_room_use_case.dart';
 import '../../domain/usecase/chat_room/create_chat_room_usecase.dart';
 import '../../domain/usecase/chat_room/get_chat_room_by_orderId_usecase.dart';
@@ -22,17 +23,17 @@ class ChatBinding extends Bindings {
     );
 
     // Repository
-    Get.lazyPut(
-      () => ChatRepositoryImpl(Get.find()),
+    Get.lazyPut<ChatRepository>(
+      () => ChatRepositoryImpl(Get.find<ChatRemoteDataSource>()),
     );
 
     // UseCases
-    Get.lazyPut(() => CreateChatRoomUseCase(Get.find()));
-    Get.lazyPut(() => GetChatRoomByOrderIdUseCase(Get.find()));
-    Get.lazyPut(() => SubscribeToMessagesUseCase(Get.find()));
-    Get.lazyPut(() => SendMessageUseCase(Get.find()));
-    Get.lazyPut(() => UpdateLastReadUseCase(Get.find()));
-    Get.lazyPut(() => CloseChatRoomUseCase(Get.find()));
+    Get.lazyPut<CreateChatRoomUseCase>(() => CreateChatRoomUseCase(Get.find()));
+    Get.lazyPut<GetChatRoomByOrderIdUseCase>(() => GetChatRoomByOrderIdUseCase(Get.find()));
+    Get.lazyPut<SubscribeToMessagesUseCase>(() => SubscribeToMessagesUseCase(Get.find()));
+    Get.lazyPut<SendMessageUseCase>(() => SendMessageUseCase(Get.find()));
+    Get.lazyPut<UpdateLastReadUseCase>(() => UpdateLastReadUseCase(Get.find()));
+    Get.lazyPut<CloseChatRoomUseCase>(() => CloseChatRoomUseCase(Get.find()));
 
     // Controller
     Get.lazyPut(

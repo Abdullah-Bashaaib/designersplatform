@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../domain/entity/chat_room.dart';
 import '../../domain/usecase/chat_room/close_chat_room_use_case.dart';
@@ -34,6 +35,7 @@ class ChatController extends GetxController {
   final RxBool isLoading = false.obs;
 
   StreamSubscription<List<ChatMessage>>? _messagesSub;
+  late final String _currentUserId;
 
   // ------------------------------------------
   // Init chat by order
@@ -42,14 +44,26 @@ class ChatController extends GetxController {
     required String orderId,
     required String clientId,
     required String designerId,
-    required bool isClient,
   }) async {
     isLoading.value = true;
 
     try {
+      if (orderId.trim().isEmpty ||
+          clientId.trim().isEmpty ||
+          designerId.trim().isEmpty) {
+        Get.snackbar(
+          'خطأ',
+          'تعذر إنشاء غرفة الدردشة بسبب بيانات ناقصة (orderId/clientId/designerId)',
+        );
+        return;
+      }
+
+      _currentUserId = Supabase.instance.client.auth.currentUser!.id;
+
+      final bool isClient = _currentUserId == clientId;
+
       chatRoom.value = await getChatRoomByOrderId(orderId);
 
-      // إنشاء الشات لو غير موجود
       if (chatRoom.value == null) {
         chatRoom.value = await createChatRoom(
           orderId: orderId,
@@ -58,10 +72,8 @@ class ChatController extends GetxController {
         );
       }
 
-      // الاشتراك في الرسائل
       _subscribeToMessages();
 
-      // تحديث القراءة
       await updateLastRead(
         chatRoomId: chatRoom.value!.id,
         isClient: isClient,
@@ -89,6 +101,7 @@ class ChatController extends GetxController {
   // ------------------------------------------
   Future<void> sendTextMessage(String text) async {
     if (text.trim().isEmpty) return;
+    if (chatRoom.value == null) return;
     if (chatRoom.value?.canSendMessage() == false) return;
 
     await sendMessage(

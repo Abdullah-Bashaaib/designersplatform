@@ -54,7 +54,6 @@ import 'package:designers_platform/features/order_management/domain/usecase/get_
 import 'package:designers_platform/features/order_management/domain/usecase/get_orders.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/get_supervisor_phone_usecase.dart';
 import 'package:designers_platform/features/order_management/domain/usecase/update_order.dart';
-import 'package:designers_platform/features/order_management/presentation/getx/chat_getx.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:designers_platform/features/search/data/datasurce/search_remote.dart';
 import 'package:designers_platform/features/search/data/repo/search_repo_imp.dart';
@@ -74,11 +73,6 @@ import 'core/presentation/services/data_sync_service.dart';
 import 'core/presentation/services/network_service.dart';
 import 'features/auth/data/repositories/auth_repository_imp.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
-import 'features/order_management/data/datasource/chat_remote_datasource.dart';
-import 'features/order_management/data/repo/chat_repo_impl.dart';
-import 'features/order_management/domain/repo/i_chat_repository.dart';
-import 'features/order_management/domain/usecase/chat_room/get_chat_messages_usecase.dart';
-import 'features/order_management/domain/usecase/chat_room/send_message_useCase.dart';
 import 'features/supervisor/data/datasources/supervisor_remote_datasource.dart';
 import 'features/supervisor/data/repositories/supervisor_repository_impl.dart';
 import 'features/supervisor/domain/repositories/supervisor_repository.dart';
@@ -417,45 +411,45 @@ class Injection {
 
     // --- Chat Feature ---
 // DataSource
-    Get.lazyPut<IChatRemoteDataSource>(
-      fenix: true,
-      () => ChatRemoteDataSourceImpl(
-        Get.find<SupabaseClient>(),
-      ),
-    );
+//     Get.lazyPut<IChatRemoteDataSource>(
+//       fenix: true,
+//       () => ChatRemoteDataSourceImpl(
+//         Get.find<SupabaseClient>(),
+//       ),
+//     );
 
 // Repository
-    Get.lazyPut<IChatRepository>(
-      fenix: true,
-      () => ChatRepositoryImpl(
-        Get.find<IChatRemoteDataSource>(),
-        Get.find<INetworkInfo>(),
-      ),
-    );
+//     Get.lazyPut<IChatRepository>(
+//       fenix: true,
+//       () => ChatRepositoryImpl(
+//         Get.find<IChatRemoteDataSource>(),
+//         Get.find<INetworkInfo>(),
+//       ),
+//     );
 
 // UseCases
-    Get.lazyPut(
-      fenix: true,
-      () => SendMessageUseCase(
-        Get.find<IChatRepository>(),
-      ),
-    );
-    Get.lazyPut(
-      fenix: true,
-      () => GetChatMessagesUseCase(
-        Get.find<IChatRepository>(),
-      ),
-    );
+//     Get.lazyPut(
+//       fenix: true,
+//       () => SendMessageUseCase(
+//         Get.find<IChatRepository>(),
+//       ),
+//     );
+//     Get.lazyPut(
+//       fenix: true,
+//       () => GetChatMessagesUseCase(
+//         Get.find<IChatRepository>(),
+//       ),
+//     );
 
-    Get.put(
-      permanent: true,
-      ChatOrderGetX(
-        Get.find<SharedPreferences>(),
-        Get.find<SendMessageUseCase>(),
-        Get.find<Uuid>(),
-        Get.find<OrderGetx>(),
-      ),
-    );
+    // Get.put(
+    //   permanent: true,
+    //   ChatOrderGetX(
+    //     Get.find<SharedPreferences>(),
+    //     Get.find<SendMessageUseCase>(),
+    //     Get.find<Uuid>(),
+    //     Get.find<OrderGetx>(),
+    //   ),
+    // );
 // Get.lazyPut(() => SendMessageUseCase(Get.find()));
 
     /// =============================== [ Home ] ==================================

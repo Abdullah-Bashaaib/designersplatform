@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           getPages: [
             GetPage(
               name: AppRoutes.chat,
-              page: () => ChatOrder(order: order), //!  Stopped Here
+              page: () => ChatOrder(),
               binding: ChatBinding(),
             )
           ],

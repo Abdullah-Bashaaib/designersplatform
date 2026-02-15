@@ -1,49 +1,64 @@
-import 'dart:developer';
-
-import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
-import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/widget/custom_text.dart';
+import '../../domain/entity/orders.dart';
 import '../getx/chat_getx.dart';
 import '../widgets/build_chat_view.dart';
 import '../widgets/build_initial_view.dart';
 import '../widgets/build_text_field_chat.dart';
 
-class ChatOrder extends StatelessWidget {
-  final OrderEntity order;
-  ChatOrder({super.key, required this.order});
-  final controller = Get.find<ChatOrderGetX>();
-  final c = Get.find<OrderGetx>();
+class ChatOrder extends StatefulWidget {
+  const ChatOrder({super.key});
+
+  @override
+  State<ChatOrder> createState() => _ChatOrderState();
+}
+
+class _ChatOrderState extends State<ChatOrder> {
+  final OrderEntity order = Get.arguments as OrderEntity;
+  final ChatController controller = Get.find<ChatController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (order.status == 'مقبول') {
+      controller.initChat(
+        orderId: order.id,
+        clientId: order.clientId,
+        designerId: order.designerId,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    log('message----[Here ChatOrder Page][${order.status}]----');
-    // c.acceptedOrderTest();
+    final bool isAccepted = order.status == 'مقبول';
+
     return SafeArea(
-      top: false,
       child: Scaffold(
         appBar: AppBar(
           title: CustomText(text: order.clientName),
         ),
-        body: Obx(
-          () => Column(
-            children: [
-              Expanded(
-                child: order.status != 'قيد الانتظار'
-                    ? buildChatView(controller, order)
-                    : BuildInitialView(
-                        order: order,
-                      ),
-              ),
-              if (order.status == 'مقبول')
-                BuildTextFieldChat(
-                  chatId: order.id,
-                ),
-            ],
-          ),
-        ),
+        body: isAccepted
+            ? Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                return Column(
+                  children: [
+                    Expanded(
+                      child: buildChatView(controller, order),
+                    ),
+                    BuildTextFieldChat(
+                      chatId: order.id,
+                    ),
+                  ],
+                );
+              })
+            : BuildInitialView(order: order),
       ),
     );
   }

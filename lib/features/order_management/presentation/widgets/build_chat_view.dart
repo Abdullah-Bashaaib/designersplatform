@@ -1,70 +1,78 @@
-import 'dart:developer';
-
-import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/widget/custom_card.dart';
-import '../../../../core/widget/gap.dart';
+import '../../domain/entity/chat_room.dart';
+import '../../domain/entity/orders.dart';
 import '../getx/chat_getx.dart';
 
-Widget buildChatView(ChatOrderGetX controller, OrderEntity order) {
-  log('== Here BuildChatView == chat message : ${controller.chatMessages.length} ==');
-  final chatMessages = controller.chatMessages;
+Widget buildChatView(ChatController controller, OrderEntity order) {
+  final List<ChatMessage> messages = controller.messages;
+  final String? currentUserId = Supabase.instance.client.auth.currentUser?.id;
+
   return CustomScrollView(
-    controller: controller.scrollController,
-    // reverse: true, // ننصح بتفعيل هذا في الشات الحقيقي
+    reverse: true, // مهم جدًا للشات
     slivers: [
+      /// --- معلومات الطلب في الأعلى ---
       SliverToBoxAdapter(
         child: CustomCard(
           order: order.designType,
-          orderDescription:
-              order.description == '' ? 'لا يوجد وصف' : order.description!,
+          orderDescription: order.description?.isEmpty ?? true
+              ? 'لا يوجد وصف'
+              : order.description!,
         ),
       ),
-      SliverList.separated(
-        itemCount: chatMessages.isEmpty ? 1 : chatMessages.length,
-        itemBuilder: (context, index) {
-          if (chatMessages.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 250.h),
-                child: Text('لا توجد رسائل بعد'),
-              ),
-            );
-          }
-          log('==Here==');
-          // --- 1. احصل على كائن الرسالة أولاً ---
-          final message = controller.chatMessages[index];
-          log("message: message is ${message.content}");
 
-          // --- 2. اسأل الكنترولر "هل هذه الرسالة مني؟" ---
-          bool isMe = controller.isMessageFromMe(message);
+      /// --- لو لا توجد رسائل ---
+      if (messages.isEmpty)
+        const SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+            child: Text('لا توجد رسائل بعد'),
+          ),
+        )
+      else
 
-          // (باقي الكود كما هو، الآن سيعمل بشكل صحيح)
-          return Align(
-            alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 5.sp, horizontal: 16.sp),
-              padding: EdgeInsets.all(12.sp),
-              decoration: BoxDecoration(
-                color: isMe ? AppColors.primaryColor : Colors.grey[200],
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                  // --- 3. اعرض محتوى الرسالة ---
+        /// --- قائمة الرسائل ---
+        SliverList.separated(
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            final message = messages[index];
+            final bool isMe =
+                currentUserId != null && message.senderId == currentUserId;
+
+            return Align(
+              alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 12,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+                ),
+                decoration: BoxDecoration(
+                  color: isMe ? AppColors.primaryColor : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
                   message.content,
                   style: TextStyle(
                     color: isMe ? Colors.white : Colors.black87,
-                  )),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) => Gap(
-          height: 5.h,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (_, __) => const SizedBox(height: 6),
         ),
-      ),
     ],
   );
 }
