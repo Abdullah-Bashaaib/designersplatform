@@ -12,14 +12,13 @@ import 'package:get/get.dart';
 
 class DetailsOrderClient extends StatelessWidget {
   final OrderEntity order;
-  final double rate;
-  final String feedback;
+  // final double rate;
+  // final String feedback;
 
-  const DetailsOrderClient(
-      {super.key,
-      required this.order,
-      required this.rate,
-      required this.feedback});
+  const DetailsOrderClient({
+    super.key,
+    required this.order,
+  });
 
   String _formatDate(DateTime dt) {
     final d = dt.toLocal();
@@ -357,36 +356,52 @@ class DetailsOrderClient extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ..._buildStars(rate),
-                          const SizedBox(width: 8),
-                          Expanded(child: Text(rate.toString())),
-                          // SizedBox(
-                          //   width: 90.w,
-                          // ),
-                          rate == 0.0 && order.status == 'مكتمل'
-                              ? Expanded(
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        DialogHelper.showRatingDialog(
-                                            orderId: order.id,
-                                            designerId: order.designerId,
-                                            title: 'كيف ترى عمل المصمم');
-                                        // print(order.designerId);
-                                      },
-                                      text: 'تقييم'),
-                                )
-                              : SizedBox(),
-                        ],
+                      Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ..._buildStars(c.getRate(order.id) ?? 0.0),
+                            const SizedBox(width: 8),
+                            Expanded(
+                                child: Text(
+                                    c.getRate(order.id).toString())),
+                            // SizedBox(
+                            //   width: 90.w,
+                            // ),
+                            c.getRate(order.id) == 0.0 &&
+                                    order.status == 'مكتمل'
+                                ? Expanded(
+                                    child: Obx(
+                                      () => c.isLoadingFeedback.value
+                                          ? Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : CustomButton(
+                                              onPressed: () {
+                                                DialogHelper.showRatingDialog(
+                                                    orderId: order.id,
+                                                    designerId:
+                                                        order.designerId,
+                                                    title:
+                                                        'كيف ترى عمل المصمم');
+                                                // print(order.designerId);
+                                              },
+                                              text: 'تقييم'),
+                                    ),
+                                  )
+                                : SizedBox(),
+                          ],
+                        ),
                       ),
-                      if ((feedback).trim().isNotEmpty) ...[
+                      if ((c.getFeedback(order.id) ?? '')
+                          .trim()
+                          .isNotEmpty) ...[
                         const SizedBox(height: 12),
                         const Text('ملاحظات:',
                             style: TextStyle(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 6),
-                        Text(feedback.trim()),
+                        Text(c.getFeedback(order.id) ?? ''),
                       ],
                     ],
                   ),

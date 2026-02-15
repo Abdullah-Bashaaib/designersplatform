@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/bio_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/buttons_reaction.dart';
@@ -38,36 +39,38 @@ class ProfileScreen extends StatelessWidget {
               );
         }),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    FaIcon(
-                      Icons.no_accounts,
-                      color: Colors.redAccent,
+          CurrentUser.currentUser!.role == 'مصمم'
+              ? PopupMenuButton(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          FaIcon(
+                            Icons.no_accounts,
+                            color: Colors.redAccent,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "حذف الحساب",
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "حذف الحساب",
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
+                    PopupMenuItem(
+                      onTap: () {
+                        controller.logout();
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.logout),
+                        title: Text("تسجيل الخروج"),
+                      ),
+                    )
                   ],
-                ),
-              ),
-              PopupMenuItem(
-                onTap: () {
-                  controller.logout();
-                },
-                child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text("تسجيل الخروج"),
-                ),
-              )
-            ],
-          )
+                )
+              : SizedBox(),
         ],
       ),
       body: SafeArea(
