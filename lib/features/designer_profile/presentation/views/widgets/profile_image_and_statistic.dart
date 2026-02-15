@@ -4,6 +4,7 @@ import 'package:designers_platform/features/designer_profile/domain/entities/des
 import 'package:designers_platform/features/designer_profile/presentation/getx/getData_controller_getx.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/circle_avatar_custom.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/widgets/numbers_of_profile.dart';
+import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.find<OrderGetx>();
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -64,10 +66,7 @@ class ProfileImageAndStatistic extends StatelessWidget {
                       enabled: controller.isLoading.value,
                       child: NumbersOfProfile(
                         field: 'التقييمات',
-                        number: (designer?.reviewsCount ??
-                                controller.designerR.value?.reviewsCount ??
-                                0)
-                            .toString(),
+                        number: (c.getReviewsCount() ?? 0).toString(),
                       ),
                     ),
                   ),

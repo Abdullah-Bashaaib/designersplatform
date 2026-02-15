@@ -215,6 +215,9 @@ class OrderGetx extends GetxController {
       (r) {
         DialogHelper.showSuccessSnackBar(
             title: 'نجاح', message: "تم التقييم بنجاح");
+        reviewsByOrderId[orderId] = review;
+        reviewsByOrderId.refresh();
+        feedback.close();
       },
     );
     isLoadingFeedback.value = false;
@@ -237,10 +240,14 @@ class OrderGetx extends GetxController {
   }
 
   double? getRate(String orderId) {
-    return reviewsByOrderId[orderId]?.valueReview;
+    return reviewsByOrderId[orderId]?.valueReview ?? 0.0;
   }
 
   String? getFeedback(String orderId) {
-    return reviewsByOrderId[orderId]?.feedback;
+    return reviewsByOrderId[orderId]?.feedback ?? '';
+  }
+
+  int? getReviewsCount() {
+    return reviewsByOrderId.length;
   }
 }

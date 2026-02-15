@@ -57,12 +57,12 @@ class ViewClientOrders extends StatelessWidget {
             separatorBuilder: (context, index) => SizedBox(height: 14.h),
             itemBuilder: (context, index) {
               final order = c.orderList[index];
-              final rate = c.getRate(order.id);
-              final feedback = c.getFeedback(order.id);
+              // final rate = c.getRate(order.id);
+              // final feedback = c.getFeedback(order.id);
               return BuildCardOrder(
                 order: order,
-                rate: rate ?? 0.0,
-                feedback: feedback ?? '',
+                // rate: rate ?? 0.0,
+                // feedback: feedback ?? '',
               );
             },
           );

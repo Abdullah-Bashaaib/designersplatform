@@ -22,7 +22,7 @@ class BuildingDesignerList extends StatelessWidget {
           itemCount: designers.length,
           separatorBuilder: (_, __) => SizedBox(width: 12.w),
           itemBuilder: (context, i) {
-            final d = designers[i];
+            final d = designers.elementAt(i);
             final isDark = Theme.of(context).brightness == Brightness.dark;
             return MaterialButton(
               onPressed: () => Get.to(ProfileScreen(

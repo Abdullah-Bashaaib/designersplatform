@@ -11,13 +11,14 @@ import 'package:get/get.dart';
 
 class BuildCardOrder extends StatelessWidget {
   final OrderEntity order;
-  final double rate;
-  final String feedback;
+  // final double rate;
+  // final String feedback;
   const BuildCardOrder(
       {super.key,
       required this.order,
-      required this.rate,
-      required this.feedback});
+      // required this.rate,
+      // required this.feedback
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +95,8 @@ class BuildCardOrder extends StatelessWidget {
                 onPressed: () {
                   Get.to(() => DetailsOrderClient(
                         order: order,
-                        rate: rate,
-                        feedback: feedback,
+                        // rate: rate,
+                        // feedback: feedback,
                       ));
                 },
                 icon: Icon(
