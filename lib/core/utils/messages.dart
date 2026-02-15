@@ -19,3 +19,4 @@ const updateUserNameMessage = 'تم تعديل الاسم بنجاح';
 const addOrderMessage = 'تم ارسال الطلب';
 const deleteOrderMessage = 'تم حذف الطلب بنجاح';
 const updateOrderMessage = 'تم التعديل بنجاح';
+const globalError = 'حدث خطا غير متوقع';

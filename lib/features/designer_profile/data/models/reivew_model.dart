@@ -1,15 +1,15 @@
 import '../../domain/entities/review.dart';
 
 class ReviewModel extends Review {
-  ReviewModel({
-    required super.id,
-    required super.clientId,
-    required super.designerId,
-    required super.nameClint,
-    required super.orderId,
-    required super.timeReview,
-    required super.valueReview,
-  });
+  ReviewModel(
+      {required super.id,
+      required super.clientId,
+      required super.designerId,
+      required super.nameClint,
+      required super.orderId,
+      required super.timeReview,
+      required super.valueReview,
+      super.feedback});
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
@@ -18,7 +18,8 @@ class ReviewModel extends Review {
       designerId: json['designer_id'],
       nameClint: json['name_clint'],
       orderId: json['order_id'],
-      timeReview: json['time_review'],
+      feedback: json['feedback'],
+      timeReview: DateTime.parse(json['time_review'] as String),
       valueReview: json['value_review'],
     );
   }
@@ -29,7 +30,8 @@ class ReviewModel extends Review {
       'designer_id': designerId,
       'name_clint': nameClint,
       'order_id': orderId,
-      'time_review': timeReview,
+      'feedback': feedback,
+      'time_review': timeReview.toIso8601String(),
       'value_review': valueReview,
     };
   }

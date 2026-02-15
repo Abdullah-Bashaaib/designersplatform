@@ -137,7 +137,7 @@ class GetDataControllerGetx extends GetxController {
       return;
     }
 
-    final result = await getReviewUseCase(id);
+    final result = await getReviewUseCase();
 
     result.fold(
       (failure) {

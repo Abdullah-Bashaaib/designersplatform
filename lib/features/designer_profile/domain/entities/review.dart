@@ -3,9 +3,10 @@ class Review {
   final String designerId;
   final String clientId;
   final String orderId;
-  final String timeReview;
+  final String? feedback;
+  final DateTime timeReview;
   final String nameClint;
-  final int valueReview;
+  final double valueReview;
 
   Review({
     required this.id,
@@ -13,6 +14,7 @@ class Review {
     required this.designerId,
     required this.nameClint,
     required this.orderId,
+    this.feedback,
     required this.timeReview,
     required this.valueReview,
   });
