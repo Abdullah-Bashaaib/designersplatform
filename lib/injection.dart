@@ -452,6 +452,15 @@ class Injection {
 //       ),
 //     );
 
+    // Get.put(
+    //   permanent: true,
+    //   ChatOrderGetX(
+    //     Get.find<SharedPreferences>(),
+    //     Get.find<SendMessageUseCase>(),
+    //     Get.find<Uuid>(),
+    //     Get.find<OrderGetx>(),
+    //   ),
+
     Get.lazyPut(fenix: true, () => ReviewGetx());
 // Get.lazyPut(() => SendMessageUseCase(Get.find()));
 
