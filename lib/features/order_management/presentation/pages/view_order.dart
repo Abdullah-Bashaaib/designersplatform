@@ -3,12 +3,12 @@ import 'package:designers_platform/core/widget/custom_text.dart';
 import 'package:designers_platform/core/widget/gap.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
-import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/format_date.dart';
 
 class ViewOrder extends StatefulWidget {
@@ -140,10 +140,9 @@ class _ViewOrderState extends State<ViewOrder> {
                       child: ListTile(
                         onTap: () {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Get.to(
-                              () => ChatOrder(
-                                order: order,
-                              ),
+                            Get.toNamed(
+                              AppRoutes.chat,
+                              arguments: order,
                             );
                           });
                         },
