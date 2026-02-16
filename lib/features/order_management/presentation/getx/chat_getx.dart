@@ -104,10 +104,15 @@ class ChatController extends GetxController {
     if (chatRoom.value == null) return;
     if (chatRoom.value?.canSendMessage() == false) return;
 
-    await sendMessage(
+    final inserted = await sendMessage(
       chatRoomId: chatRoom.value!.id,
       content: text.trim(),
     );
+
+    final existingIndex = messages.indexWhere((m) => m.id == inserted.id);
+    if (existingIndex == -1) {
+      messages.insert(0, inserted);
+    }
   }
 
   // ------------------------------------------

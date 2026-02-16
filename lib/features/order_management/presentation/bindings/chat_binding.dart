@@ -28,22 +28,28 @@ class ChatBinding extends Bindings {
     );
 
     // UseCases
-    Get.lazyPut<CreateChatRoomUseCase>(() => CreateChatRoomUseCase(Get.find()));
-    Get.lazyPut<GetChatRoomByOrderIdUseCase>(() => GetChatRoomByOrderIdUseCase(Get.find()));
-    Get.lazyPut<SubscribeToMessagesUseCase>(() => SubscribeToMessagesUseCase(Get.find()));
-    Get.lazyPut<SendMessageUseCase>(() => SendMessageUseCase(Get.find()));
-    Get.lazyPut<UpdateLastReadUseCase>(() => UpdateLastReadUseCase(Get.find()));
-    Get.lazyPut<CloseChatRoomUseCase>(() => CloseChatRoomUseCase(Get.find()));
+    Get.lazyPut<CreateChatRoomUseCase>(
+        () => CreateChatRoomUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<GetChatRoomByOrderIdUseCase>(
+        () => GetChatRoomByOrderIdUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<SubscribeToMessagesUseCase>(
+        () => SubscribeToMessagesUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<SendMessageUseCase>(
+        () => SendMessageUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<UpdateLastReadUseCase>(
+        () => UpdateLastReadUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<CloseChatRoomUseCase>(
+        () => CloseChatRoomUseCase(Get.find<ChatRepository>()));
 
     // Controller
     Get.lazyPut(
       () => ChatController(
-        createChatRoom: Get.find(),
-        getChatRoomByOrderId: Get.find(),
-        subscribeToMessages: Get.find(),
-        sendMessage: Get.find(),
-        updateLastRead: Get.find(),
-        closeChatRoom: Get.find(),
+        createChatRoom: Get.find<CreateChatRoomUseCase>(),
+        getChatRoomByOrderId: Get.find<GetChatRoomByOrderIdUseCase>(),
+        subscribeToMessages: Get.find<SubscribeToMessagesUseCase>(),
+        sendMessage: Get.find<SendMessageUseCase>(),
+        updateLastRead: Get.find<UpdateLastReadUseCase>(),
+        closeChatRoom: Get.find<CloseChatRoomUseCase>(),
       ),
     );
   }

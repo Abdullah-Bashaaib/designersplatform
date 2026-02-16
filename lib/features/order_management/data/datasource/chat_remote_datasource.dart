@@ -16,7 +16,7 @@ abstract class ChatRemoteDataSource {
   Stream<List<ChatMessageModel>> subscribeToMessages(String chatRoomId);
 
   /// إرسال رسالة
-  Future<void> sendMessage({
+  Future<ChatMessageModel> sendMessage({
     required String chatRoomId,
     required String content,
   });
@@ -84,7 +84,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         .from('chat_messages')
         .stream(primaryKey: ['id'])
         .eq('chat_room_id', chatRoomId)
-        .order('created_at')
+        .order('created_at', ascending: false)
         .map(
           (rows) => rows.map(ChatMessageModel.fromJson).toList(),
         );
@@ -94,15 +94,21 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   // Send message
   // ------------------------------------------
   @override
-  Future<void> sendMessage({
+  Future<ChatMessageModel> sendMessage({
     required String chatRoomId,
     required String content,
   }) async {
-    await supabase.from('chat_messages').insert({
-      'chat_room_id': chatRoomId,
-      'sender_id': _userId,
-      'content': content,
-    });
+    final response = await supabase
+        .from('chat_messages')
+        .insert({
+          'chat_room_id': chatRoomId,
+          'sender_id': _userId,
+          'content': content,
+        })
+        .select()
+        .single();
+
+    return ChatMessageModel.fromJson(response);
   }
 
   // ------------------------------------------

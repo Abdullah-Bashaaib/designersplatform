@@ -15,7 +15,7 @@ abstract class ChatRepository {
   Stream<List<ChatMessage>> subscribeToMessages(String chatRoomId);
 
   /// إرسال رسالة نصية
-  Future<void> sendMessage({
+  Future<ChatMessage> sendMessage({
     required String chatRoomId,
     required String content,
   });
