@@ -1,3 +1,4 @@
+import '../../entity/chat_room.dart';
 import '../../repo/i_chat_repository.dart';
 
 class SendMessageUseCase {
@@ -5,7 +6,7 @@ class SendMessageUseCase {
 
   SendMessageUseCase(this.repository);
 
-  Future<void> call({
+  Future<ChatMessage> call({
     required String chatRoomId,
     required String content,
   }) {

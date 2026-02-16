@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../../core/widget/custom_text.dart';
 import '../../domain/entity/orders.dart';
+import '../../domain/repo/i_chat_repository.dart';
+import '../bindings/chat_binding.dart';
 import '../getx/chat_getx.dart';
 import '../widgets/build_chat_view.dart';
 import '../widgets/build_initial_view.dart';
@@ -17,11 +19,17 @@ class ChatOrder extends StatefulWidget {
 
 class _ChatOrderState extends State<ChatOrder> {
   final OrderEntity order = Get.arguments as OrderEntity;
-  final ChatController controller = Get.find<ChatController>();
+  late final ChatController controller;
 
   @override
   void initState() {
     super.initState();
+
+    if (!Get.isRegistered<ChatRepository>()) {
+      ChatBinding().dependencies();
+    }
+
+    controller = Get.find<ChatController>();
 
     if (order.status == 'مقبول') {
       controller.initChat(
@@ -37,6 +45,7 @@ class _ChatOrderState extends State<ChatOrder> {
     final bool isAccepted = order.status == 'مقبول';
 
     return SafeArea(
+      top: false,
       child: Scaffold(
         appBar: AppBar(
           title: CustomText(text: order.clientName),

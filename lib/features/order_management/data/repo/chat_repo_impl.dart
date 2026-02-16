@@ -31,11 +31,11 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<void> sendMessage({
+  Future<ChatMessage> sendMessage({
     required String chatRoomId,
     required String content,
   }) async {
-    await remoteDataSource.sendMessage(
+    return await remoteDataSource.sendMessage(
       chatRoomId: chatRoomId,
       content: content,
     );

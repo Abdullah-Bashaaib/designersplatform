@@ -5,7 +5,6 @@ import 'package:designers_platform/features/designer_profile/domain/usecases/des
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
 import 'package:designers_platform/features/home/domain/usecases/get_activate_order_usecase.dart';
 import 'package:designers_platform/features/home/domain/usecases/get_designers.dart';
-import 'package:designers_platform/features/home/presentation/pages/designer_home.dart';
 import 'package:designers_platform/features/home/presentation/widget/build_designer_home.dart';
 import 'package:designers_platform/features/order_management/domain/entity/orders.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
