@@ -39,6 +39,7 @@ class ClientRemoteDataSourceImp implements ClientRemoteDataSource {
 
   @override
   Future<String> addAvatar(XFile image) async {
+    //? START FROM HERE TO UPLOAD FILE TO COMPLETE THE ORDER //
     try {
       final imageByte = await image.readAsBytes();
       final userId = CurrentUser.currentUser!.id;

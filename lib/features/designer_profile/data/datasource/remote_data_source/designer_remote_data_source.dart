@@ -41,6 +41,7 @@ class DesignerRemoteDataSourceImpBySupabase
           .eq('id', designer.id);
       return unit;
     } catch (e) {
+      log('---------------------------------------> ${e.toString()}');
       throw ServerException(e.toString());
     }
   }

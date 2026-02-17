@@ -3,6 +3,7 @@ import 'dart:developer';
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:designers_platform/core/current_user.dart';
+import 'package:designers_platform/core/routes/app_routes.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
 import 'package:designers_platform/core/utils/messages.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/review.dart';
@@ -249,5 +250,16 @@ class OrderGetx extends GetxController {
 
   int? getReviewsCount() {
     return reviewsByOrderId.length;
+  }
+
+  onTapListTile(OrderEntity order) {
+    log('=======================================');
+    log('message: order status : ${order.status}');
+    log('=======================================');
+    if (order.status == 'مقبول') {
+      Get.toNamed(AppRoutes.chat, arguments: order);
+    } else if (order.status == 'مكتمل') {
+      DialogHelper.showInfoDialog(title: 'نجاح', message: 'تم اكمال الطلب');
+    }
   }
 }

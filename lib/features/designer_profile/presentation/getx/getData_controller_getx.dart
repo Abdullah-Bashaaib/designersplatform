@@ -182,6 +182,7 @@ class GetDataControllerGetx extends GetxController {
     final result = await updateProfileUseCase(designer);
     result.fold((failure) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        log("----------------------------------> ${failure.message}");
         DialogHelper.showErrorSnackBar(
             title: "خطأ!!", message: failure.message);
       });
@@ -244,7 +245,7 @@ class GetDataControllerGetx extends GetxController {
     isLoadingAddOrder.value = true;
     final order = OrderEntity(
         id: uuid.v4(),
-        clientId:  CurrentUser.currentUser!.id,
+        clientId: CurrentUser.currentUser!.id,
         clientName: CurrentUser.currentUser!.name,
         designerId: designer.id,
         designerName: designer.name,

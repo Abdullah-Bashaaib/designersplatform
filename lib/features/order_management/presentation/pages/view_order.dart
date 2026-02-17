@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/format_date.dart';
 
 class ViewOrder extends StatefulWidget {
@@ -43,7 +42,7 @@ class _ViewOrderState extends State<ViewOrder> {
                           strokeWidth: 3,
                           color: Theme.of(context)
                               .colorScheme
-                              .onPrimary, // استخدام الثيم
+                              .primary, // استخدام الثيم
                         ),
                       )
                     : Icon(Icons.refresh), // تبسيط
@@ -139,12 +138,13 @@ class _ViewOrderState extends State<ViewOrder> {
                       key: ValueKey<OrderEntity>(order),
                       child: ListTile(
                         onTap: () {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Get.toNamed(
-                              AppRoutes.chat,
-                              arguments: order,
-                            );
-                          });
+                          c.onTapListTile(order);
+                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //   Get.toNamed(
+                          //     AppRoutes.chat,
+                          //     arguments: order,
+                          //   );
+                          // });
                         },
                         leading: CircleAvatar(
                           child: CustomText(
