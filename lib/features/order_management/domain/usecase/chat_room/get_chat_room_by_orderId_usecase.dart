@@ -6,7 +6,7 @@ class GetChatRoomByOrderIdUseCase {
 
   GetChatRoomByOrderIdUseCase(this.repository);
 
-  Future<ChatRoom?> call(String orderId) {
-    return repository.getChatRoomByOrderId(orderId);
+  Future<ChatRoom?> call(String orderId) async {
+    return await repository.getChatRoomByOrderId(orderId);
   }
 }

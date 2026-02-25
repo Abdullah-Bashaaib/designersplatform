@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:designers_platform/core/widget/build_text_field.dart';
 import 'package:designers_platform/features/order_management/presentation/getx/order_getx.dart';
 import 'package:flutter/material.dart';
@@ -52,22 +54,32 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent, // جعل خلفية الـ Dialog شفافة
       insetPadding: EdgeInsets.all(20.r),
-      child: Container(
-        constraints: BoxConstraints(maxWidth: 310.r),
-        decoration: BoxDecoration(
-          color: AppColorHelper.getCardColor(context),
-          borderRadius: AppStyles.dialogRadius,
-          boxShadow: AppStyles.heavyShadow,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildHeader(context),
-            _buildContent(context),
-            _buildActions(context),
-          ],
+      child: ClipRRect(
+        // لتقليم الزوايا بشكل صحيح مع الـ blur
+        borderRadius: AppStyles.dialogRadius,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // تأثير الضبابية
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 310.r),
+            decoration: BoxDecoration(
+              // لون شفاف مع خفوت حسب وضع الإضاءة
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white.withAlpha(200) // Light mode: أبيض شفاف
+                  : Colors.black.withAlpha(200), // Dark mode: أسود شفاف
+              borderRadius: AppStyles.dialogRadius,
+              boxShadow: AppStyles.heavyShadow,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHeader(context),
+                _buildContent(context),
+                _buildActions(context),
+              ],
+            ),
+          ),
         ),
       ),
     );

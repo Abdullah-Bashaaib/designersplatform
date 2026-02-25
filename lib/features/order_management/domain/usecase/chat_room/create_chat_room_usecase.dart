@@ -10,8 +10,8 @@ class CreateChatRoomUseCase {
     required String orderId,
     required String clientId,
     required String designerId,
-  }) {
-    return repository.createChatRoom(
+  }) async {
+    return await repository.createChatRoom(
       orderId: orderId,
       clientId: clientId,
       designerId: designerId,

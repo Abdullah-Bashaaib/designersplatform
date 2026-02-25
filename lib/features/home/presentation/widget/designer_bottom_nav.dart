@@ -25,6 +25,10 @@ class DesignerBottomNav extends StatelessWidget {
           label: 'الطلبات',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_bag),
+          label: 'الطلبات',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'الملف الشخصي',
         ),

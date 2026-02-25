@@ -5,7 +5,7 @@ class CloseChatRoomUseCase {
 
   CloseChatRoomUseCase(this.repository);
 
-  Future<void> call(String chatRoomId) {
-    return repository.closeChatRoom(chatRoomId);
+  Future<void> call(String chatRoomId) async {
+    return await repository.closeChatRoom(chatRoomId);
   }
 }

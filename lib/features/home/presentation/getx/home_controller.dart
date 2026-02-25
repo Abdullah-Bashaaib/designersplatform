@@ -1,5 +1,6 @@
 import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
+import 'package:designers_platform/features/completion/presentation/pages/completion_page.dart';
 import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
 import 'package:designers_platform/features/designer_profile/domain/usecases/designer_usecase/get_profile_usecase.dart';
 import 'package:designers_platform/features/designer_profile/presentation/views/screens/profile_screen.dart';
@@ -49,6 +50,7 @@ class HomeController extends GetxController {
   final pages = [
     BuildDesignerHome(),
     ViewOrder(),
+    CompletionPage(),
     ProfileScreen(),
   ];
 

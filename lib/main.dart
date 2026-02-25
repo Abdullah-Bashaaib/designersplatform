@@ -1,6 +1,5 @@
 import 'package:designers_platform/core/routes/app_routes.dart';
 import 'package:designers_platform/core/utils/app_colors.dart';
-import 'package:designers_platform/features/auth/presentation/pages/splash.dart';
 import 'package:designers_platform/features/order_management/presentation/pages/chat_order.dart';
 import 'package:designers_platform/injection.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'features/completion/presentation/pages/completion_page.dart';
 import 'features/order_management/presentation/bindings/chat_binding.dart';
 
 void main() async {
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
               binding: ChatBinding(),
             )
           ],
-          home: SplashScreen(),
+          home: CompletionPage(),
         );
       },
     );

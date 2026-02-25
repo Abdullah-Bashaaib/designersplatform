@@ -1,3 +1,4 @@
+import 'package:designers_platform/core/widget/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -76,6 +77,11 @@ Widget buildChatView(ChatController controller, OrderEntity order) {
                 : order.description!,
           ),
         ),
+        SliverToBoxAdapter(
+          child: const Gap(
+            height: 100,
+          ),
+        )
       ],
     );
   });

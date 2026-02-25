@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:designers_platform/core/error/exception.dart';
 import 'package:designers_platform/features/order_management/data/models/chat_room_model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class ChatRemoteDataSource {
@@ -26,6 +30,9 @@ abstract class ChatRemoteDataSource {
     required String chatRoomId,
     required bool isClient,
   });
+
+  /// رفع الملف لاكمال الطلب وغلق الشات
+  Future<String> uploadFile(XFile image);
 
   /// إغلاق الشات
   Future<void> closeChatRoom(String chatRoomId);
@@ -134,5 +141,43 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       'is_closed': true,
       'closed_at': DateTime.now().toIso8601String(),
     }).eq('id', chatRoomId);
+  }
+
+  @override
+  Future<String> uploadFile(XFile image) async {
+    try {
+      // تحقق من وجود المستخدم
+      final user = supabase.auth.currentUser;
+      if (user == null) {
+        log('=====================');
+        log('المستخدم غير مسجل الدخول!');
+        log('=====================');
+        throw Exception('يجب تسجيل الدخول أولاً');
+      }
+
+      log('=====================');
+      log('المستخدم الحالي: ${user.id}');
+      log('البريد الإلكتروني: ${user.email}');
+      log('=====================');
+
+      final imageByte = await image.readAsBytes();
+      final userId = user.id; // استخدم user.id من Supabase Auth مباشرة
+      final uuid = DateTime.now().toIso8601String();
+      final imagePath = '$userId/$uuid.png';
+
+      log('محاولة رفع الملف إلى المسار: $imagePath');
+
+      await supabase.storage.from('designsFile').uploadBinary(
+            imagePath,
+            imageByte,
+          );
+
+      final imageUrl =
+          supabase.storage.from('designsFile').getPublicUrl(imagePath);
+      return imageUrl;
+    } catch (e) {
+      log('----------------> ${e.toString()}');
+      throw ServerException(e);
+    }
   }
 }

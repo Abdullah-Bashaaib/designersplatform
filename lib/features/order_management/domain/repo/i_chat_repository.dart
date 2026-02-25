@@ -1,3 +1,7 @@
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/failures.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../entity/chat_room.dart';
 
 abstract class ChatRepository {
@@ -25,6 +29,8 @@ abstract class ChatRepository {
     required String chatRoomId,
     required bool isClient,
   });
+
+  Future<Either<Failure, String>> uploadFile(XFile image);
 
   /// إغلاق الشات عند تسليم الطلب
   Future<void> closeChatRoom(String chatRoomId);

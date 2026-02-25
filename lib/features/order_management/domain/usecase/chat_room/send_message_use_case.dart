@@ -9,8 +9,8 @@ class SendMessageUseCase {
   Future<ChatMessage> call({
     required String chatRoomId,
     required String content,
-  }) {
-    return repository.sendMessage(
+  }) async {
+    return await repository.sendMessage(
       chatRoomId: chatRoomId,
       content: content,
     );

@@ -1,3 +1,9 @@
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/failures.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../../core/current_user.dart';
+import '../../../../core/error/exception.dart';
 import '../../domain/entity/chat_room.dart';
 import '../../domain/repo/i_chat_repository.dart';
 import '../datasource/chat_remote_datasource.dart';
@@ -55,5 +61,16 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<void> closeChatRoom(String chatRoomId) async {
     await remoteDataSource.closeChatRoom(chatRoomId);
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadFile(XFile image) async {
+    try {
+      final imageUrl = await remoteDataSource.uploadFile(image);
+      CurrentUser.currentUser!.avatarUrl = imageUrl;
+      return right(imageUrl);
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message.toString()));
+    }
   }
 }

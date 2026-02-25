@@ -1,3 +1,4 @@
+import 'package:designers_platform/features/order_management/domain/usecase/chat_room/upload_file_use_case.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -40,6 +41,8 @@ class ChatBinding extends Bindings {
         () => UpdateLastReadUseCase(Get.find<ChatRepository>()));
     Get.lazyPut<CloseChatRoomUseCase>(
         () => CloseChatRoomUseCase(Get.find<ChatRepository>()));
+    Get.lazyPut<UploadFileUseCase>(
+        () => UploadFileUseCase(Get.find<ChatRepository>()));
 
     // Controller
     Get.lazyPut(
@@ -50,6 +53,7 @@ class ChatBinding extends Bindings {
         sendMessage: Get.find<SendMessageUseCase>(),
         updateLastRead: Get.find<UpdateLastReadUseCase>(),
         closeChatRoom: Get.find<CloseChatRoomUseCase>(),
+        uploadFileUseCase: Get.find<UploadFileUseCase>(),
       ),
     );
   }

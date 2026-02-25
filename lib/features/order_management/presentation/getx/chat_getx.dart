@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:designers_platform/features/order_management/domain/usecase/chat_room/upload_file_use_case.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/utils/custom_dialog_getx.dart';
 import '../../domain/entity/chat_room.dart';
 import '../../domain/usecase/chat_room/close_chat_room_use_case.dart';
 import '../../domain/usecase/chat_room/create_chat_room_usecase.dart';
@@ -19,15 +23,16 @@ class ChatController extends GetxController {
   final SendMessageUseCase sendMessage;
   final UpdateLastReadUseCase updateLastRead;
   final CloseChatRoomUseCase closeChatRoom;
+  final UploadFileUseCase uploadFileUseCase;
 
-  ChatController({
-    required this.createChatRoom,
-    required this.getChatRoomByOrderId,
-    required this.subscribeToMessages,
-    required this.sendMessage,
-    required this.updateLastRead,
-    required this.closeChatRoom,
-  });
+  ChatController(
+      {required this.createChatRoom,
+      required this.getChatRoomByOrderId,
+      required this.subscribeToMessages,
+      required this.sendMessage,
+      required this.updateLastRead,
+      required this.closeChatRoom,
+      required this.uploadFileUseCase});
 
   // State
   final Rxn<ChatRoom> chatRoom = Rxn<ChatRoom>();
@@ -126,6 +131,46 @@ class ChatController extends GetxController {
       isClosed: true,
       closedAt: DateTime.now(),
     );
+  }
+
+  void uploadFile() async {
+    isLoading.value = true;
+    final picker = ImagePicker();
+
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        isLoading.value = false;
+        return;
+      }
+
+      final result = await uploadFileUseCase(image);
+
+      result.fold(
+        (failure) {
+          DialogHelper.showErrorSnackBar(
+            title: "خطأ!!",
+            message: failure.message,
+          );
+        },
+        (avatarUrl) {
+          // ✅ تحديث القيمة بشكل صحيح لتفعيل الـ Obx
+
+          DialogHelper.showSuccessSnackBar(
+            title: "نجاح!!",
+            message: "تم الرفع بنجاح!",
+          );
+          log("-------------------------> new avatarUrl : $avatarUrl");
+        },
+      );
+    } catch (e) {
+      DialogHelper.showErrorSnackBar(
+        title: "خطأ!!",
+        message: "حدث خطأ أثناء اختيار الصورة: $e",
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override

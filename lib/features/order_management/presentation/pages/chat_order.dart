@@ -1,4 +1,8 @@
+import 'dart:ui';
+
+import 'package:designers_platform/core/current_user.dart';
 import 'package:designers_platform/core/utils/custom_dialog_getx.dart';
+import 'package:designers_platform/features/order_management/presentation/pages/view_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,36 +55,56 @@ class _ChatOrderState extends State<ChatOrder> {
     return SafeArea(
       top: false,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          elevation: 0,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+                  .withAlpha(200) // Light mode: white with slight transparency
+              : Colors.black.withAlpha(200),
           title: CustomText(text: order.clientName),
           centerTitle: false,
           actions: [
             /// هذا الويدجت لرفع التصميم الذي طلبه العميل من المصمم ويكمل دورة الطلب الى الاكتمال
-            Container(
-              width: 85.w,
-              height: 25.h,
-              margin: EdgeInsets.all(10.5.r),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: Theme.of(context).primaryColor)),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(50),
-                onTap: () {
-                  DialogHelper.showInfoDialog(
-                      onPressed: c.editAvatar,
-                      title: 'رفع الطلب',
-                      message: 'قم برفع الملف لإكمال الطلب');
-                },
-                child: Center(
-                    child: CustomText(
-                  text: 'ارفع الطلب',
-                  size: 11,
-                  align: TextAlign.center,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                )),
-              ),
-            )
+            CurrentUser.currentUser!.role == 'مصمم'
+                ? Container(
+                    width: 85.w,
+                    height: 25.h,
+                    margin: EdgeInsets.all(10.5.r),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(50),
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor)),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(50),
+                      onTap: () {
+                        DialogHelper.showInfoDialog(
+                            onPressed: () {
+                              controller.uploadFile();
+                              Get.off(() => ViewOrder());
+                            },
+                            title: 'رفع الطلب',
+                            message: 'قم برفع الملف لإكمال الطلب');
+                      },
+                      child: Center(
+                          child: CustomText(
+                        text: 'ارفع الطلب',
+                        size: 11,
+                        align: TextAlign.center,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                      )),
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
         body: isAccepted
