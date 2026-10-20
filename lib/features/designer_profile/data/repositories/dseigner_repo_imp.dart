@@ -1,0 +1,79 @@
+import 'package:dartz/dartz.dart';
+import 'package:designers_platform/core/error/failures.dart';
+import 'package:designers_platform/features/designer_profile/data/datasource/local_data_source/designer_local_data_source.dart';
+import 'package:designers_platform/features/designer_profile/data/models/designer_model.dart';
+import 'package:designers_platform/features/designer_profile/domain/entities/designer.dart';
+import 'package:designers_platform/features/designer_profile/domain/repositories/designer_repository.dart';
+
+import '../../../../core/domain/i_internet_info.dart';
+import '../../../../core/error/exception.dart';
+import '../datasource/remote_data_source/designer_remote_data_source.dart';
+
+class DesignerRepoImp implements DesignerRepository {
+  final DesignerLocalDataSource localDataSource;
+  final DesignerRemoteDataSource remoteDataSource;
+  final INetworkInfo networkInfo;
+  DesignerRepoImp(
+      this.localDataSource, this.networkInfo, this.remoteDataSource);
+
+  @override
+  Future<Either<Failure, Designer>> getDesigner(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteDesigner = await remoteDataSource.getData(id);
+
+        if (remoteDesigner != null) {
+          return Right(remoteDesigner);
+        }
+
+        final localDesigner = await localDataSource.getData(id);
+
+        if (localDesigner != null) {
+          return Right(localDesigner);
+        } else {
+          return Left(EmptyLocalDatabaseFailure());
+        }
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }
+
+    final localDesigner = await localDataSource.getData(id);
+
+    if (localDesigner != null) {
+      return Right(localDesigner);
+    } else {
+      return Left(EmptyLocalDatabaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateProfile(Designer designer) async {
+    try {
+      final designerM = DesignerModel.fromEntity(designer);
+      if (await networkInfo.isConnected) {
+        try {
+          await remoteDataSource.updateData(designerM);
+          await localDataSource.updateData(designerM);
+        } on ServerException {
+          return Left(ServerFailure());
+        }
+      } else {
+        return Left(OfflineFailure());
+      }
+      return Right(unit);
+    } on EmptyLocalDatabaseException {
+      return Left(EmptyLocalDatabaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteProfile(String id) async {
+    try {
+      await localDataSource.deleteData(id);
+      return Right(unit);
+    } on EmptyLocalDatabaseException {
+      return Left(EmptyLocalDatabaseFailure());
+    }
+  }
+}

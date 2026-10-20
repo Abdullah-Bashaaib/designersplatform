@@ -1,0 +1,33 @@
+CREATE TABLE "Users" (
+  "id" TEXT PRIMARY KEY,
+  "name" TEXT NOT NULL,
+  "email" TEXT NOT NULL,
+  "password" TEXT NOT NULL,
+  "role" TEXT NOT NULL,
+  "avatar_url" TEXT,
+  "number_bank" INTEGER,
+  "name_bank" TEXT,
+  "specialization" TEXT,
+  "is_available" INTEGER, -- 0=false, 1=true
+  "average_rating" REAL,
+  "reviews_count" INTEGER,
+  "total_orders" INTEGER,
+  "works_count" INTEGER
+);
+CREATE TABLE "Reviews" (
+  "id" TEXT PRIMARY KEY,
+  "designer_id" TEXT NOT NULL,
+  "client_id" TEXT NOT NULL,
+  "order_id" TEXT NOT NULL,
+  "time_review" TEXT NOT NULL,
+  "name_client" TEXT NOT NULL
+);
+CREATE TABLE "Works" (
+  "id" TEXT PRIMARY KEY,
+  "designer_id" TEXT NOT NULL,
+  "image_url" TEXT NOT NULL,
+  "description" TEXT NOT NULL,
+  "created_at" TEXT NOT NULL, -- نخزن تاريخ الإنشاء كنص ISO8601
+  "likes_count" INTEGER NOT NULL
+);
+

@@ -1,8 +1,38 @@
-class User {
+class UserEntity {
   final String id;
   final String name;
   final String email;
-  final String password;
+  final int phoneNumber;
+  final String role;
+  late String? avatarUrl;
+  final List<String> keywords;
 
-  User(this.id, this.name, this.email, this.password);
+  UserEntity({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    required this.role,
+    this.avatarUrl,
+    required this.keywords,
+  });
+
+  UserEntity copyWith({
+    String? id,
+    String? name,
+    String? email,
+    int? phoneNumber,
+    String? role,
+    String? avatarUrl,
+    List<String>? keywords,
+  }) {
+    return UserEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
+      keywords: keywords ?? this.keywords,
+    );
+  }
 }
